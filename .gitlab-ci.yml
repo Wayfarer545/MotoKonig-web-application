@@ -1,0 +1,61 @@
+
+stages:
+  - install
+  - lint
+  - test
+  - release_notes
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  UV_CACHE_DIR: ".uv-cache"
+
+install:
+  stage: install
+  image: python:3.12
+  script:
+    - pip install uv
+    - uv pip install --system --strict
+
+lint:
+  stage: lint
+  image: python:3.12
+  script:
+    - pip install uv
+    - uv pip install ruff
+    - ruff check .
+
+test:
+  stage: test
+  image: python:3.12
+  script:
+    - pip install uv
+    - uv pip install --system --strict
+    - pytest --maxfail=1 --disable-warnings --tb=short
+
+release_notes:
+  stage: release_notes
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache git
+  script:
+    - >
+      git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'- %s' |
+      grep -E '^(hotfix|fix|refactor|feature)' > release_notes.md
+  artifacts:
+    paths:
+      - release_notes.md
+    expire_in: 1 week
+
+build:
+  stage: build
+  image: python:3.12
+  script:
+    - echo "Build Stage (Docker image optional if needed)"
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh
