@@ -1,14 +1,15 @@
 # app/domain/entities/user.py
 
 from __future__ import annotations
+
+from enum import IntEnum
 from uuid import UUID, uuid4
-from enum import Enum
 import datetime as dt
 
-class UserRole(Enum):
-    ADMIN = "admin"
-    OPERATOR = "operator"
-    USER = "user"
+class UserRole(IntEnum):
+    ADMIN = 0
+    OPERATOR = 1
+    USER = 2
 
 class User:
     """
