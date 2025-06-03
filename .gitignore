@@ -10,7 +10,7 @@ tmp
 venv.linux
 backup
 backup.s
-*/.env
+.env
 
 test.db
 /.idea/
