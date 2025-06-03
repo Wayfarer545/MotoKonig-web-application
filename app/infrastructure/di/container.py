@@ -10,7 +10,6 @@ from app.adapters.repositories.sql_user_repo import SqlUserRepository
 from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.password_service import PasswordService
 from app.infrastructure.services.password_service import PasswordServiceImpl
-from app.infrastructure.adapters.redis.client import create_redis_client
 
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase

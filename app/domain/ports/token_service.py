@@ -1,10 +1,36 @@
 # app/domain/ports/token_service.py
-from typing import Protocol, Optional, Dict, Any
-from datetime import datetime
 
-class TokenService(Protocol):
-    async def create_access_token(self, user_id: str, additional_claims: Optional[Dict[str, Any]] = None) -> str: ...
-    async def create_refresh_token(self, user_id: str) -> str: ...
-    async def verify_token(self, token: str) -> Optional[Dict[str, Any]]: ...
-    async def revoke_token(self, token: str) -> None: ...
-    async def is_token_revoked(self, token: str) -> bool: ...
+from typing import Protocol, Dict, Any
+from datetime import timedelta
+
+
+class TokenServicePort(Protocol):
+    """Порт для работы с токенами"""
+
+    async def create_access_token(
+            self,
+            data: Dict[str, Any],
+            expires_delta: timedelta | None = None
+    ) -> str:
+        """Создать access token"""
+        ...
+
+    async def create_refresh_token(
+            self,
+            data: Dict[str, Any],
+            expires_delta: timedelta | None = None
+    ) -> str:
+        """Создать refresh token"""
+        ...
+
+    async def decode_token(self, token: str) -> Dict[str, Any]:
+        """Декодировать токен"""
+        ...
+
+    async def blacklist_token(self, token: str, expire_time: int) -> None:
+        """Добавить токен в черный список"""
+        ...
+
+    async def is_token_blacklisted(self, token: str) -> bool:
+        """Проверить, находится ли токен в черном списке"""
+        ...
