@@ -3,7 +3,7 @@
 from faststream.rabbit import RabbitBroker
 from faststream.security import SASLPlaintext
 
-from config.settings import RabbitMQConfig
+from app.config.settings import RabbitMQConfig
 
 
 def new_broker(rabbitmq_config: RabbitMQConfig) -> RabbitBroker:
@@ -16,4 +16,3 @@ def new_broker(rabbitmq_config: RabbitMQConfig) -> RabbitBroker:
         ),
         virtualhost="/",
     )
-

@@ -1,21 +1,18 @@
 __pycache__/
-/data_latest/
 .vscode
 .idea
-data
 .venv
 tmp
 *.db
 **/.DS_Store
-*.h265
 *.pt
 /venv
 venv.linux
 backup
 backup.s
-requirements_build.txt
 */.env
 
 test.db
 /.idea/
-/app/changelog.txt
+/*.pyc
+uv.lock
