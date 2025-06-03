@@ -2,7 +2,7 @@
 
 from app.domain.entities.user import User
 from app.domain.ports.user_repository import IUserRepository
-from domain.ports.user_specification import UserSpecificationPort
+from app.domain.ports.user_specification import UserSpecificationPort
 
 
 class GetUserUseCase:

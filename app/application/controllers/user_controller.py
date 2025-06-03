@@ -4,7 +4,7 @@ from typing import List
 from uuid import UUID
 from fastapi import HTTPException, status
 
-from adapters.specifications.user_specs.user_by_id import UserById
+from app.adapters.specifications.user_specs.user_by_id import UserById
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.create_user import CreateUserUseCase
