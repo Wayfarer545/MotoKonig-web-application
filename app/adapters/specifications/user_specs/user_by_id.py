@@ -1,4 +1,4 @@
-# app/domain/specifications/user_by_id.py
+# app/adapters/specifications/user_by_id.py
 
 from typing import Any
 from uuid import UUID

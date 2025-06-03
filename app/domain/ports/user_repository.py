@@ -4,10 +4,8 @@ from typing import Protocol, Any
 from uuid import UUID
 
 from app.domain.entities.user import User
+from domain.ports.user_specification import UserSpecificationPort
 
-class UserSpecificationPort(Protocol):
-    def to_query(self, base_query: Any) -> Any:
-        ...
 
 class IUserRepository(Protocol):
     async def add(self, user: User) -> User: ...

@@ -1,10 +1,13 @@
 # app/application/use_cases/user/update_user.py
+
 from uuid import UUID
 from typing import Optional
+
+from adapters.specifications.user_specs.user_by_id import UserById
 from app.domain.entities.user import User, UserRole
 from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.password_service import PasswordService
-from app.domain.specifications.user_by_id import UserById
+
 
 class UpdateUserUseCase:
     def __init__(self, repo: IUserRepository, pwd_service: PasswordService):

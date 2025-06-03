@@ -1,4 +1,4 @@
-# app/domain/specifications/user_by_name.py
+# app/adapters/specifications/user_by_name.py
 
 from typing import Any
 from app.domain.ports.user_repository import UserSpecificationPort

@@ -1,9 +1,10 @@
 # app/application/controllers/user_controller.py
 
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 from fastapi import HTTPException, status
 
+from adapters.specifications.user_specs.user_by_id import UserById
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.create_user import CreateUserUseCase
@@ -30,8 +31,10 @@ class UserController:
     async def list_users(self) -> List[User]:
         return await self.list_uc.execute()
 
-    async def get_user_by_id(self, user_id: UUID) -> Optional[User]:
-        return await self.get_uc.execute(user_id)
+    async def get_user_by_id(self, user_id: UUID) -> User | None:
+        spec = UserById(user_id=user_id)
+        result = await self.get_uc.execute(spec)
+        return result.to_dto() if result else None
 
     async def create(self, username: str, password: str, role: UserRole) -> User:
         return await self.create_uc.execute(username, password, role)
@@ -39,11 +42,11 @@ class UserController:
     async def update_user(
         self,
         user_id: UUID,
-        username: Optional[str],
-        password: Optional[str],
-        role: Optional[UserRole],
+        username: str | None,
+        password: str | None,
+        role: UserRole | None,
         deactivate: bool = False,
-    ) -> Optional[User]:
+    ) -> User | None:
         updated = await self.update_uc.execute(
             user_id,
             new_username=username,

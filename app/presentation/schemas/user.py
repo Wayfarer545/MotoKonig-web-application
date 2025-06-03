@@ -1,11 +1,24 @@
 # app/presentation/schemas/user.py
 
 from datetime import datetime
+from enum import IntEnum
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel as _BaseModel, Field
 
-from app.domain.entities.user import UserRole
+
+class UserRole(IntEnum):
+    ADMIN = 0
+    OPERATOR = 1
+    USER = 2
+
+
+class BaseModel(_BaseModel):
+    """Базовая модель Pydantic с поддержкой атрибутов SQLAlchemy."""
+
+    class Config:
+        from_attributes = True
+
 
 
 class CreateUserSchema(BaseModel):
@@ -29,5 +42,3 @@ class UserResponseSchema(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    class Config:
-        from_attributes = True  # Позволяет возвращать модели SQLAlchemy напрямую

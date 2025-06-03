@@ -42,7 +42,7 @@ container = make_async_container(
 
 # 4. Подключаем Dishka и роуты
 setup_dishka(container, app)
-app.include_router(user_router, prefix="/v1/users", tags=["Users"])
+app.include_router(user_router, prefix="/users", tags=["Users"])
 
 # 5. Точка входа
 if __name__ == "__main__":

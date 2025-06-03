@@ -4,9 +4,10 @@ from typing import Optional, List
 from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from app.domain.ports.user_repository import IUserRepository, UserSpecificationPort
+from app.domain.ports.user_repository import IUserRepository
 from app.domain.entities.user import User
 from app.infrastructure.models.user_model import User as UserModel
+from app.domain.ports.user_specification import UserSpecificationPort
 
 
 class SqlUserRepository(IUserRepository):
@@ -24,6 +25,8 @@ class SqlUserRepository(IUserRepository):
         await self.session.flush()
         await self.session.refresh(db_user)
         user.id = db_user.id
+        user.created_at = db_user.created_at
+        user.updated_at = db_user.updated_at
         return user
 
     async def get(self, spec: UserSpecificationPort) -> Optional[User]:
@@ -35,7 +38,9 @@ class SqlUserRepository(IUserRepository):
                 user_id=db_user.id,
                 username=db_user.username,
                 password_hash=db_user.password_hash,
-                role=db_user.role
+                role=db_user.role,
+                updated_at=db_user.updated_at,
+                created_at=db_user.created_at
             )
         return None
 
@@ -47,7 +52,9 @@ class SqlUserRepository(IUserRepository):
                 user_id=u.id,
                 username=u.username,
                 password_hash=u.password_hash,
-                role=u.role
+                role=u.role,
+                created_at=u.created_at,
+                updated_at=u.updated_at
             )
             for u in users
         ]
@@ -59,6 +66,7 @@ class SqlUserRepository(IUserRepository):
             db_user.password_hash = user.password_hash
             db_user.role = user.role
             await self.session.flush()
+        user.updated_at = db_user.updated_at
         return user
 
     async def delete(self, user_id: UUID) -> bool:

@@ -14,12 +14,7 @@ venv.linux
 backup
 backup.s
 requirements_build.txt
-.env
-/migrations/versions/*
-!/migrations/versions/__init__.py
-/data/*
-!/data/coco.db.json
-!/data/vendor.db.json
+*/.env
 
 test.db
 /.idea/

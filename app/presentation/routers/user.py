@@ -1,9 +1,11 @@
 # app/presentation/routers/user.py
+from sys import api_version
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, HTTPException, Header, Depends
 from uuid import UUID
 
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
+
 from app.application.controllers.user_controller import UserController
 from app.presentation.schemas.user import (
     CreateUserSchema,
@@ -13,9 +15,6 @@ from app.presentation.schemas.user import (
 
 router = APIRouter(route_class=DishkaRoute)
 
-@router.get("/", response_model=list[UserResponseSchema])
-async def list_users(controller: FromDishka[UserController]):
-    return await controller.list_users()
 
 @router.post("/", response_model=UserResponseSchema, status_code=201)
 async def create_user(
@@ -24,9 +23,22 @@ async def create_user(
 ):
     return await controller.create(dto.username, dto.password, dto.role)
 
-@router.get("/{user_id}", response_model=UserResponseSchema)
-async def get_user(user_id: UUID, controller: FromDishka[UserController]):
-    return await controller.get_user_by_id(user_id)
+@router.get("/", response_model=list[UserResponseSchema])
+async def list_users(controller: FromDishka[UserController]):
+    return await controller.list_users()
+
+@router.get(
+    "/{user_id}",
+    response_model=UserResponseSchema,
+)
+async def get_user(
+        user_id: UUID,
+        controller: FromDishka[UserController],
+):
+    user_data = await controller.get_user_by_id(user_id)
+    if user_data is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user_data
 
 @router.put("/{user_id}", response_model=UserResponseSchema)
 async def update_user(

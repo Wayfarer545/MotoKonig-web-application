@@ -6,10 +6,14 @@ from enum import IntEnum
 from uuid import UUID, uuid4
 import datetime as dt
 
+from presentation.schemas.user import UserResponseSchema
+
+
 class UserRole(IntEnum):
     ADMIN = 0
     OPERATOR = 1
     USER = 2
+
 
 class User:
     """
@@ -37,17 +41,25 @@ class User:
         self.password_hash: str = password_hash
         self.role: UserRole = role
         self.is_active: bool = is_active
-        self.created_at: dt = created_at or dt.datetime.now(dt.UTC)
-        self.updated_at: dt = updated_at or dt.datetime.now(dt.UTC)
+        self.created_at: dt | None = created_at
+        self.updated_at: dt | None = updated_at
 
     def deactivate(self) -> None:
         """Деактивировать пользователя."""
         self.is_active = False
-        self.updated_at = dt.datetime.now(dt.UTC)
 
     def change_username(self, new_username: str) -> None:
         """Сменить username с валидацией."""
         if not new_username or len(new_username) < 3:
             raise ValueError("Username must be at least 3 characters")
         self.username = new_username.lower()
-        self.updated_at = dt.datetime.now(dt.UTC)
+
+    def to_dto(self):
+        return UserResponseSchema(
+            id=self.id,
+            username=self.username,
+            role=self.role,
+            is_active=self.is_active,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+        )
