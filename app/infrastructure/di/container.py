@@ -35,7 +35,10 @@ from app.application.use_cases.auth.refresh import RefreshTokenUseCase
 # Controllers
 from app.application.controllers.user_controller import UserController
 from app.application.controllers.auth_controller import AuthController
+from application.use_cases.auth.pin_auth import PinAuthUseCase
 from application.use_cases.auth.register import RegisterUseCase
+from domain.ports.pin_storage import PinStoragePort
+from infrastructure.services.pin_storage import RedisPinStorage
 
 
 class ApplicationProvider(Provider):
@@ -149,3 +152,30 @@ class ApplicationProvider(Provider):
             pwd_service: PasswordService
     ) -> RegisterUseCase:
         return RegisterUseCase(repo, pwd_service)
+
+    @provide(scope=Scope.APP)
+    def provide_pin_storage(self, redis: Redis) -> PinStoragePort:
+        return RedisPinStorage(redis)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_pin_auth_uc(
+            self,
+            user_repo: IUserRepository,
+            token_service: TokenServicePort,
+            pin_storage: PinStoragePort
+    ) -> PinAuthUseCase:
+        return PinAuthUseCase(user_repo, token_service, pin_storage)
+
+    # Обновляем провайдер AuthController:
+    @provide(scope=Scope.REQUEST)
+    def provide_auth_controller(
+            self,
+            login_uc: LoginUseCase,
+            logout_uc: LogoutUseCase,
+            refresh_uc: RefreshTokenUseCase,
+            register_uc: RegisterUseCase,
+            pin_auth_uc: PinAuthUseCase  # Добавляем
+    ) -> AuthController:
+        return AuthController(
+            login_uc, logout_uc, refresh_uc, register_uc, pin_auth_uc
+        )

@@ -12,7 +12,7 @@ from app.presentation.schemas.auth import (
     TokenResponse,
     RefreshRequest,
     MessageResponse,
-    CurrentUser, RegisterResponse, RegisterRequest
+    CurrentUser, RegisterResponse, RegisterRequest, SetupPinRequest, PinLoginRequest, DeviceInfo
 )
 from app.presentation.middleware.auth import get_current_user_dishka, get_token_from_header
 
@@ -78,3 +78,58 @@ async def register(
         username=request.username,
         password=request.password
     )
+
+
+@router.post("/setup-pin", response_model=Dict[str, Any])
+async def setup_pin(
+        request: Request,
+        pin_request: SetupPinRequest,
+        controller: FromDishka[AuthController],
+        token_service: FromDishka[TokenServicePort]
+):
+    """Установить PIN для мобильного устройства"""
+    current_user = await get_current_user_dishka(request, token_service)
+
+    return await controller.setup_pin(
+        user_id=current_user["user_id"],
+        pin_code=pin_request.pin_code,
+        device_id=pin_request.device_id,
+        device_name=pin_request.device_name
+    )
+
+
+@router.post("/pin-login", response_model=TokenResponse)
+async def pin_login(
+        request: PinLoginRequest,
+        controller: FromDishka[AuthController]
+):
+    """Вход по PIN-коду"""
+    return await controller.pin_login(
+        pin_code=request.pin_code,
+        device_id=request.device_id,
+        refresh_token=request.refresh_token
+    )
+
+# app/presentation/routers/auth.py
+
+@router.get("/devices", response_model=list[DeviceInfo])
+async def list_devices(
+    request: Request,
+    controller: FromDishka[AuthController],
+    token_service: FromDishka[TokenServicePort]
+):
+    """Получить список устройств пользователя"""
+    current_user = await get_current_user_dishka(request, token_service)
+    return await controller.list_devices(current_user["user_id"])
+
+@router.delete("/devices/{device_id}")
+async def revoke_device(
+    device_id: str,
+    request: Request,
+    controller: FromDishka[AuthController],
+    token_service: FromDishka[TokenServicePort]
+):
+    """Отозвать доступ устройства"""
+    current_user = await get_current_user_dishka(request, token_service)
+    await controller.revoke_device(current_user["user_id"], device_id)
+    return {"message": "Device revoked successfully"}
