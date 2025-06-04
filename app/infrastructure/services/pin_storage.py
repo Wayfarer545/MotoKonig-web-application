@@ -95,3 +95,23 @@ class RedisPinStorage(PinStoragePort):
                 })
 
         return devices
+
+    async def update_last_login(
+            self,
+            user_id: UUID,
+            device_id: str,
+            timestamp: str
+    ) -> None:
+        """Обновить время последнего входа"""
+        key = f"pin:{user_id}:{device_id}"
+        await self.redis.hset(key, "last_login", timestamp)
+
+    async def add_device_to_blacklist(
+            self,
+            user_id: UUID,
+            device_id: str,
+            ttl: int
+    ) -> None:
+        """Добавить устройство в чёрный список"""
+        key = f"blacklisted_device:{user_id}:{device_id}"
+        await self.redis.set(key, "1", ex=ttl)

@@ -151,14 +151,9 @@ class PinAuthUseCase:
             device_name: Optional[str]
     ) -> None:
         """Логирование успешного входа для безопасности"""
-        # Здесь можно добавить запись в аудит лог
-        # Пока просто обновляем last_login в PIN данных
-        key = f"pin:{user_id}:{device_id}"
-        await self.pin_storage.redis.hset(
-            key,
-            "last_login",
-            datetime.now(timezone.utc).isoformat()
-        )
+        # Используем метод порта вместо прямого доступа к redis
+        timestamp = datetime.now(timezone.utc).isoformat()
+        await self.pin_storage.update_last_login(user_id, device_id, timestamp)
 
     def _hash_pin(self, pin: str, salt: str) -> str:
         """Хешируем PIN с солью используя PBKDF2"""
@@ -187,11 +182,15 @@ class PinAuthUseCase:
             device_id: str
     ) -> None:
         """Отозвать доступ устройства"""
+        # Удаляем PIN
         await self.pin_storage.delete_pin(user_id, device_id)
 
-        # Можно также добавить device_id в blacklist
-        key = f"blacklisted_device:{user_id}:{device_id}"
-        await self.pin_storage.redis.set(key, "1", ex=86400 * 365)  # 1 год
+        # Добавляем в blacklist через метод порта
+        await self.pin_storage.add_device_to_blacklist(
+            user_id,
+            device_id,
+            86400 * 365  # 1 год
+        )
 
     async def list_devices(self, user_id: UUID) -> list[Dict[str, Any]]:
         """Получить список устройств пользователя"""

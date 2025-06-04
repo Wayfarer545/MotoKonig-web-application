@@ -1,6 +1,6 @@
 # app/domain/ports/pin_storage.py
 
-from typing import Protocol, Dict, Any, Optional
+from typing import Protocol, Dict, Any, Optional, List
 from uuid import UUID
 from datetime import timedelta
 
@@ -44,10 +44,6 @@ class PinStoragePort(Protocol):
         """Увеличить счётчик неудачных попыток"""
         ...
 
-    async def get_user_devices(self, user_id: UUID) -> list[Dict[str, Any]]:
-        """Получить все устройства пользователя"""
-        ...
-
     async def get_failed_attempts(
             self,
             user_id: UUID,
@@ -62,4 +58,29 @@ class PinStoragePort(Protocol):
             device_id: str
     ) -> None:
         """Сбросить счётчик попыток"""
+        ...
+
+    async def update_last_login(
+            self,
+            user_id: UUID,
+            device_id: str,
+            timestamp: str
+    ) -> None:
+        """Обновить время последнего входа"""
+        ...
+
+    async def get_user_devices(
+            self,
+            user_id: UUID
+    ) -> List[Dict[str, Any]]:
+        """Получить все устройства пользователя"""
+        ...
+
+    async def add_device_to_blacklist(
+            self,
+            user_id: UUID,
+            device_id: str,
+            ttl: int
+    ) -> None:
+        """Добавить устройство в чёрный список"""
         ...
