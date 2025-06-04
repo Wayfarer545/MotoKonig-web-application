@@ -28,11 +28,11 @@ async def create_test_user(async_client: AsyncClient):
     """Фабрика для создания тестовых пользователей"""
     created_users = []
 
-    async def _create_user(username: str, password: str, role: str = "USER"):
-        resp = await async_client.post("/users/", json={
-            "username": username,
-            "password": password,
-            "role": role
+    async def _create_user(username: str, password: str):
+        resp = await async_client.post("/auth/register", json={
+          "username": username,
+          "password": password,
+          "password_confirm": password
         })
         if resp.status_code == 201:
             user_data = resp.json()

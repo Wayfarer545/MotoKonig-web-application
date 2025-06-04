@@ -1,75 +1,144 @@
 # MotoKönig
 
-## About
-
 **MotoKönig** is a social network for motorcyclists in the Kaliningrad region. The app brings riders together on an interactive map, lets them share routes and events, and provides a marketplace for bikes, parts, and services. The codebase follows **DDD** and **Clean Architecture** principles.
 
-> *Python 3.12 · Package manager — **uv** · Linter/formatter — **ruff***
+> *Python 3.12 · Package manager — **uv** · Linter/formatter — **ruff***
 
 ---
 
-[//]: # (## Repositories)
-
-[//]: # ()
-[//]: # (| Repository           | Purpose                                                                      |)
-
-[//]: # (| -------------------- | ---------------------------------------------------------------------------- |)
-
-[//]: # (| **motokonig-app**    | Main repository: FastAPI backend, OpenAPI docs, and web‑ui + docs submodules |)
-
-[//]: # (| **motokonig-doc**    | Interactive project documentation served directly from the web interface     |)
-
-[//]: # (| **motokonig-web-ui** | Nuxt 3 frontend, Caddy reverse‑proxy configuration, and static assets        |)
-
----
-
-## Tech Stack
+## Tech Stack
 
 * ⚡ **FastAPI** + **Dishka** — asynchronous web server and DI container
-* 🗄️ **Advanced‑Alchemy (SQLAlchemy 2)** — ORM for **PostgreSQL 16**
-* 🔍 **Pydantic v2** — data validation and configuration
-* ♻️ **Redis** — JWT blacklist and cache
+* 🗄️ **Advanced‑Alchemy (SQLAlchemy 2)** — ORM for **PostgreSQL 16**
+* 🔍 **Pydantic v2** — data validation and configuration
+* ♻️ **Redis** — JWT blacklist, cache, and PIN storage
 * 💾 **MinIO** (via **aiobotocore**) — object storage for media files
-* 🔑 Basic Auth + **JWT** with **RBAC**
+* 🔑 JWT Authentication with **RBAC** + PIN auth for mobile
 * 🐰 **RabbitMQ** — task and event broker
 * 💃 **Alembic** — database migrations
 * 🎸 **UV** — dependency management
-* 🐋 **Docker Compose v2** — development and production environments
-* 🚢 **CI/CD** GitLab → **Amazon EC2**
+* 🐋 **Docker Compose v2** — development and production environments
+* 🚢 **CI/CD** GitLab → **Amazon EC2**
 * 🔒 Secure password hashing (**bcrypt**)
 * ✅ Tests with **Pytest**
 * 📞 **Caddy** — reverse proxy / load balancer
-* 💅 **Nuxt 3** + **Tailwind CSS v4** — frontend
+* 💅 **Nuxt 3** + **Tailwind CSS v4** — frontend
 
 ---
 
-## API Versioning
+## API Versioning
 
 All endpoints are versioned via the `X-Api-Version` header (`v1` by default).
 
 ---
 
-## Core Features
+## Current Features ✅
 
-* 🗺️ **Map** of shops, service centers, events, and POIs (Yandex Maps / OpenStreetMap)
-* 🏍️ **Garage**: multiple motorcycles per user (brand, model, displacement, type, year)
-* 🤝 **Friends & Moto Clubs** with roles (president + custom)
-* 📅 **User events** (visible to followers) and public club events
-* 🔗 Social links (VK, WhatsApp, Telegram) if the user allows
-* 🛣️ **Route planning & sharing** with like/dislike
-* ⭐ **Ratings** for services / shops / places
-* 📰 **News feed** for the community and clubs
-* 🛒 **Marketplace** for motorcycles, parts, and services
+### Authentication & Authorization
+- User registration (first user becomes admin)
+- JWT authentication with refresh tokens
+- Role-based access control (Admin, Operator, User)
+- PIN authentication for mobile apps
+- Token blacklisting
+- Device management
+
+### User Management
+- Full CRUD operations
+- Profile updates
+- User deactivation
+- Password management
 
 ---
 
-[//]: # (## Local Development Docs)
+## Core Features (Roadmap) 🚀
 
-[//]: # ()
-[//]: # (* **Backend**: [./docs/deployment.md]&#40;./docs/deployment.md&#41;)
+* 🗺️ **Map** of shops, service centers, events, and POIs
+* 🏍️ **Garage**: multiple motorcycles per user
+* 🤝 **Friends & Moto Clubs** with custom roles
+* 📅 **Events** (public/private)
+* 🔗 Social links integration
+* 🛣️ **Route planning & sharing**
+* ⭐ **Ratings** for services/shops/places
+* 📰 **News feed**
+* 🛒 **Marketplace**
 
-[//]: # (* **Frontend**: [motokonig-web-ui/README.md]&#40;../motokonig-web-ui/README.md&#41;)
+---
 
-> Missing something? Feel free to open an Issue or submit a Pull Request! :)
+## Quick Start
 
+### Prerequisites
+- Python 3.12+
+- Docker & Docker Compose
+- Redis
+- PostgreSQL (or use Docker)
 
+### Development Setup
+
+1. Clone the repository:
+```bash
+  git clone https://github.com/your-username/motokonig.git && cd motokonig
+```
+
+2. Install dependencies:
+
+```bash
+    pip install uv
+    uv venv
+    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+    uv pip install -e ".[dev]"
+```
+
+3. Configure environment variables:
+```bash
+  cp .env.example .env
+```
+Edit .env with your settings
+
+4. Start services:
+```bash
+  docker-compose up -d postgres redis
+```
+5. Run migrations:
+```bash
+  alembic upgrade head
+```
+6. Start the server:
+```bash
+  uv run app.main:app
+```
+
+The API will be available at http://localhost:8000
+___
+
+### API Documentation
+Once the server is running, you can access:
+___
+Swagger UI: http://localhost:8000/openapi
+OpenAPI JSON: http://localhost:8000/openapi.json
+___
+
+### Testing  
+Run tests with coverage:
+bashpytest tests/ -v --cov=app --cov-report=html
+
+### Deployment
+The project includes GitLab CI/CD configuration for automated deployment to AWS EC2.  
+See .gitlab-ci.yml for pipeline details.
+
+### Project Structure  
+The project follows Domain-Driven Design and Clean Architecture:
+
+<pre>
+app/  
+├── domain/          # Business logic and entities  
+├── application/     # Use cases and controllers  
+├── infrastructure/  # External services implementation  
+├── adapters/        # Interface adapters  
+├── presentation/    # API layer  
+└── config/          # Configuration
+</pre>
+
+See structure.md for detailed structure.
+
+### License  
+This project is licensed under the MIT License - see the LICENSE file for details.

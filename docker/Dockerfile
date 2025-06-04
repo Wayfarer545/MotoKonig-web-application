@@ -14,7 +14,6 @@ RUN pip install uv
 
 # Копируем файлы зависимостей
 COPY pyproject.toml .
-COPY uv.lock* .
 
 # Устанавливаем зависимости
 RUN uv venv && \

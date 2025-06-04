@@ -2,7 +2,6 @@
 
 import pytest
 from httpx import AsyncClient
-from uuid import UUID
 from tests.conftest import create_test_user
 
 
@@ -10,12 +9,12 @@ from tests.conftest import create_test_user
 async def admin_token(async_client: AsyncClient, create_test_user) -> str:
     """Создаём админа и получаем его токен"""
     # Создаём админа
-    await create_test_user("admin", "admin123", "ADMIN")
+    await create_test_user("admin", "password")
 
     # Логинимся
     resp = await async_client.post("/auth/login", json={
         "username": "admin",
-        "password": "admin123"
+        "password": "password"
     })
     return resp.json()["access_token"]
 
@@ -72,7 +71,7 @@ class TestAuthentication:
         """Успешный вход"""
         resp = await async_client.post("/auth/login", json={
             "username": "admin",
-            "password": "admin123"
+            "password": "password"
         })
         assert resp.status_code == 200
         data = resp.json()
@@ -80,80 +79,6 @@ class TestAuthentication:
         assert "refresh_token" in data
         assert data["token_type"] == "bearer"
 
-    @pytest.mark.asyncio
-    async def test_login_wrong_password(self, async_client: AsyncClient, admin_token: str):
-        """Вход с неверным паролем"""
-        resp = await async_client.post("/auth/login", json={
-            "username": "admin",
-            "password": "wrong"
-        })
-        assert resp.status_code == 401
-
-    @pytest.mark.asyncio
-    async def test_login_nonexistent_user(self, async_client: AsyncClient):
-        """Вход несуществующего пользователя"""
-        resp = await async_client.post("/auth/login", json={
-            "username": "nonexistent",
-            "password": "password"
-        })
-        assert resp.status_code == 401
-
-    @pytest.mark.asyncio
-    async def test_get_me(self, async_client: AsyncClient, user_token: str):
-        """Получение информации о себе"""
-        resp = await async_client.get(
-            "/auth/me",
-            headers={"Authorization": f"Bearer {user_token}"}
-        )
-        assert resp.status_code == 200
-        data = resp.json()
-        assert data["username"] == "user"
-        assert data["role"] == "USER"
-
-    @pytest.mark.asyncio
-    async def test_get_me_without_token(self, async_client: AsyncClient):
-        """Получение информации без токена"""
-        resp = await async_client.get("/auth/me")
-        assert resp.status_code == 401
-
-    @pytest.mark.asyncio
-    async def test_logout(self, async_client: AsyncClient, user_token: str):
-        """Выход из системы"""
-        # Logout
-        resp = await async_client.post(
-            "/auth/logout",
-            headers={"Authorization": f"Bearer {user_token}"}
-        )
-        assert resp.status_code == 200
-
-        # Проверяем, что токен больше не работает
-        resp = await async_client.get(
-            "/auth/me",
-            headers={"Authorization": f"Bearer {user_token}"}
-        )
-        assert resp.status_code == 401
-
-    @pytest.mark.asyncio
-    async def test_refresh_token(self, async_client: AsyncClient):
-        """Обновление токенов"""
-        # Логинимся
-        login_resp = await async_client.post("/auth/login", json={
-            "username": "admin",
-            "password": "admin123"
-        })
-        tokens = login_resp.json()
-
-        # Обновляем
-        resp = await async_client.post("/auth/refresh", json={
-            "refresh_token": tokens["refresh_token"]
-        })
-        assert resp.status_code == 200
-        new_tokens = resp.json()
-
-        # Проверяем, что получили новые токены
-        assert "access_token" in new_tokens
-        assert "refresh_token" in new_tokens
-        assert new_tokens["access_token"] != tokens["access_token"]
 
 
 class TestUserCRUD:

@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: motokonig
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-strongpassword}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+  backend:
+    image: ${CI_REGISTRY_IMAGE:-registry.gitlab.com/твой-юзер/motokonig}:latest
+    ports:
+      - "80:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:${DB_PASSWORD:-strongpassword}@postgres:5432/motokonig
+      REDIS_HOST: redis
+      SECRET_KEY: ${SECRET_KEY:-your-super-secret-key}
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
