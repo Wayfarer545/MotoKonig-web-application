@@ -35,6 +35,7 @@ from app.application.use_cases.auth.refresh import RefreshTokenUseCase
 # Controllers
 from app.application.controllers.user_controller import UserController
 from app.application.controllers.auth_controller import AuthController
+from application.use_cases.auth.register import RegisterUseCase
 
 
 class ApplicationProvider(Provider):
@@ -136,6 +137,15 @@ class ApplicationProvider(Provider):
             self,
             login_uc: LoginUseCase,
             logout_uc: LogoutUseCase,
-            refresh_uc: RefreshTokenUseCase
+            refresh_uc: RefreshTokenUseCase,
+            register_uc: RegisterUseCase
     ) -> AuthController:
-        return AuthController(login_uc, logout_uc, refresh_uc)
+        return AuthController(login_uc, logout_uc, refresh_uc, register_uc)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_register_uc(
+            self,
+            repo: IUserRepository,
+            pwd_service: PasswordService
+    ) -> RegisterUseCase:
+        return RegisterUseCase(repo, pwd_service)

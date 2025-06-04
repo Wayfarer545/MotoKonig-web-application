@@ -1,11 +1,12 @@
 # app/application/controllers/auth_controller.py
 
-from typing import Dict
+from typing import Dict, Any
 from fastapi import HTTPException, status
 
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
+from application.use_cases.auth.register import RegisterUseCase
 
 
 class AuthController:
@@ -15,11 +16,13 @@ class AuthController:
             self,
             login_uc: LoginUseCase,
             logout_uc: LogoutUseCase,
-            refresh_uc: RefreshTokenUseCase
+            refresh_uc: RefreshTokenUseCase,
+            register_uc: RegisterUseCase,
     ):
         self.login_uc = login_uc
         self.logout_uc = logout_uc
         self.refresh_uc = refresh_uc
+        self.register_uc = register_uc
 
     async def login(self, username: str, password: str) -> Dict[str, str]:
         """Аутентифицировать пользователя"""
@@ -46,4 +49,20 @@ class AuthController:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail=str(e),
                 headers={"WWW-Authenticate": "Bearer"}
+            )
+
+    async def register(self, username: str, password: str) -> Dict[str, Any]:
+        """Зарегистрировать нового пользователя"""
+        try:
+            user = await self.register_uc.execute(username, password)
+            return {
+                "id": str(user.id),
+                "username": user.username,
+                "role": user.role.name,
+                "message": "Registration successful"
+            }
+        except ValueError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e)
             )

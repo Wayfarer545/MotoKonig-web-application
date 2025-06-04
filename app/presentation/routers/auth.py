@@ -12,7 +12,7 @@ from app.presentation.schemas.auth import (
     TokenResponse,
     RefreshRequest,
     MessageResponse,
-    CurrentUser
+    CurrentUser, RegisterResponse, RegisterRequest
 )
 from app.presentation.middleware.auth import get_current_user_dishka, get_token_from_header
 
@@ -66,4 +66,15 @@ async def get_me(
         user_id=str(current_user["user_id"]),
         username=current_user["username"],
         role=current_user["role"].name
+    )
+
+@router.post("/register", response_model=RegisterResponse)
+async def register(
+    request: RegisterRequest,
+    controller: FromDishka[AuthController]
+):
+    """Регистрация нового пользователя"""
+    return await controller.register(
+        username=request.username,
+        password=request.password
     )
