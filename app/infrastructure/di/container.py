@@ -1,12 +1,12 @@
 # app/infrastructure/di/container.py
 
 from advanced_alchemy.extensions.fastapi import AdvancedAlchemy
-from application.use_cases.auth.pin_auth import PinAuthUseCase
-from application.use_cases.auth.register import RegisterUseCase
+from app.application.use_cases.auth.pin_auth import PinAuthUseCase
+from app.application.use_cases.auth.register import RegisterUseCase
 from dishka import Provider, Scope, provide
-from domain.ports.pin_storage import PinStoragePort
+from app.domain.ports.pin_storage import PinStoragePort
 from fastapi import Request
-from infrastructure.services.pin_storage import RedisPinStorage
+from app.infrastructure.services.pin_storage import RedisPinStorage
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
