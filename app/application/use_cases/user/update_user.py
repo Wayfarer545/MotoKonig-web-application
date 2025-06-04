@@ -3,7 +3,7 @@
 from uuid import UUID
 from typing import Optional
 
-from adapters.specifications.user_specs.user_by_id import UserById
+from app.adapters.specifications.user_specs.user_by_id import UserById
 from app.domain.entities.user import User, UserRole
 from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.password_service import PasswordService

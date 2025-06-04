@@ -4,7 +4,7 @@ from datetime import datetime
 from enum import IntEnum
 from uuid import UUID
 
-from pydantic import BaseModel as _BaseModel, Field
+from pydantic import BaseModel as _BaseModel, Field, ConfigDict
 
 
 class UserRole(IntEnum):
@@ -15,9 +15,7 @@ class UserRole(IntEnum):
 
 class BaseModel(_BaseModel):
     """Базовая модель Pydantic с поддержкой атрибутов SQLAlchemy."""
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 
@@ -34,7 +32,7 @@ class UpdateUserSchema(BaseModel):
     deactivate: bool = Field(False, description="Флаг деактивации пользователя")
 
 
-class UserResponseSchema(BaseModel):
+class UserResponseSchema(_BaseModel):
     id: UUID
     username: str
     role: UserRole

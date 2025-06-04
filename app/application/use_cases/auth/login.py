@@ -1,6 +1,6 @@
 # app/application/use_cases/auth/login.py
 
-from typing import Dict
+from typing import Dict, Any
 from uuid import uuid4
 
 from app.domain.ports.user_repository import IUserRepository

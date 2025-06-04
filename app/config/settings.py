@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 class ProjectConfig(BaseModel):
-    project_name: str = "AIOS NVR API Gateway"
+    project_name: str = "MotoKonig API Gateway"
     version: str = Field(alias='VERSION', default='dev')
 
 
@@ -23,7 +23,7 @@ class RedisConfig(BaseModel):
 
 
 class SQLiteConfig(BaseModel):
-    sqlite_dsn: Final[str] = "sqlite+aiosqlite:///app/infrastructure/database/app.db"
+    sqlite_dsn: str = "sqlite+aiosqlite:///app/infrastructure/database/app.db"
 
 
 class StorageConfig(BaseModel):

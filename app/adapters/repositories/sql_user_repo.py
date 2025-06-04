@@ -4,6 +4,7 @@ from typing import Optional, List
 from uuid import UUID
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+
 from app.domain.ports.user_repository import IUserRepository
 from app.domain.entities.user import User
 from app.infrastructure.models.user_model import User as UserModel

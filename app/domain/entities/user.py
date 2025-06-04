@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from enum import IntEnum
 from uuid import UUID, uuid4
-import datetime as dt
+from datetime import datetime
+from typing import TYPE_CHECKING
 
-from presentation.schemas.user import UserResponseSchema
+if TYPE_CHECKING:
+    from app.presentation.schemas.user import UserResponseSchema
 
 
 class UserRole(IntEnum):
@@ -28,8 +30,8 @@ class User:
         *,
         user_id: UUID | None = None,
         is_active: bool = True,
-        created_at: dt | None = None,
-        updated_at: dt | None = None,
+        created_at: datetime | None = None,
+        updated_at: datetime | None = None,
     ):
         if not username or len(username) < 3:
             raise ValueError("Username must be at least 3 characters")
@@ -41,8 +43,8 @@ class User:
         self.password_hash: str = password_hash
         self.role: UserRole = role
         self.is_active: bool = is_active
-        self.created_at: dt | None = created_at
-        self.updated_at: dt | None = updated_at
+        self.created_at: datetime | None = created_at
+        self.updated_at: datetime | None = updated_at
 
     def deactivate(self) -> None:
         """Деактивировать пользователя."""
@@ -54,12 +56,13 @@ class User:
             raise ValueError("Username must be at least 3 characters")
         self.username = new_username.lower()
 
-    def to_dto(self):
-        return UserResponseSchema(
-            id=self.id,
-            username=self.username,
-            role=self.role,
-            is_active=self.is_active,
-            created_at=self.created_at,
-            updated_at=self.updated_at,
-        )
+    def to_dto(self) -> dict:
+        """Конвертировать в DTO для API"""
+        return {
+            "id": self.id,
+            "username": self.username,
+            "role": self.role,
+            "is_active": self.is_active,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
+        }

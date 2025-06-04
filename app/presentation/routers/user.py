@@ -1,51 +1,93 @@
 # app/presentation/routers/user.py
-from sys import api_version
 
-from fastapi import APIRouter, HTTPException, Header, Depends
+from typing import Dict, Any
+from fastapi import APIRouter, HTTPException, Request
 from uuid import UUID
 
 from dishka.integrations.fastapi import FromDishka, DishkaRoute
 
+from app.domain.ports.token_service import TokenServicePort
 from app.application.controllers.user_controller import UserController
 from app.presentation.schemas.user import (
     CreateUserSchema,
     UpdateUserSchema,
     UserResponseSchema
 )
+from app.presentation.middleware.auth import get_current_user_dishka, check_role
+from app.domain.entities.user import UserRole
 
 router = APIRouter(route_class=DishkaRoute)
 
 
 @router.post("/", response_model=UserResponseSchema, status_code=201)
 async def create_user(
-    dto: CreateUserSchema,
-    controller: FromDishka[UserController],
+        request: Request,
+        dto: CreateUserSchema,
+        controller: FromDishka[UserController],
+        token_service: FromDishka[TokenServicePort]
 ):
+    """Создать нового пользователя (только для админов)"""
+    current_user = await get_current_user_dishka(request, token_service)
+    check_role(current_user, [UserRole.ADMIN])
+
     return await controller.create(dto.username, dto.password, dto.role)
 
+
 @router.get("/", response_model=list[UserResponseSchema])
-async def list_users(controller: FromDishka[UserController]):
+async def list_users(
+        request: Request,
+        controller: FromDishka[UserController],
+        token_service: FromDishka[TokenServicePort]
+):
+    """Получить список всех пользователей"""
+    current_user = await get_current_user_dishka(request, token_service)
+    check_role(current_user, [UserRole.ADMIN, UserRole.OPERATOR])
+
     return await controller.list_users()
 
-@router.get(
-    "/{user_id}",
-    response_model=UserResponseSchema,
-)
+
+@router.get("/{user_id}", response_model=UserResponseSchema)
 async def get_user(
+        request: Request,
         user_id: UUID,
         controller: FromDishka[UserController],
+        token_service: FromDishka[TokenServicePort]
 ):
+    """Получить пользователя по ID"""
+    current_user = await get_current_user_dishka(request, token_service)
+
+    # Пользователь может просматривать только свой профиль
+    # Операторы и админы могут просматривать всех
+    if (current_user["role"].value > 1 and
+            current_user["user_id"] != user_id):
+        raise HTTPException(status_code=403, detail="Access denied")
+
     user_data = await controller.get_user_by_id(user_id)
     if user_data is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user_data
 
+
 @router.put("/{user_id}", response_model=UserResponseSchema)
 async def update_user(
-    user_id: UUID,
-    dto: UpdateUserSchema,
-    controller: FromDishka[UserController],
+        request: Request,
+        user_id: UUID,
+        dto: UpdateUserSchema,
+        controller: FromDishka[UserController],
+        token_service: FromDishka[TokenServicePort]
 ):
+    """Обновить данные пользователя"""
+    current_user = await get_current_user_dishka(request, token_service)
+
+    # Пользователь может изменять только свои данные (кроме роли)
+    # Операторы и админы могут изменять всё
+    if current_user["role"].value > 1:
+        if current_user["user_id"] != user_id:
+            raise HTTPException(status_code=403, detail="Access denied")
+        # Обычные пользователи не могут менять роль
+        if dto.role is not None:
+            raise HTTPException(status_code=403, detail="Cannot change role")
+
     return await controller.update_user(
         user_id,
         username=dto.username,
@@ -54,6 +96,16 @@ async def update_user(
         deactivate=dto.deactivate,
     )
 
+
 @router.delete("/{user_id}", status_code=204)
-async def delete_user(user_id: UUID, controller: FromDishka[UserController]):
+async def delete_user(
+        request: Request,
+        user_id: UUID,
+        controller: FromDishka[UserController],
+        token_service: FromDishka[TokenServicePort]
+):
+    """Удалить пользователя (только для админов)"""
+    current_user = await get_current_user_dishka(request, token_service)
+    check_role(current_user, [UserRole.ADMIN])
+
     await controller.delete_user(user_id)

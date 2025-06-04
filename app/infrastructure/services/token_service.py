@@ -2,8 +2,8 @@
 
 from typing import Dict, Any
 from datetime import datetime, timedelta, timezone
-import jwt
 from redis.asyncio import Redis
+import jwt
 
 from app.domain.ports.token_service import TokenServicePort
 from app.config.settings import SecuritySettings
