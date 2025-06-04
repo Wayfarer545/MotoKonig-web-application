@@ -1,8 +1,8 @@
 # app/domain/ports/pin_storage.py
 
-from typing import Protocol, Dict, Any, Optional, List
-from uuid import UUID
 from datetime import timedelta
+from typing import Any, Protocol
+from uuid import UUID
 
 
 class PinStoragePort(Protocol):
@@ -24,7 +24,7 @@ class PinStoragePort(Protocol):
             self,
             user_id: UUID,
             device_id: str
-    ) -> Optional[Dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         """Получить данные PIN"""
         ...
 
@@ -72,7 +72,7 @@ class PinStoragePort(Protocol):
     async def get_user_devices(
             self,
             user_id: UUID
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Получить все устройства пользователя"""
         ...
 

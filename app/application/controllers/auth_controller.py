@@ -1,15 +1,15 @@
 # app/application/controllers/auth_controller.py
 
-from typing import Dict, Any
+from typing import Any
 from uuid import UUID
 
+from application.use_cases.auth.pin_auth import PinAuthUseCase
+from application.use_cases.auth.register import RegisterUseCase
 from fastapi import HTTPException, status
 
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
-from application.use_cases.auth.pin_auth import PinAuthUseCase
-from application.use_cases.auth.register import RegisterUseCase
 
 
 class AuthController:
@@ -29,34 +29,34 @@ class AuthController:
         self.register_uc = register_uc
         self.pin_auth_uc = pin_auth_uc
 
-    async def login(self, username: str, password: str) -> Dict[str, str]:
+    async def login(self, username: str, password: str) -> dict[str, str]:
         """Аутентифицировать пользователя"""
         try:
             return await self.login_uc.execute(username, password)
-        except ValueError as e:
+        except ValueError as ex:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=str(e),
+                detail=str(ex),
                 headers={"WWW-Authenticate": "Bearer"}
-            )
+            ) from ex
 
-    async def logout(self, token: str) -> Dict[str, str]:
+    async def logout(self, token: str) -> dict[str, str]:
         """Выйти из системы"""
         await self.logout_uc.execute(token)
         return {"message": "Successfully logged out"}
 
-    async def refresh(self, refresh_token: str) -> Dict[str, str]:
+    async def refresh(self, refresh_token: str) -> dict[str, str]:
         """Обновить токены"""
         try:
             return await self.refresh_uc.execute(refresh_token)
-        except ValueError as e:
+        except ValueError as ex:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=str(e),
+                detail=str(ex),
                 headers={"WWW-Authenticate": "Bearer"}
-            )
+            ) from ex
 
-    async def register(self, username: str, password: str) -> Dict[str, Any]:
+    async def register(self, username: str, password: str) -> dict[str, Any]:
         """Зарегистрировать нового пользователя"""
         try:
             user = await self.register_uc.execute(username, password)
@@ -66,32 +66,32 @@ class AuthController:
                 "role": user.role.name,
                 "message": "Registration successful"
             }
-        except ValueError as e:
+        except ValueError as ex:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=str(e)
-            )
+                detail=str(ex)
+            ) from ex
 
-    async def list_devices(self, user_id: UUID) -> list[Dict[str, Any]]:
+    async def list_devices(self, user_id: UUID) -> list[dict[str, Any]]:
         """Получить список устройств пользователя"""
         try:
             devices = await self.pin_auth_uc.list_devices(user_id)
             return devices
-        except Exception as e:
+        except Exception as ex:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Failed to retrieve devices: {str(e)}"
-            )
+                detail=f"Failed to retrieve devices: {str(ex)}"
+            ) from ex
 
     async def revoke_device(self, user_id: UUID, device_id: str) -> None:
         """Отозвать доступ устройства"""
         try:
             await self.pin_auth_uc.revoke_device(user_id, device_id)
-        except Exception as e:
+        except Exception as ex:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Failed to revoke device: {str(e)}"
-            )
+                detail=f"Failed to revoke device: {str(ex)}"
+            ) from ex
 
     async def setup_pin(
             self,
@@ -99,7 +99,7 @@ class AuthController:
             pin_code: str,
             device_id: str,
             device_name: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Установить PIN для устройства"""
         try:
             return await self.pin_auth_uc.setup_pin(
@@ -108,11 +108,11 @@ class AuthController:
                 device_id=device_id,
                 device_name=device_name
             )
-        except ValueError as e:
+        except ValueError as ex:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=str(e)
-            )
+                detail=str(ex)
+            ) from ex
 
 
 
@@ -121,7 +121,7 @@ class AuthController:
             pin_code: str,
             device_id: str,
             refresh_token: str
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """Войти по PIN-коду"""
         try:
             result = await self.pin_auth_uc.verify_pin(
@@ -138,8 +138,8 @@ class AuthController:
 
             return result
 
-        except ValueError as e:
+        except ValueError as ex:
             raise HTTPException(
                 status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                detail=str(e)
-            )
+                detail=str(ex)
+            ) from ex

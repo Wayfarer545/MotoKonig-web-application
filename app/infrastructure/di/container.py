@@ -1,44 +1,42 @@
 # app/infrastructure/di/container.py
 
-from dishka import Provider, provide, Scope
-from fastapi import Request
-from sqlalchemy.ext.asyncio import AsyncSession
-from redis.asyncio import Redis
-
 from advanced_alchemy.extensions.fastapi import AdvancedAlchemy
-
-from app.config.settings import Config
-from app.infrastructure.messaging.redis_client import RedisClient
+from application.use_cases.auth.pin_auth import PinAuthUseCase
+from application.use_cases.auth.register import RegisterUseCase
+from dishka import Provider, Scope, provide
+from domain.ports.pin_storage import PinStoragePort
+from fastapi import Request
+from infrastructure.services.pin_storage import RedisPinStorage
+from redis.asyncio import Redis
+from sqlalchemy.ext.asyncio import AsyncSession
 
 # Repositories
 from app.adapters.repositories.sql_user_repo import SqlUserRepository
-from app.domain.ports.user_repository import IUserRepository
+from app.application.controllers.auth_controller import AuthController
 
-# Services
-from app.domain.ports.password_service import PasswordService
-from app.infrastructure.services.password_service import PasswordServiceImpl
-from app.domain.ports.token_service import TokenServicePort
-from app.infrastructure.services.token_service import JWTTokenService
-
-# Use Cases - User
-from app.application.use_cases.user.list_users import ListUsersUseCase
-from app.application.use_cases.user.get_user import GetUserUseCase
-from app.application.use_cases.user.create_user import CreateUserUseCase
-from app.application.use_cases.user.update_user import UpdateUserUseCase
-from app.application.use_cases.user.delete_user import DeleteUserUseCase
+# Controllers
+from app.application.controllers.user_controller import UserController
 
 # Use Cases - Auth
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
+from app.application.use_cases.user.create_user import CreateUserUseCase
+from app.application.use_cases.user.delete_user import DeleteUserUseCase
+from app.application.use_cases.user.get_user import GetUserUseCase
 
-# Controllers
-from app.application.controllers.user_controller import UserController
-from app.application.controllers.auth_controller import AuthController
-from application.use_cases.auth.pin_auth import PinAuthUseCase
-from application.use_cases.auth.register import RegisterUseCase
-from domain.ports.pin_storage import PinStoragePort
-from infrastructure.services.pin_storage import RedisPinStorage
+# Use Cases - User
+from app.application.use_cases.user.list_users import ListUsersUseCase
+from app.application.use_cases.user.update_user import UpdateUserUseCase
+from app.config.settings import Config
+
+# Services
+from app.domain.ports.password_service import PasswordService
+from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.user_repository import IUserRepository
+from app.infrastructure.messaging.redis_client import RedisClient
+from app.infrastructure.services.password_service import PasswordServiceImpl
+from app.infrastructure.services.token_service import JWTTokenService
 
 
 class ApplicationProvider(Provider):
@@ -134,16 +132,6 @@ class ApplicationProvider(Provider):
             delete_uc: DeleteUserUseCase,
     ) -> UserController:
         return UserController(list_uc, get_uc, create_uc, update_uc, delete_uc)
-
-    @provide(scope=Scope.REQUEST)
-    def provide_auth_controller(
-            self,
-            login_uc: LoginUseCase,
-            logout_uc: LogoutUseCase,
-            refresh_uc: RefreshTokenUseCase,
-            register_uc: RegisterUseCase
-    ) -> AuthController:
-        return AuthController(login_uc, logout_uc, refresh_uc, register_uc)
 
     @provide(scope=Scope.REQUEST)
     def provide_register_uc(

@@ -1,8 +1,9 @@
 # app/infrastructure/services/pin_storage.py
 
-from typing import Dict, Any, Optional
+from datetime import UTC, datetime, timedelta
+from typing import Any
 from uuid import UUID
-from datetime import timedelta, datetime, timezone
+
 from redis.asyncio import Redis
 
 from app.domain.ports.pin_storage import PinStoragePort
@@ -28,7 +29,7 @@ class RedisPinStorage(PinStoragePort):
             "pin_hash": pin_hash,
             "device_name": device_name,
             "device_token": device_token,
-            "created_at": datetime.now(timezone.utc).isoformat()
+            "created_at": datetime.now(UTC).isoformat()
         }
 
         await self.redis.hset(key, mapping=data)
@@ -38,7 +39,7 @@ class RedisPinStorage(PinStoragePort):
             self,
             user_id: UUID,
             device_id: str
-    ) -> Optional[Dict[str, Any]]:
+    ) -> dict[str, Any] | None:
         key = f"pin:{user_id}:{device_id}"
         data = await self.redis.hgetall(key)
         return data if data else None
@@ -78,7 +79,7 @@ class RedisPinStorage(PinStoragePort):
         key = f"pin_attempts:{user_id}:{device_id}"
         await self.redis.delete(key)
 
-    async def get_user_devices(self, user_id: UUID) -> list[Dict[str, Any]]:
+    async def get_user_devices(self, user_id: UUID) -> list[dict[str, Any]]:
         """Получить все устройства пользователя"""
         pattern = f"pin:{user_id}:*"
         devices = []

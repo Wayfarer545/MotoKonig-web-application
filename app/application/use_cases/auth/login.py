@@ -1,12 +1,11 @@
 # app/application/use_cases/auth/login.py
 
-from typing import Dict, Any
 from uuid import uuid4
 
-from app.domain.ports.user_repository import IUserRepository
+from app.adapters.specifications.user_specs.user_by_name import UserByName
 from app.domain.ports.password_service import PasswordService
 from app.domain.ports.token_service import TokenServicePort
-from app.adapters.specifications.user_specs.user_by_name import UserByName
+from app.domain.ports.user_repository import IUserRepository
 
 
 class LoginUseCase:
@@ -22,7 +21,7 @@ class LoginUseCase:
         self.pwd_service = pwd_service
         self.token_service = token_service
 
-    async def execute(self, username: str, password: str) -> Dict[str, str]:
+    async def execute(self, username: str, password: str) -> dict[str, str]:
         """
         Аутентифицировать пользователя и вернуть токены
 

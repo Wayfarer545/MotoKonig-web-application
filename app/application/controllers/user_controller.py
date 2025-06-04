@@ -1,15 +1,15 @@
 # app/application/controllers/user_controller.py
 
-from typing import List
 from uuid import UUID
+
 from fastapi import HTTPException, status
 
 from app.adapters.specifications.user_specs.user_by_id import UserById
-from app.application.use_cases.user.list_users import ListUsersUseCase
-from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.create_user import CreateUserUseCase
-from app.application.use_cases.user.update_user import UpdateUserUseCase
 from app.application.use_cases.user.delete_user import DeleteUserUseCase
+from app.application.use_cases.user.get_user import GetUserUseCase
+from app.application.use_cases.user.list_users import ListUsersUseCase
+from app.application.use_cases.user.update_user import UpdateUserUseCase
 from app.domain.entities.user import User, UserRole
 
 
@@ -28,7 +28,7 @@ class UserController:
         self.update_uc = update_uc
         self.delete_uc = delete_uc
 
-    async def list_users(self) -> List[User]:
+    async def list_users(self) -> list[User]:
         return await self.list_uc.execute()
 
     async def get_user_by_id(self, user_id: UUID) -> User | None:

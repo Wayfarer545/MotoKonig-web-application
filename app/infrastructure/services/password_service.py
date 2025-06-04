@@ -1,4 +1,5 @@
 from passlib.context import CryptContext
+
 from app.domain.ports.password_service import PasswordService
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

@@ -1,12 +1,10 @@
 # app/application/use_cases/auth/refresh.py
 
-from uuid import uuid4, UUID
-from typing import Dict
-
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
+from uuid import UUID, uuid4
 
 from app.adapters.specifications.user_specs.user_by_id import UserById
+from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.user_repository import IUserRepository
 
 
 class RefreshTokenUseCase:
@@ -20,7 +18,7 @@ class RefreshTokenUseCase:
         self.token_service = token_service
         self.user_repo = user_repo
 
-    async def execute(self, refresh_token: str) -> Dict[str, str]:
+    async def execute(self, refresh_token: str) -> dict[str, str]:
         """Обновить access token используя refresh token"""
         try:
             # Декодируем refresh token
@@ -65,5 +63,5 @@ class RefreshTokenUseCase:
                 "token_type": "bearer"
             }
 
-        except ValueError as e:
-            raise ValueError(f"Token refresh failed: {str(e)}")
+        except ValueError as ex:
+            raise ValueError(f"Token refresh failed: {str(ex)}") from ex

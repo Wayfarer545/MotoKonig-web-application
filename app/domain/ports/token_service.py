@@ -1,7 +1,7 @@
 # app/domain/ports/token_service.py
 
-from typing import Protocol, Dict, Any
 from datetime import timedelta
+from typing import Any, Protocol
 
 
 class TokenServicePort(Protocol):
@@ -9,7 +9,7 @@ class TokenServicePort(Protocol):
 
     async def create_access_token(
             self,
-            data: Dict[str, Any],
+            data: dict[str, Any],
             expires_delta: timedelta | None = None
     ) -> str:
         """Создать access token"""
@@ -17,13 +17,13 @@ class TokenServicePort(Protocol):
 
     async def create_refresh_token(
             self,
-            data: Dict[str, Any],
+            data: dict[str, Any],
             expires_delta: timedelta | None = None
     ) -> str:
         """Создать refresh token"""
         ...
 
-    async def decode_token(self, token: str) -> Dict[str, Any]:
+    async def decode_token(self, token: str) -> dict[str, Any]:
         """Декодировать токен"""
         ...
 

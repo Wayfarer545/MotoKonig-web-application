@@ -1,7 +1,6 @@
 # app/domain/ports/user_specification.py
 
-from typing import Protocol
-from typing_extensions import Any
+from typing import Any, Protocol
 
 
 class UserSpecificationPort(Protocol):

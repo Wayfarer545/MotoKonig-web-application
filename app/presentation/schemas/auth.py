@@ -2,7 +2,8 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel as _BaseModel, Field, field_validator, ConfigDict
+from pydantic import BaseModel as _BaseModel
+from pydantic import ConfigDict, Field, field_validator
 
 
 class BaseModel(_BaseModel):

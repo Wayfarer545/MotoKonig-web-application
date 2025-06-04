@@ -1,19 +1,18 @@
 # app/presentation/middleware/auth.py
 
-from typing import Optional, Dict, Any
+from typing import Any
 from uuid import UUID
 
-from fastapi import Request, HTTPException
+from dishka.integrations.fastapi import FromDishka
+from fastapi import HTTPException, Request
 from fastapi.security.utils import get_authorization_scheme_param
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN
 
-from dishka.integrations.fastapi import FromDishka
-
-from app.domain.ports.token_service import TokenServicePort
 from app.domain.entities.user import UserRole
+from app.domain.ports.token_service import TokenServicePort
 
 
-async def get_token_from_header(request: Request) -> Optional[str]:
+async def get_token_from_header(request: Request) -> str | None:
     """Извлечь токен из заголовка Authorization"""
     authorization = request.headers.get("Authorization")
     if not authorization:
@@ -29,7 +28,7 @@ async def get_token_from_header(request: Request) -> Optional[str]:
 async def get_current_user_dishka(
         request: Request,
         token_service: FromDishka[TokenServicePort]
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Получить текущего пользователя используя только Dishka"""
     token = await get_token_from_header(request)
     if not token:
@@ -64,21 +63,21 @@ async def get_current_user_dishka(
             "username": payload["username"],
             "role": UserRole[payload["role"]]
         }
-    except ValueError as e:
+    except ValueError as ex:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
-            detail=str(e),
+            detail=str(ex),
             headers={"WWW-Authenticate": "Bearer"},
-        )
-    except Exception:
+        ) from ex
+    except Exception as ex:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
-        )
+        ) from ex
 
 
-def check_role(current_user: Dict[str, Any], allowed_roles: list[UserRole]) -> None:
+def check_role(current_user: dict[str, Any], allowed_roles: list[UserRole]) -> None:
     """Проверить роль пользователя"""
     user_role = current_user["role"]
     if user_role not in allowed_roles:

@@ -1,7 +1,9 @@
 # app/application/use_cases/user/delete_user.py
 
 from uuid import UUID
+
 from app.domain.ports.user_repository import IUserRepository
+
 
 class DeleteUserUseCase:
     def __init__(self, repo: IUserRepository):

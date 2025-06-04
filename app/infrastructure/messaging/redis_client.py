@@ -1,6 +1,7 @@
 # app/infrastructure/messaging/redis_client.py
 
-from redis.asyncio import Redis, ConnectionPool
+from redis.asyncio import ConnectionPool, Redis
+
 from app.config.settings import RedisConfig
 
 

@@ -4,7 +4,8 @@ from datetime import datetime
 from enum import IntEnum
 from uuid import UUID
 
-from pydantic import BaseModel as _BaseModel, Field, ConfigDict
+from pydantic import BaseModel as _BaseModel
+from pydantic import ConfigDict, Field
 
 
 class UserRole(IntEnum):

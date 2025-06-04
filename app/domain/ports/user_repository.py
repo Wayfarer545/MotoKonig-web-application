@@ -1,6 +1,6 @@
 # app/domain/ports/user_repository.py
 
-from typing import Protocol, Any
+from typing import Protocol
 from uuid import UUID
 
 from app.domain.entities.user import User

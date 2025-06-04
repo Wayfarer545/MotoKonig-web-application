@@ -1,12 +1,11 @@
 # app/application/use_cases/user/update_user.py
 
 from uuid import UUID
-from typing import Optional
 
 from app.adapters.specifications.user_specs.user_by_id import UserById
 from app.domain.entities.user import User, UserRole
-from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.password_service import PasswordService
+from app.domain.ports.user_repository import IUserRepository
 
 
 class UpdateUserUseCase:
@@ -17,11 +16,11 @@ class UpdateUserUseCase:
     async def execute(
         self,
         user_id: UUID,
-        new_username: Optional[str] = None,
-        new_password: Optional[str] = None,
-        new_role: Optional[UserRole] = None,
+        new_username: str | None = None,
+        new_password: str | None = None,
+        new_role: UserRole | None = None,
         deactivate: bool = False,
-    ) -> Optional[User]:
+    ) -> User | None:
         existing = await self.repo.get(UserById(user_id))
         if not existing:
             return None

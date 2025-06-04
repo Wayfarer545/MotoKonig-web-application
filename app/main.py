@@ -1,8 +1,8 @@
 # app/main.py
 
 import uvicorn
-from app.presentation.api import app
 
+from app.presentation.api import app
 
 if __name__ == "__main__":
     uvicorn.run(

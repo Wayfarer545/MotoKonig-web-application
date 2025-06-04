@@ -1,7 +1,8 @@
-from advanced_alchemy.base import UUIDAuditBase
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, Enum
 from enum import IntEnum
+
+from advanced_alchemy.base import UUIDAuditBase
+from sqlalchemy import Enum, String
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class UserRole(IntEnum):

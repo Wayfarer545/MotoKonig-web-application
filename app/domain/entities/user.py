@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from enum import IntEnum
-from uuid import UUID, uuid4
 from datetime import datetime
+from enum import IntEnum
 from typing import TYPE_CHECKING
+from uuid import UUID, uuid4
 
 if TYPE_CHECKING:
-    from app.presentation.schemas.user import UserResponseSchema
+    pass
 
 
 class UserRole(IntEnum):

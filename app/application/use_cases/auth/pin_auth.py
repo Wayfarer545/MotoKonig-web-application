@@ -1,16 +1,15 @@
 # app/application/use_cases/auth/pin_auth.py
 
-from datetime import datetime, timedelta, timezone
-from typing import Dict, Optional, Any
-from uuid import UUID, uuid4
 import hashlib
 import hmac
+from datetime import UTC, datetime, timedelta
+from typing import Any
+from uuid import UUID, uuid4
 
-from app.domain.entities.user import User
-from app.domain.ports.user_repository import IUserRepository
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.pin_storage import PinStoragePort
 from app.adapters.specifications.user_specs.user_by_id import UserById
+from app.domain.ports.pin_storage import PinStoragePort
+from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.user_repository import IUserRepository
 
 
 class PinAuthUseCase:
@@ -35,7 +34,7 @@ class PinAuthUseCase:
             pin_code: str,
             device_id: str,
             device_name: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Установить PIN для устройства"""
 
         # Проверяем, что пользователь существует
@@ -64,7 +63,7 @@ class PinAuthUseCase:
 
         return {
             "device_token": device_token,
-            "pin_expires_at": datetime.now(timezone.utc) + self.PIN_TTL,
+            "pin_expires_at": datetime.now(UTC) + self.PIN_TTL,
             "message": "PIN set successfully. Please re-login to activate PIN authentication."
         }
 
@@ -73,7 +72,7 @@ class PinAuthUseCase:
             pin_code: str,
             device_id: str,
             refresh_token: str
-    ) -> Optional[Dict[str, str]]:
+    ) -> dict[str, str] | None:
         """Проверить PIN и выдать новые токены с ротацией"""
 
         # Декодируем refresh token
@@ -148,11 +147,11 @@ class PinAuthUseCase:
             self,
             user_id: UUID,
             device_id: str,
-            device_name: Optional[str]
+            device_name: str | None
     ) -> None:
         """Логирование успешного входа для безопасности"""
         # Используем метод порта вместо прямого доступа к redis
-        timestamp = datetime.now(timezone.utc).isoformat()
+        timestamp = datetime.now(UTC).isoformat()
         await self.pin_storage.update_last_login(user_id, device_id, timestamp)
 
     def _hash_pin(self, pin: str, salt: str) -> str:
@@ -192,6 +191,6 @@ class PinAuthUseCase:
             86400 * 365  # 1 год
         )
 
-    async def list_devices(self, user_id: UUID) -> list[Dict[str, Any]]:
+    async def list_devices(self, user_id: UUID) -> list[dict[str, Any]]:
         """Получить список устройств пользователя"""
         return await self.pin_storage.get_user_devices(user_id)

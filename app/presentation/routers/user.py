@@ -1,20 +1,19 @@
 # app/presentation/routers/user.py
 
-from typing import Dict, Any
-from fastapi import APIRouter, HTTPException, Request
 from uuid import UUID
 
-from dishka.integrations.fastapi import FromDishka, DishkaRoute
+from dishka.integrations.fastapi import DishkaRoute, FromDishka
+from fastapi import APIRouter, HTTPException, Request
 
-from app.domain.ports.token_service import TokenServicePort
 from app.application.controllers.user_controller import UserController
+from app.domain.entities.user import UserRole
+from app.domain.ports.token_service import TokenServicePort
+from app.presentation.middleware.auth import check_role, get_current_user_dishka
 from app.presentation.schemas.user import (
     CreateUserSchema,
     UpdateUserSchema,
-    UserResponseSchema
+    UserResponseSchema,
 )
-from app.presentation.middleware.auth import get_current_user_dishka, check_role
-from app.domain.entities.user import UserRole
 
 router = APIRouter(route_class=DishkaRoute)
 

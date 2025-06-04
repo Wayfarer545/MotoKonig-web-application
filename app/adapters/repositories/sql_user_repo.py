@@ -1,14 +1,14 @@
 # app/adapters/repositories/sql_user_repo.py
 
-from typing import Optional, List
 from uuid import UUID
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 
-from app.domain.ports.user_repository import IUserRepository
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.domain.entities.user import User
-from app.infrastructure.models.user_model import User as UserModel
+from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.user_specification import UserSpecificationPort
+from app.infrastructure.models.user_model import User as UserModel
 
 
 class SqlUserRepository(IUserRepository):
@@ -30,7 +30,7 @@ class SqlUserRepository(IUserRepository):
         user.updated_at = db_user.updated_at
         return user
 
-    async def get(self, spec: UserSpecificationPort) -> Optional[User]:
+    async def get(self, spec: UserSpecificationPort) -> User | None:
         statement = spec.to_query(select(UserModel))
         result = await self.session.execute(statement)
         db_user = result.scalar_one_or_none()
@@ -45,7 +45,7 @@ class SqlUserRepository(IUserRepository):
             )
         return None
 
-    async def get_list(self) -> List[User]:
+    async def get_list(self) -> list[User]:
         result = await self.session.execute(select(UserModel))
         users = result.scalars().all()
         return [

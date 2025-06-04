@@ -1,20 +1,28 @@
 # app/presentation/routers/auth.py
 
-from typing import Dict, Any, Annotated
-from fastapi import APIRouter, Request, Depends
+from typing import Annotated, Any
 
-from dishka.integrations.fastapi import FromDishka, DishkaRoute
-from fastapi.security import HTTPBasicCredentials, HTTPBasic
+from dishka.integrations.fastapi import DishkaRoute, FromDishka
+from fastapi import APIRouter, Depends, Request
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-from app.domain.ports.token_service import TokenServicePort
 from app.application.controllers.auth_controller import AuthController
-from app.presentation.schemas.auth import (
-    TokenResponse,
-    RefreshRequest,
-    MessageResponse,
-    CurrentUser, RegisterResponse, RegisterRequest, SetupPinRequest, PinLoginRequest, DeviceInfo
+from app.domain.ports.token_service import TokenServicePort
+from app.presentation.middleware.auth import (
+    get_current_user_dishka,
+    get_token_from_header,
 )
-from app.presentation.middleware.auth import get_current_user_dishka, get_token_from_header
+from app.presentation.schemas.auth import (
+    CurrentUser,
+    DeviceInfo,
+    MessageResponse,
+    PinLoginRequest,
+    RefreshRequest,
+    RegisterRequest,
+    RegisterResponse,
+    SetupPinRequest,
+    TokenResponse,
+)
 
 router = APIRouter(route_class=DishkaRoute)
 
@@ -80,7 +88,7 @@ async def register(
     )
 
 
-@router.post("/setup-pin", response_model=Dict[str, Any])
+@router.post("/setup-pin", response_model=dict[str, Any])
 async def setup_pin(
         request: Request,
         pin_request: SetupPinRequest,

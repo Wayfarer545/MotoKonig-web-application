@@ -1,10 +1,9 @@
 # src/infrastructure/config.py
 
 from os import environ as env
-from typing import Final
-
-from pydantic import Field, BaseModel
 from pathlib import Path
+
+from pydantic import BaseModel, Field
 
 
 class ProjectConfig(BaseModel):

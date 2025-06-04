@@ -1,12 +1,13 @@
 # app/infrastructure/services/token_service.py
 
-from typing import Dict, Any
-from datetime import datetime, timedelta, timezone
-from redis.asyncio import Redis
-import jwt
+from datetime import UTC, datetime, timedelta
+from typing import Any
 
-from app.domain.ports.token_service import TokenServicePort
+import jwt
+from redis.asyncio import Redis
+
 from app.config.settings import SecuritySettings
+from app.domain.ports.token_service import TokenServicePort
 
 
 class JWTTokenService(TokenServicePort):
@@ -21,39 +22,39 @@ class JWTTokenService(TokenServicePort):
 
     async def create_access_token(
             self,
-            data: Dict[str, Any],
+            data: dict[str, Any],
             expires_delta: timedelta | None = None
     ) -> str:
         """Создать JWT access token"""
         to_encode = data.copy()
-        expire = datetime.now(timezone.utc) + (expires_delta or self.access_token_expire)
+        expire = datetime.now(UTC) + (expires_delta or self.access_token_expire)
 
         to_encode.update({
             "exp": expire,
             "type": "access",
-            "iat": datetime.now(timezone.utc)
+            "iat": datetime.now(UTC)
         })
 
         return jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
 
     async def create_refresh_token(
             self,
-            data: Dict[str, Any],
+            data: dict[str, Any],
             expires_delta: timedelta | None = None
     ) -> str:
         """Создать JWT refresh token"""
         to_encode = data.copy()
-        expire = datetime.now(timezone.utc) + (expires_delta or self.refresh_token_expire)
+        expire = datetime.now(UTC) + (expires_delta or self.refresh_token_expire)
 
         to_encode.update({
             "exp": expire,
             "type": "refresh",
-            "iat": datetime.now(timezone.utc)
+            "iat": datetime.now(UTC)
         })
 
         return jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
 
-    async def decode_token(self, token: str) -> Dict[str, Any]:
+    async def decode_token(self, token: str) -> dict[str, Any]:
         """Декодировать и валидировать токен"""
         try:
             payload = jwt.decode(
@@ -62,10 +63,10 @@ class JWTTokenService(TokenServicePort):
                 algorithms=[self.algorithm]
             )
             return payload
-        except jwt.ExpiredSignatureError:
-            raise ValueError("Token has expired")
-        except jwt.InvalidTokenError:
-            raise ValueError("Invalid token")
+        except jwt.ExpiredSignatureError as e:
+            raise ValueError("Token has expired") from e
+        except jwt.InvalidTokenError as e:
+            raise ValueError("Invalid token") from e
 
     async def blacklist_token(self, token: str, expire_time: int) -> None:
         """Добавить токен в Redis blacklist"""
@@ -73,7 +74,7 @@ class JWTTokenService(TokenServicePort):
         try:
             payload = await self.decode_token(token)
             key = f"blacklist:{payload.get('jti', token)}"
-            ttl = expire_time - int(datetime.now(timezone.utc).timestamp())
+            ttl = expire_time - int(datetime.now(UTC).timestamp())
             if ttl > 0:
                 await self.redis.setex(key, ttl, "1")
         except ValueError:
