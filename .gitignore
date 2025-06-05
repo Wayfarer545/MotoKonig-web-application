@@ -19,3 +19,5 @@ uv.lock
 /aws_ec2_initial_setup.sh
 /.coverage
 /htmlcov/
+/motokonig_dataset_template/
+/motokonig_dataset/
