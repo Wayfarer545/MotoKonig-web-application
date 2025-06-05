@@ -1,4 +1,4 @@
-# app/adapters/repositories/sql_user_repo.py
+# app/infrastructure/repositories/sql_user_repo.py
 
 from uuid import UUID
 

@@ -6,8 +6,6 @@ from fastapi import Request
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# Repositories
-from app.adapters.repositories.sql_user_repo import SqlUserRepository
 from app.application.controllers.auth_controller import AuthController
 
 # Controllers
@@ -34,6 +32,9 @@ from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
 from app.infrastructure.messaging.redis_client import RedisClient
+
+# Repositories
+from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
 from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService

@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -14,7 +16,7 @@ services:
     restart: unless-stopped
 
   backend:
-    image: ${CI_REGISTRY_IMAGE:-registry.gitlab.com/твой-юзер/motokonig}:latest
+    image: ${CI_REGISTRY_IMAGE:-registry.gitlab.com/your-user/motokonig}:latest
     ports:
       - "80:8000"
     environment:
