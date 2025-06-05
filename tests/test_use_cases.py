@@ -2,6 +2,7 @@ import fakeredis.aioredis as fakeredis
 import pytest
 from redis.asyncio import Redis
 
+from app.adapters.specifications.user_specs.user_by_name import UserByName
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
 from app.application.use_cases.auth.register import RegisterUseCase

@@ -27,4 +27,4 @@ async def test_pin_storage_basic_ops():
     await storage.delete_pin(user_id, device_id)
     assert await storage.get_pin_data(user_id, device_id) is None
     await storage.add_device_to_blacklist(user_id, device_id, ttl=1)
-    await redis.close()
+    await redis.aclose()

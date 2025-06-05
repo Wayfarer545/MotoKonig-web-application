@@ -16,3 +16,6 @@ test.db
 /.idea/
 /*.pyc
 uv.lock
+/aws_ec2_initial_setup.sh
+/.coverage
+/htmlcov/
