@@ -2,10 +2,10 @@
 
 from uuid import uuid4
 
-from app.adapters.specifications.user_specs.user_by_name import UserByName
 from app.domain.ports.password_service import PasswordService
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
+from app.infrastructure.specifications.user_specs.user_by_name import UserByName
 
 
 class LoginUseCase:

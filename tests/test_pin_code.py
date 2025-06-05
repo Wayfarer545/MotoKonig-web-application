@@ -1,4 +1,5 @@
 import pytest
+
 from app.domain.value_objects.pin_code import PinCode
 
 

@@ -1,8 +1,10 @@
-import pytest
 import fakeredis.aioredis as fakeredis
+import pytest
 from redis.asyncio import Redis
-from app.infrastructure.services.token_service import JWTTokenService
+
 from app.config.settings import SecuritySettings
+from app.infrastructure.services.token_service import JWTTokenService
+
 
 @pytest.mark.asyncio
 async def test_token_creation_and_blacklist():

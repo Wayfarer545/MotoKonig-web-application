@@ -2,7 +2,6 @@
 
 from uuid import UUID
 
-from app.adapters.specifications.user_specs.user_by_id import UserById
 from app.application.exceptions import NotFoundError
 from app.application.use_cases.user.create_user import CreateUserUseCase
 from app.application.use_cases.user.delete_user import DeleteUserUseCase
@@ -10,6 +9,7 @@ from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
 from app.domain.entities.user import User, UserRole
+from app.infrastructure.specifications.user_specs.user_by_id import UserById
 
 
 class UserController:

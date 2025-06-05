@@ -1,17 +1,11 @@
 # app/infrastructure/di/container.py
 
 from advanced_alchemy.extensions.fastapi import AdvancedAlchemy
-from app.application.use_cases.auth.pin_auth import PinAuthUseCase
-from app.application.use_cases.auth.register import RegisterUseCase
 from dishka import Provider, Scope, provide
-from app.domain.ports.pin_storage import PinStoragePort
 from fastapi import Request
-from app.infrastructure.services.pin_storage import RedisPinStorage
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# Repositories
-from app.adapters.repositories.sql_user_repo import SqlUserRepository
 from app.application.controllers.auth_controller import AuthController
 
 # Controllers
@@ -20,7 +14,9 @@ from app.application.controllers.user_controller import UserController
 # Use Cases - Auth
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
+from app.application.use_cases.auth.pin_auth import PinAuthUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
+from app.application.use_cases.auth.register import RegisterUseCase
 from app.application.use_cases.user.create_user import CreateUserUseCase
 from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
@@ -32,10 +28,15 @@ from app.config.settings import Config
 
 # Services
 from app.domain.ports.password_service import PasswordService
+from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
 from app.infrastructure.messaging.redis_client import RedisClient
+
+# Repositories
+from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
 from app.infrastructure.services.password_service import PasswordServiceImpl
+from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService
 
 
