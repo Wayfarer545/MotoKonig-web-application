@@ -35,7 +35,7 @@ async def test_register_and_login_flow(components):
     payload = await token_svc.decode_token(tokens["access_token"])
     assert payload["username"] == "admin"
 
-    await redis.close()
+    await redis.aclose()
 
 
 @pytest.mark.asyncio
@@ -52,7 +52,7 @@ async def test_refresh_blacklists_old_token(components):
 
     with pytest.raises(ValueError):
         await refresh_uc.execute(tokens["refresh_token"])
-    await redis.close()
+    await redis.aclose()
 
 
 @pytest.mark.asyncio
@@ -66,4 +66,4 @@ async def test_update_user(components):
     updated = await repo.get(UserByName("newname"))
     assert updated.username == "newname"
     assert await pwd.verify("newpass", updated.password_hash)
-    await redis.close()
+    await redis.aclose()
