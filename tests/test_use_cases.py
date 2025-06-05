@@ -1,5 +1,5 @@
 import pytest
-from redis.asyncio import Redis
+import fakeredis.aioredis as fakeredis
 
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
@@ -17,7 +17,7 @@ from tests.fake_repo import FakeUserRepository
 async def components():
     repo = FakeUserRepository()
     pwd = PasswordServiceImpl()
-    redis = Redis()
+    redis: Redis = fakeredis.FakeRedis(decode_responses=True)
     token_svc = JWTTokenService(redis, SecuritySettings())
     return repo, pwd, token_svc, redis
 
