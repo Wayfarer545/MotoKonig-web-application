@@ -1,9 +1,10 @@
 import asyncio
-from alembic import context
-from app.config.settings import Config
-from sqlalchemy.ext.asyncio import create_async_engine
-from advanced_alchemy.base import AdvancedDeclarativeBase
 
+from advanced_alchemy.base import AdvancedDeclarativeBase
+from alembic import context
+from sqlalchemy.ext.asyncio import create_async_engine
+
+from app.config.settings import Config
 
 db_url = Config().sqlite.sqlite_dsn
 
@@ -16,7 +17,6 @@ target_metadata = AdvancedDeclarativeBase.metadata
 config = context.config
 config.set_main_option("sqlalchemy.url", db_url)
 
-from app.infrastructure.models import User
 
 def run_migrations_offline():
     """Запуск миграций в оффлайн-режиме (без подключения к БД)."""

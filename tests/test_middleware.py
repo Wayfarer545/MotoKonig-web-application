@@ -3,9 +3,9 @@ from fastapi import HTTPException, Request
 
 from app.domain.entities.user import UserRole
 from app.presentation.middleware.auth import (
-    get_token_from_header,
     check_role,
     get_current_user_dishka,
+    get_token_from_header,
 )
 
 

@@ -1,5 +1,7 @@
 import pytest
+
 from app.infrastructure.services.password_service import PasswordServiceImpl
+
 
 @pytest.mark.asyncio
 async def test_password_hash_and_verify():

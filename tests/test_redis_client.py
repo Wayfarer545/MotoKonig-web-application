@@ -1,7 +1,8 @@
 import pytest
-from app.infrastructure.messaging.redis_client import RedisClient
-from app.config.settings import RedisConfig
 from redis.asyncio import Redis
+
+from app.config.settings import RedisConfig
+from app.infrastructure.messaging.redis_client import RedisClient
 
 
 @pytest.mark.asyncio

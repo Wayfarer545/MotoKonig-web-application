@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict
+
 from uuid import UUID
 
 from app.adapters.specifications.user_specs.user_by_id import UserById
@@ -11,7 +11,7 @@ from app.domain.ports.user_specification import UserSpecificationPort
 
 class FakeUserRepository(IUserRepository):
     def __init__(self):
-        self.store: Dict[UUID, User] = {}
+        self.store: dict[UUID, User] = {}
 
     async def add(self, user: User) -> User:
         self.store[user.id] = user
