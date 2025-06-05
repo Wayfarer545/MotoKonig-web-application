@@ -3,18 +3,13 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import IntEnum
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
+from domain.value_objects.user_role import UserRole
+
 if TYPE_CHECKING:
     pass
-
-
-class UserRole(IntEnum):
-    ADMIN = 0
-    OPERATOR = 1
-    USER = 2
 
 
 class User:

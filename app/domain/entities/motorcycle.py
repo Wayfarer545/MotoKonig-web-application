@@ -3,41 +3,16 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import Enum
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
+from domain.value_objects.engine_type import EngineType
+from domain.value_objects.motorcycle_type import MotorcycleType
+
+__all__ = ["Motorcycle"]
+
 if TYPE_CHECKING:
     pass
-
-
-class EngineType(Enum):
-    """Типы двигателей мотоциклов"""
-    INLINE_2 = "inline_2"  # Рядный 2-цилиндровый
-    INLINE_3 = "inline_3"  # Рядный 3-цилиндровый
-    INLINE_4 = "inline_4"  # Рядный 4-цилиндровый
-    V_TWIN = "v_twin"  # V-образный 2-цилиндровый
-    V4 = "v4"  # V-образный 4-цилиндровый
-    SINGLE = "single"  # Одноцилиндровый
-    BOXER = "boxer"  # Оппозитный
-    ELECTRIC = "electric"  # Электрический
-
-
-class MotorcycleType(Enum):
-    """Типы мотоциклов"""
-    SPORT = "sport"  # Спортбайк
-    NAKED = "naked"  # Нейкед
-    TOURING = "touring"  # Турер
-    CRUISER = "cruiser"  # Круизёр
-    CHOPPER = "chopper"  # Чоппер
-    ADVENTURE = "adventure"  # Эндуро/адвенчер
-    DIRT_BIKE = "dirt_bike"  # Кроссовый
-    SUPERMOTO = "supermoto"  # Супермото
-    CAFE_RACER = "cafe_racer"  # Кафе рейсер
-    SCRAMBLER = "scrambler"  # Скрамблер
-    SCOOTER = "scooter"  # Скутер
-    TRIKE = "trike"  # Трайк
-    ELECTRIC = "electric"  # Электрический
 
 
 class Motorcycle:

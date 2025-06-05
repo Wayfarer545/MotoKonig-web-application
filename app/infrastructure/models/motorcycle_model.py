@@ -1,39 +1,11 @@
 # app/infrastructure/models/motorcycle_model.py
 
-from enum import Enum
-
 from advanced_alchemy.base import UUIDAuditBase
 from sqlalchemy import Enum as SQLEnum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-
-class EngineType(Enum):
-    """Типы двигателей мотоциклов"""
-    INLINE_2 = "inline_2"
-    INLINE_3 = "inline_3"
-    INLINE_4 = "inline_4"
-    V_TWIN = "v_twin"
-    V4 = "v4"
-    SINGLE = "single"
-    BOXER = "boxer"
-    ELECTRIC = "electric"
-
-
-class MotorcycleType(Enum):
-    """Типы мотоциклов"""
-    SPORT = "sport"
-    NAKED = "naked"
-    TOURING = "touring"
-    CRUISER = "cruiser"
-    CHOPPER = "chopper"
-    ADVENTURE = "adventure"
-    DIRT_BIKE = "dirt_bike"
-    SUPERMOTO = "supermoto"
-    CAFE_RACER = "cafe_racer"
-    SCRAMBLER = "scrambler"
-    SCOOTER = "scooter"
-    TRIKE = "trike"
-    ELECTRIC = "electric"
+from domain.value_objects.engine_type import EngineType
+from domain.value_objects.motorcycle_type import MotorcycleType
 
 
 class Motorcycle(UUIDAuditBase):
