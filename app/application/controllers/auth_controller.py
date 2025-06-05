@@ -3,8 +3,8 @@
 from typing import Any
 from uuid import UUID
 
-from application.use_cases.auth.pin_auth import PinAuthUseCase
-from application.use_cases.auth.register import RegisterUseCase
+from app.application.use_cases.auth.pin_auth import PinAuthUseCase
+from app.application.use_cases.auth.register import RegisterUseCase
 from fastapi import HTTPException, status
 
 from app.application.use_cases.auth.login import LoginUseCase

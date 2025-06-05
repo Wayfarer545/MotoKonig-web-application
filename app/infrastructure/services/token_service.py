@@ -87,6 +87,6 @@ class JWTTokenService(TokenServicePort):
         try:
             payload = await self.decode_token(token)
             key = f"blacklist:{payload.get('jti', token)}"
-            return await self.redis.exists(key) > 0
+            return (await self.redis.exists(key)) > 0
         except ValueError:
             return True  # Невалидные токены считаем заблокированными
