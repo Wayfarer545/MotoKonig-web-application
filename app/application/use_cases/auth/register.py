@@ -3,7 +3,7 @@
 from app.domain.entities.user import User, UserRole
 from app.domain.ports.password_service import PasswordService
 from app.domain.ports.user_repository import IUserRepository
-from app.infrastructure.specifications.user_specs.user_by_name import UserByName
+from app.infrastructure.specs.user.user_by_name import UserByName
 
 
 class RegisterUseCase:

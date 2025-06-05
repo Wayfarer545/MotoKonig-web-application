@@ -1,4 +1,4 @@
-# app/infrastructure/specifications/motorcycle_specs/motorcycle_by_id.py
+# app/infrastructure/specs/moto/moto_by_id.py
 
 from typing import Any
 from uuid import UUID

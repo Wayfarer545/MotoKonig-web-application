@@ -5,8 +5,8 @@ from uuid import UUID
 from app.domain.entities.user import User
 from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.user_specification import UserSpecificationPort
-from app.infrastructure.specifications.user_specs.user_by_id import UserById
-from app.infrastructure.specifications.user_specs.user_by_name import UserByName
+from app.infrastructure.specs.user.user_by_id import UserById
+from app.infrastructure.specs.user.user_by_name import UserByName
 
 
 class FakeUserRepository(IUserRepository):

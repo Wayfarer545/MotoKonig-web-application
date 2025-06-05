@@ -1,11 +1,17 @@
 # app/infrastructure/models/motorcycle_model.py
 
+from typing import TYPE_CHECKING
+
 from advanced_alchemy.base import UUIDAuditBase
-from sqlalchemy import Enum as SQLEnum, ForeignKey, Integer, String, Text
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy import ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.domain.value_objects.engine_type import EngineType
 from app.domain.value_objects.motorcycle_type import MotorcycleType
+
+if TYPE_CHECKING:
+    from infrastructure.models import User
 
 
 class Motorcycle(UUIDAuditBase):

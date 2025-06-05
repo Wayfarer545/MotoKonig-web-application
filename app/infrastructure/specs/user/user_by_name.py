@@ -1,4 +1,4 @@
-# app/infrastructure/specifications/user_specs/user_by_name.py
+# app/infrastructure/specs/user/user_by_name.py
 
 from typing import Any
 

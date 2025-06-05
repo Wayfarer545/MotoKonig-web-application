@@ -10,7 +10,7 @@ from app.config.settings import SecuritySettings
 from app.domain.entities.user import UserRole
 from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.token_service import JWTTokenService
-from app.infrastructure.specifications.user_specs.user_by_name import UserByName
+from app.infrastructure.specs.user.user_by_name import UserByName
 from tests.fake_repo import FakeUserRepository
 
 

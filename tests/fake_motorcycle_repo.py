@@ -7,10 +7,10 @@ from uuid import UUID
 from app.domain.entities.motorcycle import Motorcycle
 from app.domain.ports.motorcycle_repository import IMotorcycleRepository
 from app.domain.ports.motorcycle_specification import MotorcycleSpecificationPort
-from app.infrastructure.specifications.motorcycle_specs.motorcycle_by_id import (
+from app.infrastructure.specs.moto.moto_by_id import (
     MotorcycleById,
 )
-from app.infrastructure.specifications.motorcycle_specs.motorcycle_by_owner import (
+from app.infrastructure.specs.moto.moto_by_owner import (
     MotorcyclesByOwner,
 )
 

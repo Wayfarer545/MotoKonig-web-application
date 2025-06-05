@@ -2,9 +2,11 @@
 
 from uuid import UUID
 
-from app.domain.entities.motorcycle import Motorcycle, EngineType, MotorcycleType
+from app.domain.entities.motorcycle import EngineType, Motorcycle, MotorcycleType
 from app.domain.ports.motorcycle_repository import IMotorcycleRepository
-from app.infrastructure.specifications.motorcycle_specs.motorcycle_by_id import MotorcycleById
+from app.infrastructure.specs.moto.moto_by_id import (
+    MotorcycleById,
+)
 
 
 class UpdateMotorcycleUseCase:

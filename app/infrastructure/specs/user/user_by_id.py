@@ -1,4 +1,4 @@
-# app/infrastructure/specifications/user_specs/user_by_id.py
+# app/infrastructure/specs/user/user_by_id.py
 
 from typing import Any
 from uuid import UUID

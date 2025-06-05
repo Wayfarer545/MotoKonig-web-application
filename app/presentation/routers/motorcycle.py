@@ -3,21 +3,22 @@
 from uuid import UUID
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
-from fastapi import APIRouter, HTTPException, Request, status, Depends
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 
 from app.application.controllers.motorcycle_controller import MotorcycleController
 from app.application.exceptions import NotFoundError
 from app.domain.entities.user import UserRole
-from app.domain.value_objects.motorcycle_type import MotorcycleType as DomainMotorcycleType
-from app.domain.value_objects.engine_type import EngineType as DomainEngineType
-
 from app.domain.ports.token_service import TokenServicePort
+from app.domain.value_objects.engine_type import EngineType as DomainEngineType
+from app.domain.value_objects.motorcycle_type import (
+    MotorcycleType as DomainMotorcycleType,
+)
 from app.presentation.middleware.auth import get_current_user_dishka
 from app.presentation.schemas.motorcycle import (
     CreateMotorcycleSchema,
-    UpdateMotorcycleSchema,
     MotorcycleResponseSchema,
     MotorcycleSearchSchema,
+    UpdateMotorcycleSchema,
 )
 
 router = APIRouter(route_class=DishkaRoute)
@@ -109,7 +110,7 @@ async def search_motorcycles(
         search_params: MotorcycleSearchSchema = Depends(),
 ):
     """Поиск мотоциклов с фильтрами"""
-    current_user = await get_current_user_dishka(request, token_service)
+    await get_current_user_dishka(request, token_service)
 
     motorcycles = await controller.search_motorcycles(
         brand=search_params.brand,

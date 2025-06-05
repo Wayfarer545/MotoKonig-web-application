@@ -7,10 +7,10 @@ from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.application.controllers.auth_controller import AuthController
+from app.application.controllers.motorcycle_controller import MotorcycleController
 
 # Controllers
 from app.application.controllers.user_controller import UserController
-from app.application.controllers.motorcycle_controller import MotorcycleController
 
 # Use Cases - Auth
 from app.application.use_cases.auth.login import LoginUseCase
@@ -18,6 +18,19 @@ from app.application.use_cases.auth.logout import LogoutUseCase
 from app.application.use_cases.auth.pin_auth import PinAuthUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
 from app.application.use_cases.auth.register import RegisterUseCase
+
+# Use Cases - Motorcycle
+from app.application.use_cases.motorcycle.create_motorcycle import (
+    CreateMotorcycleUseCase,
+)
+from app.application.use_cases.motorcycle.delete_motorcycle import (
+    DeleteMotorcycleUseCase,
+)
+from app.application.use_cases.motorcycle.get_motorcycle import GetMotorcycleUseCase
+from app.application.use_cases.motorcycle.list_motorcycles import ListMotorcyclesUseCase
+from app.application.use_cases.motorcycle.update_motorcycle import (
+    UpdateMotorcycleUseCase,
+)
 from app.application.use_cases.user.create_user import CreateUserUseCase
 from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
@@ -25,27 +38,19 @@ from app.application.use_cases.user.get_user import GetUserUseCase
 # Use Cases - User
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
-
-# Use Cases - Motorcycle
-from app.application.use_cases.motorcycle.create_motorcycle import CreateMotorcycleUseCase
-from app.application.use_cases.motorcycle.delete_motorcycle import DeleteMotorcycleUseCase
-from app.application.use_cases.motorcycle.get_motorcycle import GetMotorcycleUseCase
-from app.application.use_cases.motorcycle.list_motorcycles import ListMotorcyclesUseCase
-from app.application.use_cases.motorcycle.update_motorcycle import UpdateMotorcycleUseCase
-
 from app.config.settings import Config
+from app.domain.ports.motorcycle_repository import IMotorcycleRepository
 
 # Services
 from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
 from app.infrastructure.messaging.redis_client import RedisClient
+from app.infrastructure.repositories.sql_motorcycle_repo import SqlMotorcycleRepository
 
 # Repositories
 from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
-from app.infrastructure.repositories.sql_motorcycle_repo import SqlMotorcycleRepository
 from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService

@@ -12,14 +12,14 @@ from dishka import make_async_container
 from dishka.integrations.fastapi import FastapiProvider, setup_dishka
 from fastapi import FastAPI
 
+from app.config.logging_config import setup_logging
 from app.config.settings import Config
 from app.infrastructure.di.container import ApplicationProvider
 from app.infrastructure.messaging.redis_client import RedisClient
 from app.presentation.middleware.cors import add_cors_middleware
 from app.presentation.routers.auth import router as auth_router
-from app.presentation.routers.user import router as user_router
 from app.presentation.routers.motorcycle import router as motorcycle_router
-from app.config.logging_config import setup_logging
+from app.presentation.routers.user import router as user_router
 
 
 # Lifecycle manager для очистки ресурсов

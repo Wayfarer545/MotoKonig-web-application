@@ -9,7 +9,7 @@ from uuid import UUID, uuid4
 from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
-from app.infrastructure.specifications.user_specs.user_by_id import UserById
+from app.infrastructure.specs.user.user_by_id import UserById
 
 
 class PinAuthUseCase:

@@ -1,4 +1,4 @@
-# app/infrastructure/specifications/motorcycle_specs/motorcycle_by_owner.py
+# app/infrastructure/specs/moto/moto_by_owner.py
 
 from typing import Any
 from uuid import UUID
@@ -17,5 +17,5 @@ class MotorcyclesByOwner(MotorcycleSpecificationPort):
     def to_query(self, base_query: Any) -> Any:
         query = base_query.where(MotorcycleModel.owner_id == self.owner_id)
         if self.active_only:
-            query = query.where(MotorcycleModel.is_active == True)
+            query = query.where(MotorcycleModel.is_active)
         return query

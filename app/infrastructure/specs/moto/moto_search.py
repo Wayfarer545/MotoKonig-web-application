@@ -1,4 +1,4 @@
-# app/infrastructure/specifications/motorcycle_specs/motorcycle_search.py
+# app/infrastructure/specs/moto/moto_search.py
 
 from typing import Any
 
@@ -41,7 +41,7 @@ class MotorcycleSearch(MotorcycleSpecificationPort):
         query = base_query
 
         if self.active_only:
-            query = query.where(MotorcycleModel.is_active == True)
+            query = query.where(MotorcycleModel.is_active)
 
         if self.brand:
             query = query.where(MotorcycleModel.brand.ilike(f"%{self.brand}%"))

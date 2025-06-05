@@ -9,7 +9,7 @@ from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
 from app.domain.entities.user import User, UserRole
-from app.infrastructure.specifications.user_specs.user_by_id import UserById
+from app.infrastructure.specs.user.user_by_id import UserById
 
 
 class UserController:
