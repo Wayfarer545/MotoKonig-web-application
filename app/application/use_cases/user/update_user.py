@@ -2,10 +2,10 @@
 
 from uuid import UUID
 
-from app.adapters.specifications.user_specs.user_by_id import UserById
 from app.domain.entities.user import User, UserRole
 from app.domain.ports.password_service import PasswordService
 from app.domain.ports.user_repository import IUserRepository
+from app.infrastructure.specifications.user_specs.user_by_id import UserById
 
 
 class UpdateUserUseCase:

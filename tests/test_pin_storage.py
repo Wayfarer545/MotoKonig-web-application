@@ -1,9 +1,9 @@
-import asyncio
 from datetime import timedelta
-import pytest
-import fakeredis.aioredis as fakeredis
-from redis.asyncio import Redis
 from uuid import uuid4
+
+import fakeredis.aioredis as fakeredis
+import pytest
+from redis.asyncio import Redis
 
 from app.infrastructure.services.pin_storage import RedisPinStorage
 

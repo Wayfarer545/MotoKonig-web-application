@@ -5,6 +5,8 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://docker:2375/
   UV_CACHE_DIR: "$CI_PROJECT_DIR/.uv-cache"
 
 cache:
@@ -17,7 +19,7 @@ lint:
   stage: lint
   image: python:3.12-slim
   script:
-    - pip install uv ruff
+    - pip install --no-cache-dir uv ruff
     - ruff check app/
   allow_failure: true
 
@@ -25,15 +27,15 @@ lint:
 build:
   stage: build
   image: docker:24-dind
+  services:
+    - docker:24-dind
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)-release$/
-  services:
-    - docker:24-dind
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:latest .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:latest"
 
 # Деплой
 deploy:
@@ -45,18 +47,17 @@ deploy:
   before_script:
     - apk add --no-cache openssh-client
     - eval $(ssh-agent -s)
-    - chmod 600 "$SSH_PRIVATE_KEY"
-    - ssh-add "$SSH_PRIVATE_KEY"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - ssh-keyscan -H ec2-3-71-173-220.eu-central-1.compute.amazonaws.com >> ~/.ssh/known_hosts
   script:
     - |
-      ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com << 'EOF'
+      ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com <<'EOF'
         cd /home/ec2-user/motokonig
         git pull origin main
-        docker-compose pull
-        docker-compose down
-        docker-compose up -d
+        docker compose pull
+        docker compose down
+        docker compose up -d
         sleep 5
-        docker-compose exec -T backend alembic upgrade head
+        docker compose exec -T backend alembic upgrade head
       EOF

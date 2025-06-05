@@ -1,7 +1,10 @@
 import pytest
-from fastapi import HTTPException
 
 from app.application.controllers.auth_controller import AuthController
+from app.application.exceptions import (
+    BadRequestError,
+    UnauthorizedError,
+)
 from app.domain.entities.user import UserRole
 
 
@@ -49,18 +52,18 @@ controller = AuthController(DummyLogin(), DummyLogout(), DummyRefresh(), DummyRe
 @pytest.mark.asyncio
 async def test_login_ok_and_fail():
     assert await controller.login('u', 'ok') == {'token': 't'}
-    with pytest.raises(HTTPException):
+    with pytest.raises(UnauthorizedError):
         await controller.login('u', 'bad')
 
 
 @pytest.mark.asyncio
 async def test_refresh_and_register():
     assert await controller.refresh('r') == {'token': 'new'}
-    with pytest.raises(HTTPException):
+    with pytest.raises(UnauthorizedError):
         await controller.refresh('bad')
     resp = await controller.register('new', 'p')
     assert resp['username'] == 'new'
-    with pytest.raises(HTTPException):
+    with pytest.raises(BadRequestError):
         await controller.register('old', 'p')
 
 
