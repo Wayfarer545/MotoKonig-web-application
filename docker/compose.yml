@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   backend:
-    image: ${CI_REGISTRY_IMAGE:-registry.gitlab.com/your-user/motokonig}:latest
+    image: ${CI_REGISTRY_IMAGE:-registry.gitlab.com/motokonig}:latest
     ports:
       - "80:8000"
     environment:
