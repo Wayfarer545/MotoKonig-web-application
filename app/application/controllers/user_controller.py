@@ -2,9 +2,8 @@
 
 from uuid import UUID
 
-from fastapi import HTTPException, status
-
 from app.adapters.specifications.user_specs.user_by_id import UserById
+from app.application.exceptions import NotFoundError
 from app.application.use_cases.user.create_user import CreateUserUseCase
 from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
@@ -55,10 +54,10 @@ class UserController:
             deactivate=deactivate,
         )
         if updated is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+            raise NotFoundError("User not found")
         return updated
 
     async def delete_user(self, user_id: UUID) -> None:
         ok = await self.delete_uc.execute(user_id)
         if not ok:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+            raise NotFoundError("User not found")
