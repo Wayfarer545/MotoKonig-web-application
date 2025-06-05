@@ -1,11 +1,12 @@
-import pytest
 import fakeredis.aioredis as fakeredis
+import pytest
+from redis.asyncio import Redis
 
+from app.adapters.specifications.user_specs.user_by_name import UserByName
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
 from app.application.use_cases.auth.register import RegisterUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
-from app.adapters.specifications.user_specs.user_by_name import UserByName
 from app.config.settings import SecuritySettings
 from app.domain.entities.user import UserRole
 from app.infrastructure.services.password_service import PasswordServiceImpl

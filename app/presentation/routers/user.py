@@ -3,9 +3,10 @@
 from uuid import UUID
 
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, status
 
 from app.application.controllers.user_controller import UserController
+from app.application.exceptions import NotFoundError
 from app.domain.entities.user import UserRole
 from app.domain.ports.token_service import TokenServicePort
 from app.presentation.middleware.auth import check_role, get_current_user_dishka
@@ -86,14 +87,19 @@ async def update_user(
         # Обычные пользователи не могут менять роль
         if dto.role is not None:
             raise HTTPException(status_code=403, detail="Cannot change role")
-
-    return await controller.update_user(
-        user_id,
-        username=dto.username,
-        password=dto.password,
-        role=dto.role,
-        deactivate=dto.deactivate,
-    )
+    try:
+        return await controller.update_user(
+            user_id,
+            username=dto.username,
+            password=dto.password,
+            role=dto.role,
+            deactivate=dto.deactivate,
+        )
+    except NotFoundError as ex:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(ex),
+        ) from ex
 
 
 @router.delete("/{user_id}", status_code=204)
@@ -106,5 +112,10 @@ async def delete_user(
     """Удалить пользователя (только для админов)"""
     current_user = await get_current_user_dishka(request, token_service)
     check_role(current_user, [UserRole.ADMIN])
-
-    await controller.delete_user(user_id)
+    try:
+        await controller.delete_user(user_id)
+    except NotFoundError as ex:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(ex),
+        ) from ex

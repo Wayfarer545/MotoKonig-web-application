@@ -1,8 +1,9 @@
-import pytest
-from fastapi import HTTPException
 from uuid import uuid4
 
+import pytest
+
 from app.application.controllers.user_controller import UserController
+from app.application.exceptions import NotFoundError
 from app.domain.entities.user import User, UserRole
 
 
@@ -42,8 +43,8 @@ async def test_user_controller_crud():
 async def test_update_delete_not_found():
     update_uc = DummyUC(None)
     ctrl = UserController(None, None, None, update_uc, DummyUC(False))
-    with pytest.raises(HTTPException):
+    with pytest.raises(NotFoundError):
         await ctrl.update_user(uuid4(), None, None, None)
-    with pytest.raises(HTTPException):
+    with pytest.raises(NotFoundError):
         await ctrl.delete_user(uuid4())
 
