@@ -4,8 +4,8 @@ from advanced_alchemy.base import UUIDAuditBase
 from sqlalchemy import Enum as SQLEnum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from domain.value_objects.engine_type import EngineType
-from domain.value_objects.motorcycle_type import MotorcycleType
+from app.domain.value_objects.engine_type import EngineType
+from app.domain.value_objects.motorcycle_type import MotorcycleType
 
 
 class Motorcycle(UUIDAuditBase):
@@ -29,13 +29,23 @@ class Motorcycle(UUIDAuditBase):
     # Технические характеристики
     engine_volume: Mapped[int] = mapped_column(Integer, nullable=False)  # в см³
     engine_type: Mapped[EngineType] = mapped_column(
-        SQLEnum(EngineType, name="engine_type", native_enum=False),
-        nullable=False
+        SQLEnum(
+            EngineType,
+            name="engine_type",
+            native_enum=False,
+            values_callable=lambda enum: [e.value for e in enum],
+        ),
+        nullable=False,
     )
     motorcycle_type: Mapped[MotorcycleType] = mapped_column(
-        SQLEnum(MotorcycleType, name="motorcycle_type", native_enum=False),
+        SQLEnum(
+            MotorcycleType,
+            name="motorcycle_type",
+            native_enum=False,
+            values_callable=lambda enum: [e.value for e in enum],
+        ),
         nullable=False,
-        index=True
+        index=True,
     )
     power: Mapped[int | None] = mapped_column(Integer, nullable=True)  # в л.с.
     mileage: Mapped[int | None] = mapped_column(Integer, nullable=True)  # в км

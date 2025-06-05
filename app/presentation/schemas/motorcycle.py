@@ -1,45 +1,18 @@
 # app/presentation/schemas/motorcycle.py
 
 from datetime import datetime
-from enum import Enum
 from uuid import UUID
 
 from pydantic import BaseModel as _BaseModel
 from pydantic import ConfigDict, Field, field_validator
 
+from app.domain.value_objects.engine_type import EngineType
+from app.domain.value_objects.motorcycle_type import MotorcycleType
+
 
 class BaseModel(_BaseModel):
     """Базовая модель Pydantic с поддержкой атрибутов SQLAlchemy."""
     model_config = ConfigDict(from_attributes=True)
-
-
-class EngineType(Enum):
-    """Типы двигателей мотоциклов"""
-    INLINE_2 = "inline_2"
-    INLINE_3 = "inline_3"
-    INLINE_4 = "inline_4"
-    V_TWIN = "v_twin"
-    V4 = "v4"
-    SINGLE = "single"
-    BOXER = "boxer"
-    ELECTRIC = "electric"
-
-
-class MotorcycleType(Enum):
-    """Типы мотоциклов"""
-    SPORT = "sport"
-    NAKED = "naked"
-    TOURING = "touring"
-    CRUISER = "cruiser"
-    CHOPPER = "chopper"
-    ADVENTURE = "adventure"
-    DIRT_BIKE = "dirt_bike"
-    SUPERMOTO = "supermoto"
-    CAFE_RACER = "cafe_racer"
-    SCRAMBLER = "scrambler"
-    SCOOTER = "scooter"
-    TRIKE = "trike"
-    ELECTRIC = "electric"
 
 
 class CreateMotorcycleSchema(_BaseModel):
@@ -48,8 +21,8 @@ class CreateMotorcycleSchema(_BaseModel):
     model: str = Field(..., min_length=1, max_length=100, description="Модель мотоцикла")
     year: int = Field(..., ge=1885, le=2026, description="Год выпуска")
     engine_volume: int = Field(..., gt=0, le=3000, description="Объем двигателя в см³")
-    engine_type: EngineType = Field(..., description="Тип двигателя")
-    motorcycle_type: MotorcycleType = Field(..., description="Тип мотоцикла")
+    engine_type: EngineType = Field(EngineType, description="Тип двигателя")
+    motorcycle_type: MotorcycleType = Field(MotorcycleType, description="Тип мотоцикла")
     power: int | None = Field(None, gt=0, le=500, description="Мощность в л.с.")
     mileage: int | None = Field(None, ge=0, description="Пробег в км")
     color: str | None = Field(None, max_length=50, description="Цвет")

@@ -1,20 +1,15 @@
 # app/infrastructure/models/user_model.py
 
-from enum import IntEnum
 from typing import TYPE_CHECKING
 
 from advanced_alchemy.base import UUIDAuditBase
 from sqlalchemy import Enum, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from app.domain.value_objects.user_role import UserRole
+
 if TYPE_CHECKING:
     from .motorcycle_model import Motorcycle
-
-
-class UserRole(IntEnum):
-    ADMIN = 0
-    OPERATOR = 1
-    USER = 2
 
 
 class User(UUIDAuditBase):

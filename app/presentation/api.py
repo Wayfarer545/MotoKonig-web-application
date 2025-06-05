@@ -19,12 +19,14 @@ from app.presentation.middleware.cors import add_cors_middleware
 from app.presentation.routers.auth import router as auth_router
 from app.presentation.routers.user import router as user_router
 from app.presentation.routers.motorcycle import router as motorcycle_router
+from app.config.logging_config import setup_logging
 
 
 # Lifecycle manager для очистки ресурсов
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
+    setup_logging()
     config = app.state.config
     await RedisClient.create_pool(config.redis)
     yield
@@ -53,7 +55,7 @@ app = FastAPI(
 )
 
 # Сохраняем конфиг в state
-app.state.config = config
+app.state.config = config  # noqa
 
 # Инициализируем Advanced-Alchemy
 alchemy = AdvancedAlchemy(config=sqlalchemy_config, app=app)
@@ -77,6 +79,7 @@ app.include_router(motorcycle_router, prefix="/motorcycle", tags=["Motorcycle"])
 @app.get("/health", tags=["System"])
 async def health_check():
     return {"status": "ok", "version": config.project.version}
+
 
 # 7. Точка входа
 if __name__ == "__main__":

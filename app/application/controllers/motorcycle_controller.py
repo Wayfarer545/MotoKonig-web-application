@@ -8,10 +8,12 @@ from app.application.use_cases.motorcycle.delete_motorcycle import DeleteMotorcy
 from app.application.use_cases.motorcycle.get_motorcycle import GetMotorcycleUseCase
 from app.application.use_cases.motorcycle.list_motorcycles import ListMotorcyclesUseCase
 from app.application.use_cases.motorcycle.update_motorcycle import UpdateMotorcycleUseCase
-from app.domain.entities.motorcycle import Motorcycle, EngineType, MotorcycleType
+from app.domain.entities.motorcycle import Motorcycle
 from app.infrastructure.specifications.motorcycle_specs.motorcycle_by_id import MotorcycleById
 from app.infrastructure.specifications.motorcycle_specs.motorcycle_by_owner import MotorcyclesByOwner
 from app.infrastructure.specifications.motorcycle_specs.motorcycle_search import MotorcycleSearch
+from app.domain.value_objects.engine_type import EngineType
+from app.domain.value_objects.motorcycle_type import MotorcycleType
 
 
 class MotorcycleController:

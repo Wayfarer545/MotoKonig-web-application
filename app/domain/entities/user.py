@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
-from domain.value_objects.user_role import UserRole
+from app.domain.value_objects.user_role import UserRole
 
 if TYPE_CHECKING:
     pass

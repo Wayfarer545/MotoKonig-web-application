@@ -6,8 +6,8 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
-from domain.value_objects.engine_type import EngineType
-from domain.value_objects.motorcycle_type import MotorcycleType
+from app.domain.value_objects.engine_type import EngineType
+from app.domain.value_objects.motorcycle_type import MotorcycleType
 
 __all__ = ["Motorcycle"]
 
@@ -147,8 +147,8 @@ class Motorcycle:
             "model": self.model,
             "year": self.year,
             "engine_volume": self.engine_volume,
-            "engine_type": self.engine_type.value,
-            "motorcycle_type": self.motorcycle_type.value,
+            "engine_type": self.engine_type,
+            "motorcycle_type": self.motorcycle_type,
             "power": self.power,
             "mileage": self.mileage,
             "color": self.color,

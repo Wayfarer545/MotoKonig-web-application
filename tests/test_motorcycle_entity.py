@@ -5,7 +5,9 @@ from uuid import uuid4
 
 import pytest
 
-from app.domain.entities.motorcycle import EngineType, Motorcycle, MotorcycleType
+from app.domain.entities.motorcycle import Motorcycle
+from app.domain.value_objects.motorcycle_type import MotorcycleType
+from app.domain.value_objects.engine_type import EngineType
 
 
 def test_motorcycle_creation_valid():
@@ -158,8 +160,8 @@ def test_motorcycle_to_dto():
     assert dto["model"] == "CBR1000RR"
     assert dto["year"] == 2023
     assert dto["engine_volume"] == 1000
-    assert dto["engine_type"] == "inline_4"
-    assert dto["motorcycle_type"] == "sport"
+    assert dto["engine_type"] == EngineType.INLINE_4
+    assert dto["motorcycle_type"] == MotorcycleType.SPORT
     assert dto["power"] == 215
     assert dto["is_active"] is True
     assert "display_name" in dto

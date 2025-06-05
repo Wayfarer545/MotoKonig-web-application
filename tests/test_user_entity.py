@@ -1,6 +1,7 @@
 import pytest
 
-from app.domain.entities.user import User, UserRole
+from app.domain.entities.user import User
+from app.domain.value_objects.user_role import UserRole
 
 
 def test_user_creation_and_dto():
