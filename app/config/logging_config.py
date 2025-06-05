@@ -2,7 +2,6 @@ import logging
 
 from loguru import logger
 
-
 logger_1 = logging.getLogger()
 logger_1.handlers.clear()
 logger_1.setLevel(logging.INFO)

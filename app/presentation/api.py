@@ -18,6 +18,7 @@ from app.infrastructure.messaging.redis_client import RedisClient
 from app.presentation.middleware.cors import add_cors_middleware
 from app.presentation.routers.auth import router as auth_router
 from app.presentation.routers.user import router as user_router
+from app.presentation.routers.motorcycle import router as motorcycle_router
 
 
 # Lifecycle manager для очистки ресурсов
@@ -38,7 +39,7 @@ config = Config()
 sqlalchemy_config = SQLAlchemyAsyncConfig(
     connection_string=config.sqlite.sqlite_dsn,
     session_config=AsyncSessionConfig(expire_on_commit=False),
-    create_all=True,
+    create_all=False,
     commit_mode="autocommit",
 )
 
@@ -70,6 +71,7 @@ add_cors_middleware(app)
 setup_dishka(container, app)
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
+app.include_router(motorcycle_router, prefix="/motorcycle", tags=["Motorcycle"])
 
 # 6. Health check endpoint
 @app.get("/health", tags=["System"])

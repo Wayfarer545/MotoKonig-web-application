@@ -10,6 +10,7 @@ from app.application.controllers.auth_controller import AuthController
 
 # Controllers
 from app.application.controllers.user_controller import UserController
+from app.application.controllers.motorcycle_controller import MotorcycleController
 
 # Use Cases - Auth
 from app.application.use_cases.auth.login import LoginUseCase
@@ -24,6 +25,14 @@ from app.application.use_cases.user.get_user import GetUserUseCase
 # Use Cases - User
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
+
+# Use Cases - Motorcycle
+from app.application.use_cases.motorcycle.create_motorcycle import CreateMotorcycleUseCase
+from app.application.use_cases.motorcycle.delete_motorcycle import DeleteMotorcycleUseCase
+from app.application.use_cases.motorcycle.get_motorcycle import GetMotorcycleUseCase
+from app.application.use_cases.motorcycle.list_motorcycles import ListMotorcyclesUseCase
+from app.application.use_cases.motorcycle.update_motorcycle import UpdateMotorcycleUseCase
+
 from app.config.settings import Config
 
 # Services
@@ -31,10 +40,12 @@ from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
+from app.domain.ports.motorcycle_repository import IMotorcycleRepository
 from app.infrastructure.messaging.redis_client import RedisClient
 
 # Repositories
 from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
+from app.infrastructure.repositories.sql_motorcycle_repo import SqlMotorcycleRepository
 from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService
@@ -61,6 +72,10 @@ class ApplicationProvider(Provider):
     @provide(scope=Scope.REQUEST)
     def provide_user_repo(self, session: AsyncSession) -> IUserRepository:
         return SqlUserRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_motorcycle_repo(self, session: AsyncSession) -> IMotorcycleRepository:
+        return SqlMotorcycleRepository(session)
 
     # Services
     @provide(scope=Scope.APP)
@@ -100,6 +115,27 @@ class ApplicationProvider(Provider):
     def provide_delete_user_uc(self, repo: IUserRepository) -> DeleteUserUseCase:
         return DeleteUserUseCase(repo)
 
+    # Motorcycle Use Cases
+    @provide(scope=Scope.REQUEST)
+    def provide_list_motorcycles_uc(self, repo: IMotorcycleRepository) -> ListMotorcyclesUseCase:
+        return ListMotorcyclesUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_get_motorcycle_uc(self, repo: IMotorcycleRepository) -> GetMotorcycleUseCase:
+        return GetMotorcycleUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_create_motorcycle_uc(self, repo: IMotorcycleRepository) -> CreateMotorcycleUseCase:
+        return CreateMotorcycleUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_update_motorcycle_uc(self, repo: IMotorcycleRepository) -> UpdateMotorcycleUseCase:
+        return UpdateMotorcycleUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_delete_motorcycle_uc(self, repo: IMotorcycleRepository) -> DeleteMotorcycleUseCase:
+        return DeleteMotorcycleUseCase(repo)
+
     # Auth Use Cases
     @provide(scope=Scope.REQUEST)
     def provide_login_uc(
@@ -135,6 +171,17 @@ class ApplicationProvider(Provider):
         return UserController(list_uc, get_uc, create_uc, update_uc, delete_uc)
 
     @provide(scope=Scope.REQUEST)
+    def provide_motorcycle_controller(
+            self,
+            list_uc: ListMotorcyclesUseCase,
+            get_uc: GetMotorcycleUseCase,
+            create_uc: CreateMotorcycleUseCase,
+            update_uc: UpdateMotorcycleUseCase,
+            delete_uc: DeleteMotorcycleUseCase,
+    ) -> MotorcycleController:
+        return MotorcycleController(list_uc, get_uc, create_uc, update_uc, delete_uc)
+
+    @provide(scope=Scope.REQUEST)
     def provide_register_uc(
             self,
             repo: IUserRepository,
@@ -155,7 +202,6 @@ class ApplicationProvider(Provider):
     ) -> PinAuthUseCase:
         return PinAuthUseCase(user_repo, token_service, pin_storage)
 
-    # Обновляем провайдер AuthController:
     @provide(scope=Scope.REQUEST)
     def provide_auth_controller(
             self,
@@ -163,7 +209,7 @@ class ApplicationProvider(Provider):
             logout_uc: LogoutUseCase,
             refresh_uc: RefreshTokenUseCase,
             register_uc: RegisterUseCase,
-            pin_auth_uc: PinAuthUseCase  # Добавляем
+            pin_auth_uc: PinAuthUseCase
     ) -> AuthController:
         return AuthController(
             login_uc, logout_uc, refresh_uc, register_uc, pin_auth_uc
