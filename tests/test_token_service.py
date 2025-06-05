@@ -14,4 +14,4 @@ async def test_token_creation_and_blacklist():
     assert payload["sub"] == "1"
     await svc.blacklist_token(token, payload["exp"])
     assert await svc.is_token_blacklisted(token)
-    await redis.close()
+    await redis.aclose()

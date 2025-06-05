@@ -119,8 +119,9 @@ ___
 
 ### Testing  
 Run tests with coverage:
-bashpytest tests/ -v --cov=app --cov-report=html
-
+```bash
+  pytest tests/ -v --cov=app --cov-report=html
+```
 ### Deployment
 The project includes GitLab CI/CD configuration for automated deployment to AWS EC2.  
 See .gitlab-ci.yml for pipeline details.
