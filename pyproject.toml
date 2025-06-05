@@ -25,6 +25,7 @@ dev = [
     "pytest-cov>=6.0.0",
     "httpx>=0.28.1",
     "faker>=33.2.0",
+    "fakeredis>=2.29.0",
 ]
 
 [tool.ruff]
