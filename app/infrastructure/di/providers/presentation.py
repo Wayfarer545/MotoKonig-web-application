@@ -6,6 +6,7 @@ from app.application.controllers.auth_controller import AuthController
 from app.application.controllers.motorcycle_controller import MotorcycleController
 from app.application.controllers.profile_controller import ProfileController
 from app.application.controllers.user_controller import UserController
+from app.application.controllers.media_controller import MediaController
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
 from app.application.use_cases.auth.pin_auth import PinAuthUseCase
@@ -34,6 +35,9 @@ from app.application.use_cases.profile.update_profile import UpdateProfileUseCas
 from app.application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
 from app.application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
 from app.application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
+from app.application.use_cases.media.upload_file import UploadFileUseCase
+from app.application.use_cases.media.delete_file import DeleteFileUseCase
+from app.application.use_cases.media.get_presigned_url import GetPresignedUrlUseCase
 
 
 class PresentationProvider(Provider):
@@ -70,7 +74,6 @@ class PresentationProvider(Provider):
     ) -> AuthController:
         return AuthController(login_uc, logout_uc, refresh_uc, register_uc, pin_auth_uc)
 
-    # Profile Controller
     @provide(scope=Scope.REQUEST)
     def provide_profile_controller(
             self,
@@ -91,3 +94,12 @@ class PresentationProvider(Provider):
             remove_social_link_uc,
             get_social_links_uc,
         )
+
+    @provide(scope=Scope.REQUEST)
+    def provide_media_controller(
+            self,
+            upload_uc: UploadFileUseCase,
+            delete_uc: DeleteFileUseCase,
+            presigned_url_uc: GetPresignedUrlUseCase,
+    ) -> MediaController:
+        return MediaController(upload_uc, delete_uc, presigned_url_uc)

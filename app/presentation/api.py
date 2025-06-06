@@ -25,19 +25,19 @@ from app.presentation.routers.auth import router as auth_router
 from app.presentation.routers.motorcycle import router as motorcycle_router
 from app.presentation.routers.user import router as user_router
 from app.presentation.routers.profile import router as profile_router
+from app.presentation.routers.media import router as media_router
 
 
 # Lifecycle manager для очистки ресурсов
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    setup_logging()
     config = app.state.config
+    setup_logging()
     await RedisClient.create_pool(config.redis)
     yield
     # Shutdown
     await RedisClient.close_pool()
-
 
 # 1. Загружаем конфиг
 config = Config()
@@ -82,6 +82,7 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(motorcycle_router, prefix="/motorcycle", tags=["Motorcycle"])
 app.include_router(profile_router, prefix="/profile", tags=["Profile"])
+app.include_router(media_router, prefix="/media", tags=["Media"])
 
 # 6. Health check endpoint
 @app.get("/health", tags=["System"])

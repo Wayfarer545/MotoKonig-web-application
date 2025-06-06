@@ -45,6 +45,21 @@ class RabbitMQConfig(BaseModel):
     password: str = Field(alias='RABBITMQ_PASS', default='guest')
 
 
+class MinIOConfig(BaseModel):
+    """Конфигурация MinIO"""
+    endpoint: str = Field(alias='MINIO_ENDPOINT', default='localhost:9000')
+    access_key: str = Field(alias='MINIO_ACCESS_KEY', default='minioadmin')
+    secret_key: str = Field(alias='MINIO_SECRET_KEY', default='minioadmin')
+    secure: bool = Field(alias='MINIO_SECURE', default=False)
+    region: str = Field(alias='MINIO_REGION', default='us-east-1')
+
+    # Названия бакетов
+    avatars_bucket: str = Field(alias='MINIO_AVATARS_BUCKET', default='avatars')
+    motorcycles_bucket: str = Field(alias='MINIO_MOTORCYCLES_BUCKET', default='motorcycles')
+    events_bucket: str = Field(alias='MINIO_EVENTS_BUCKET', default='events')
+    temp_bucket: str = Field(alias='MINIO_TEMP_BUCKET', default='temp')
+
+
 class Config(BaseModel):
     project: ProjectConfig = Field(default_factory=lambda: ProjectConfig(**env))
     security: SecuritySettings = Field(default_factory=lambda: SecuritySettings(**env))
@@ -53,3 +68,4 @@ class Config(BaseModel):
     storage: StorageConfig = Field(default_factory=lambda: StorageConfig(**env))
     logging: LoggingConfig = Field(default_factory=lambda: LoggingConfig(**env))
     rabbitmq: RabbitMQConfig = Field(default_factory=lambda: RabbitMQConfig(**env))
+    minio: MinIOConfig = Field(default_factory=lambda: MinIOConfig(**env))

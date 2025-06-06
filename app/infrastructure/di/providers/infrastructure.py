@@ -12,18 +12,20 @@ from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
+from app.domain.ports.profile_repository import IProfileRepository
+from app.domain.ports.social_link_repository import ISocialLinkRepository
+from app.domain.ports.media_file_repository import IMediaFileRepository
+from app.domain.ports.file_storage import FileStoragePort
 from app.infrastructure.messaging.redis_client import RedisClient
 from app.infrastructure.repositories.sql_motorcycle_repo import SqlMotorcycleRepository
 from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
+from app.infrastructure.repositories.sql_profile_repo import SqlProfileRepository
+from app.infrastructure.repositories.sql_social_link_repo import SqlSocialLinkRepository
+from app.infrastructure.repositories.sql_media_file_repo import SqlMediaFileRepository
 from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService
-from app.domain.ports.profile_repository import IProfileRepository
-from app.domain.ports.social_link_repository import ISocialLinkRepository
-from app.infrastructure.repositories.sql_profile_repo import SqlProfileRepository
-from app.infrastructure.repositories.sql_social_link_repo import (
-    SqlSocialLinkRepository,
-)
+from app.infrastructure.storage.minio_client import MinIOFileStorage
 
 
 class InfrastructureProvider(Provider):
@@ -52,6 +54,18 @@ class InfrastructureProvider(Provider):
     def provide_motorcycle_repo(self, session: AsyncSession) -> IMotorcycleRepository:
         return SqlMotorcycleRepository(session)
 
+    @provide(scope=Scope.REQUEST)
+    def provide_profile_repo(self, session: AsyncSession) -> IProfileRepository:
+        return SqlProfileRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_social_link_repo(self, session: AsyncSession) -> ISocialLinkRepository:
+        return SqlSocialLinkRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_media_file_repo(self, session: AsyncSession) -> IMediaFileRepository:
+        return SqlMediaFileRepository(session)
+
     # Services
     @provide(scope=Scope.APP)
     def provide_password_service(self) -> PasswordService:
@@ -65,13 +79,6 @@ class InfrastructureProvider(Provider):
     def provide_pin_storage(self, redis: Redis) -> PinStoragePort:
         return RedisPinStorage(redis)
 
-
-
-    # Profile Repositories
-    @provide(scope=Scope.REQUEST)
-    def provide_profile_repo(self, session: AsyncSession) -> IProfileRepository:
-        return SqlProfileRepository(session)
-
-    @provide(scope=Scope.REQUEST)
-    def provide_social_link_repo(self, session: AsyncSession) -> ISocialLinkRepository:
-        return SqlSocialLinkRepository(session)
+    @provide(scope=Scope.APP)
+    def provide_file_storage(self) -> FileStoragePort:
+        return MinIOFileStorage(self.config.minio)

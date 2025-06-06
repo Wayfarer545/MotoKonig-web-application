@@ -6,6 +6,7 @@ from .motorcycle_model import Motorcycle
 from .user_model import User
 from .social_link_model import SocialLink
 from .profile_model import Profile
+from .media_file_model import MediaFile
 
 
 # Для target_metadata в Alembic и единообразных импортов
@@ -18,4 +19,5 @@ __all__ = [
     "Motorcycle",
     "SocialLink",
     "Profile",
+    "MediaFile",
 ]

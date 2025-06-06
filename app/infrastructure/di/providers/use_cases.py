@@ -7,27 +7,16 @@ from app.application.use_cases.auth.logout import LogoutUseCase
 from app.application.use_cases.auth.pin_auth import PinAuthUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
 from app.application.use_cases.auth.register import RegisterUseCase
-from app.application.use_cases.motorcycle.create_motorcycle import (
-    CreateMotorcycleUseCase,
-)
-from app.application.use_cases.motorcycle.delete_motorcycle import (
-    DeleteMotorcycleUseCase,
-)
+from app.application.use_cases.motorcycle.create_motorcycle import CreateMotorcycleUseCase
+from app.application.use_cases.motorcycle.delete_motorcycle import DeleteMotorcycleUseCase
 from app.application.use_cases.motorcycle.get_motorcycle import GetMotorcycleUseCase
 from app.application.use_cases.motorcycle.list_motorcycles import ListMotorcyclesUseCase
-from app.application.use_cases.motorcycle.update_motorcycle import (
-    UpdateMotorcycleUseCase,
-)
+from app.application.use_cases.motorcycle.update_motorcycle import UpdateMotorcycleUseCase
 from app.application.use_cases.user.create_user import CreateUserUseCase
 from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
-from app.domain.ports.password_service import PasswordService
-from app.domain.ports.pin_storage import PinStoragePort
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
 from app.application.use_cases.profile.create_profile import CreateProfileUseCase
 from app.application.use_cases.profile.delete_profile import DeleteProfileUseCase
 from app.application.use_cases.profile.get_profile import GetProfileUseCase
@@ -35,11 +24,22 @@ from app.application.use_cases.profile.update_profile import UpdateProfileUseCas
 from app.application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
 from app.application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
 from app.application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
+from app.application.use_cases.media.upload_file import UploadFileUseCase
+from app.application.use_cases.media.delete_file import DeleteFileUseCase
+from app.application.use_cases.media.get_presigned_url import GetPresignedUrlUseCase
+from app.domain.ports.motorcycle_repository import IMotorcycleRepository
+from app.domain.ports.password_service import PasswordService
+from app.domain.ports.pin_storage import PinStoragePort
+from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.profile_repository import IProfileRepository
 from app.domain.ports.social_link_repository import ISocialLinkRepository
+from app.domain.ports.media_file_repository import IMediaFileRepository
+from app.domain.ports.file_storage import FileStoragePort
 
 
 class UseCaseProvider(Provider):
+    # User Use Cases
     @provide(scope=Scope.REQUEST)
     def provide_list_users_uc(self, repo: IUserRepository) -> ListUsersUseCase:
         return ListUsersUseCase(repo)
@@ -102,8 +102,7 @@ class UseCaseProvider(Provider):
     def provide_pin_auth_uc(self, user_repo: IUserRepository, token_service: TokenServicePort, pin_storage: PinStoragePort) -> PinAuthUseCase:
         return PinAuthUseCase(user_repo, token_service, pin_storage)
 
-        # Profile Use Cases
-
+    # Profile Use Cases
     @provide(scope=Scope.REQUEST)
     def provide_create_profile_uc(self, repo: IProfileRepository) -> CreateProfileUseCase:
         return CreateProfileUseCase(repo)
@@ -132,3 +131,16 @@ class UseCaseProvider(Provider):
     @provide(scope=Scope.REQUEST)
     def provide_get_social_links_uc(self, repo: ISocialLinkRepository) -> GetProfileSocialLinksUseCase:
         return GetProfileSocialLinksUseCase(repo)
+
+    # Media Use Cases
+    @provide(scope=Scope.REQUEST)
+    def provide_upload_file_uc(self, file_storage: FileStoragePort, media_repo: IMediaFileRepository) -> UploadFileUseCase:
+        return UploadFileUseCase(file_storage, media_repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_delete_file_uc(self, file_storage: FileStoragePort, media_repo: IMediaFileRepository) -> DeleteFileUseCase:
+        return DeleteFileUseCase(file_storage, media_repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_presigned_url_uc(self, file_storage: FileStoragePort, media_repo: IMediaFileRepository) -> GetPresignedUrlUseCase:
+        return GetPresignedUrlUseCase(file_storage, media_repo)
