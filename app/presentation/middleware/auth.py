@@ -6,6 +6,7 @@ from uuid import UUID
 from dishka.integrations.fastapi import FromDishka
 from fastapi import HTTPException, Request
 from fastapi.security.utils import get_authorization_scheme_param
+import structlog
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN
 
 from app.domain.entities.user import UserRole
@@ -58,11 +59,13 @@ async def get_current_user_dishka(
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-        return {
+        user = {
             "user_id": UUID(payload["sub"]),
             "username": payload["username"],
-            "role": UserRole[payload["role"]]
+            "role": UserRole[payload["role"]],
         }
+        structlog.contextvars.bind_contextvars(user_id=str(user["user_id"]))
+        return user
     except ValueError as ex:
         raise HTTPException(
             status_code=HTTP_401_UNAUTHORIZED,

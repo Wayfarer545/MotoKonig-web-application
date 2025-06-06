@@ -122,6 +122,22 @@ Run tests with coverage:
 ```bash
   pytest tests/ -v --cov=app --cov-report=html
 ```
+
+### Logging
+The project uses **structlog** with Loguru to produce JSON logs. Contextual
+information like request ID and authenticated user ID is automatically bound via
+middleware and helper functions.
+
+Example usage:
+
+```python
+import structlog
+
+log = structlog.get_logger()
+
+log.info("user_login", user_id=user.id)
+```
+
 ### Deployment
 The project includes GitLab CI/CD configuration for automated deployment to AWS EC2.  
 See .gitlab-ci.yml for pipeline details.

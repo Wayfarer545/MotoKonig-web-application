@@ -17,6 +17,7 @@ dependencies = [
     "pyjwt[crypto]>=2.10.1",
     "redis>=5.2.1",
     "ruff>=0.11.9",
+    "structlog>=25.4.0",
 ]
 
 [dependency-groups]

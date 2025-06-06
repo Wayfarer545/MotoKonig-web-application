@@ -21,6 +21,7 @@ from app.infrastructure.di.container import (
 )
 from app.infrastructure.messaging.redis_client import RedisClient
 from app.presentation.middleware.cors import add_cors_middleware
+from app.presentation.middleware.logging import LoggingContextMiddleware
 from app.presentation.routers.auth import router as auth_router
 from app.presentation.routers.motorcycle import router as motorcycle_router
 from app.presentation.routers.user import router as user_router
@@ -74,6 +75,7 @@ container = make_async_container(
 )
 
 # 4. Подключаем middleware
+app.add_middleware(LoggingContextMiddleware)
 add_cors_middleware(app)
 
 # 5. Подключаем Dishka и роуты
