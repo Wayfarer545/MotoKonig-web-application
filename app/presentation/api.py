@@ -14,7 +14,11 @@ from fastapi import FastAPI
 
 from app.config.logging_config import setup_logging
 from app.config.settings import Config
-from app.infrastructure.di.container import ApplicationProvider
+from app.infrastructure.di.container import (
+    InfrastructureProvider,
+    PresentationProvider,
+    UseCaseProvider,
+)
 from app.infrastructure.messaging.redis_client import RedisClient
 from app.presentation.middleware.cors import add_cors_middleware
 from app.presentation.routers.auth import router as auth_router
@@ -62,7 +66,9 @@ alchemy = AdvancedAlchemy(config=sqlalchemy_config, app=app)
 
 # 3. Конфигурируем DI-контейнер
 container = make_async_container(
-    ApplicationProvider(alchemy, config),
+    InfrastructureProvider(alchemy, config),
+    UseCaseProvider(),
+    PresentationProvider(),
     FastapiProvider(),
 )
 
