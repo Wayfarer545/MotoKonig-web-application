@@ -2,10 +2,10 @@
 
 from uuid import UUID
 
-from app.domain.entities.social_link import SocialLink, SocialPlatform, PrivacyLevel
+from app.domain.entities.social_link import PrivacyLevel, SocialLink, SocialPlatform
 from app.domain.ports.social_link_repository import ISocialLinkRepository
 from app.infrastructure.specs.social_link.social_link_by_profile_and_platform import (
-    SocialLinkByProfileAndPlatform
+    SocialLinkByProfileAndPlatform,
 )
 
 

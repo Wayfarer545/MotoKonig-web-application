@@ -9,9 +9,13 @@ from app.application.use_cases.profile.delete_profile import DeleteProfileUseCas
 from app.application.use_cases.profile.get_profile import GetProfileUseCase
 from app.application.use_cases.profile.update_profile import UpdateProfileUseCase
 from app.application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
-from app.application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
-from app.application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
-from app.domain.entities.profile import Profile, PrivacyLevel
+from app.application.use_cases.social_link.get_profile_social_links import (
+    GetProfileSocialLinksUseCase,
+)
+from app.application.use_cases.social_link.remove_social_link import (
+    RemoveSocialLinkUseCase,
+)
+from app.domain.entities.profile import PrivacyLevel, Profile
 from app.domain.entities.social_link import SocialPlatform
 from app.infrastructure.specs.profile.profile_by_id import ProfileById
 from app.infrastructure.specs.profile.profile_by_user_id import ProfileByUserId

@@ -7,21 +7,27 @@ from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config.settings import Config
+from app.domain.ports.file_storage import FileStoragePort
+from app.domain.ports.media_file_repository import IMediaFileRepository
 from app.domain.ports.motorcycle_repository import IMotorcycleRepository
 from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.profile_repository import IProfileRepository
 from app.domain.ports.social_link_repository import ISocialLinkRepository
-from app.domain.ports.media_file_repository import IMediaFileRepository
-from app.domain.ports.file_storage import FileStoragePort
+from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.user_repository import IUserRepository
+from app.domain.ports.moto_club_repository import IMotoClubRepository
+from app.domain.ports.club_membership_repository import IClubMembershipRepository
+from app.domain.ports.club_invitation_repository import IClubInvitationRepository
+from app.infrastructure.repositories.sql_moto_club_repo import SqlMotoClubRepository
+from app.infrastructure.repositories.sql_club_membership_repo import SqlClubMembershipRepository
+from app.infrastructure.repositories.sql_club_invitation_repo import SqlClubInvitationRepository
 from app.infrastructure.messaging.redis_client import RedisClient
+from app.infrastructure.repositories.sql_media_file_repo import SqlMediaFileRepository
 from app.infrastructure.repositories.sql_motorcycle_repo import SqlMotorcycleRepository
-from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
 from app.infrastructure.repositories.sql_profile_repo import SqlProfileRepository
 from app.infrastructure.repositories.sql_social_link_repo import SqlSocialLinkRepository
-from app.infrastructure.repositories.sql_media_file_repo import SqlMediaFileRepository
+from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
 from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService
@@ -82,3 +88,15 @@ class InfrastructureProvider(Provider):
     @provide(scope=Scope.APP)
     def provide_file_storage(self) -> FileStoragePort:
         return MinIOFileStorage(self.config.minio)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_moto_club_repo(self, session: AsyncSession) -> IMotoClubRepository:
+        return SqlMotoClubRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_club_membership_repo(self, session: AsyncSession) -> IClubMembershipRepository:
+        return SqlClubMembershipRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_club_invitation_repo(self, session: AsyncSession) -> IClubInvitationRepository:
+        return SqlClubInvitationRepository(session)

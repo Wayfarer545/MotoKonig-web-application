@@ -3,10 +3,10 @@
 from typing import Any
 from uuid import UUID
 
+import structlog
 from dishka.integrations.fastapi import FromDishka
 from fastapi import HTTPException, Request
 from fastapi.security.utils import get_authorization_scheme_param
-import structlog
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN
 
 from app.domain.entities.user import UserRole

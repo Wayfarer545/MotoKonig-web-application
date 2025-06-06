@@ -120,10 +120,9 @@ class GetPresignedUrlUseCase:
 
         try:
             # Генерируем уникальный ключ файла
-            from app.infrastructure.storage.minio_client import MinIOFileStorage
+            import hashlib
             from datetime import datetime
             from uuid import uuid4
-            import hashlib
 
             # Временное решение для генерации ключа
             timestamp = datetime.utcnow().strftime("%Y/%m/%d")

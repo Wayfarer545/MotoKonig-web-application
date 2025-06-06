@@ -7,35 +7,55 @@ from app.application.use_cases.auth.logout import LogoutUseCase
 from app.application.use_cases.auth.pin_auth import PinAuthUseCase
 from app.application.use_cases.auth.refresh import RefreshTokenUseCase
 from app.application.use_cases.auth.register import RegisterUseCase
-from app.application.use_cases.motorcycle.create_motorcycle import CreateMotorcycleUseCase
-from app.application.use_cases.motorcycle.delete_motorcycle import DeleteMotorcycleUseCase
+from app.application.use_cases.media.delete_file import DeleteFileUseCase
+from app.application.use_cases.media.get_presigned_url import GetPresignedUrlUseCase
+from app.application.use_cases.media.upload_file import UploadFileUseCase
+from app.application.use_cases.motorcycle.create_motorcycle import (
+    CreateMotorcycleUseCase,
+)
+from app.application.use_cases.motorcycle.delete_motorcycle import (
+    DeleteMotorcycleUseCase,
+)
 from app.application.use_cases.motorcycle.get_motorcycle import GetMotorcycleUseCase
 from app.application.use_cases.motorcycle.list_motorcycles import ListMotorcyclesUseCase
-from app.application.use_cases.motorcycle.update_motorcycle import UpdateMotorcycleUseCase
-from app.application.use_cases.user.create_user import CreateUserUseCase
-from app.application.use_cases.user.delete_user import DeleteUserUseCase
-from app.application.use_cases.user.get_user import GetUserUseCase
-from app.application.use_cases.user.list_users import ListUsersUseCase
-from app.application.use_cases.user.update_user import UpdateUserUseCase
+from app.application.use_cases.motorcycle.update_motorcycle import (
+    UpdateMotorcycleUseCase,
+)
 from app.application.use_cases.profile.create_profile import CreateProfileUseCase
 from app.application.use_cases.profile.delete_profile import DeleteProfileUseCase
 from app.application.use_cases.profile.get_profile import GetProfileUseCase
 from app.application.use_cases.profile.update_profile import UpdateProfileUseCase
 from app.application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
-from app.application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
-from app.application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
-from app.application.use_cases.media.upload_file import UploadFileUseCase
-from app.application.use_cases.media.delete_file import DeleteFileUseCase
-from app.application.use_cases.media.get_presigned_url import GetPresignedUrlUseCase
+from app.application.use_cases.social_link.get_profile_social_links import (
+    GetProfileSocialLinksUseCase,
+)
+from app.application.use_cases.social_link.remove_social_link import (
+    RemoveSocialLinkUseCase,
+)
+from app.application.use_cases.user.create_user import CreateUserUseCase
+from app.application.use_cases.user.delete_user import DeleteUserUseCase
+from app.application.use_cases.user.get_user import GetUserUseCase
+from app.application.use_cases.user.list_users import ListUsersUseCase
+from app.application.use_cases.user.update_user import UpdateUserUseCase
+from app.domain.ports.file_storage import FileStoragePort
+from app.domain.ports.media_file_repository import IMediaFileRepository
 from app.domain.ports.motorcycle_repository import IMotorcycleRepository
 from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
 from app.domain.ports.profile_repository import IProfileRepository
 from app.domain.ports.social_link_repository import ISocialLinkRepository
-from app.domain.ports.media_file_repository import IMediaFileRepository
-from app.domain.ports.file_storage import FileStoragePort
+from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.user_repository import IUserRepository
+from app.application.use_cases.moto_club.create_club import CreateMotoClubUseCase
+from app.application.use_cases.moto_club.get_club import GetMotoClubUseCase
+from app.application.use_cases.moto_club.list_clubs import ListMotoClubsUseCase
+from app.application.use_cases.moto_club.update_club import UpdateMotoClubUseCase
+from app.application.use_cases.moto_club.delete_club import DeleteMotoClubUseCase
+from app.application.use_cases.club_membership.join_club import JoinClubUseCase
+from app.application.use_cases.club_invitation.invite_user import InviteUserToClubUseCase
+from app.domain.ports.moto_club_repository import IMotoClubRepository
+from app.domain.ports.club_membership_repository import IClubMembershipRepository
+from app.domain.ports.club_invitation_repository import IClubInvitationRepository
 
 
 class UseCaseProvider(Provider):
@@ -144,3 +164,47 @@ class UseCaseProvider(Provider):
     @provide(scope=Scope.REQUEST)
     def provide_presigned_url_uc(self, file_storage: FileStoragePort, media_repo: IMediaFileRepository) -> GetPresignedUrlUseCase:
         return GetPresignedUrlUseCase(file_storage, media_repo)
+
+    # MotoClub Use Cases
+    @provide(scope=Scope.REQUEST)
+    def provide_create_moto_club_uc(
+            self,
+            club_repo: IMotoClubRepository,
+            membership_repo: IClubMembershipRepository
+    ) -> CreateMotoClubUseCase:
+        return CreateMotoClubUseCase(club_repo, membership_repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_get_moto_club_uc(self, repo: IMotoClubRepository) -> GetMotoClubUseCase:
+        return GetMotoClubUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_list_moto_clubs_uc(self, repo: IMotoClubRepository) -> ListMotoClubsUseCase:
+        return ListMotoClubsUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_update_moto_club_uc(self, repo: IMotoClubRepository) -> UpdateMotoClubUseCase:
+        return UpdateMotoClubUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_delete_moto_club_uc(self, repo: IMotoClubRepository) -> DeleteMotoClubUseCase:
+        return DeleteMotoClubUseCase(repo)
+
+    # Club Membership Use Cases
+    @provide(scope=Scope.REQUEST)
+    def provide_join_club_uc(
+            self,
+            club_repo: IMotoClubRepository,
+            membership_repo: IClubMembershipRepository
+    ) -> JoinClubUseCase:
+        return JoinClubUseCase(club_repo, membership_repo)
+
+    # Club Invitation Use Cases
+    @provide(scope=Scope.REQUEST)
+    def provide_invite_user_uc(
+            self,
+            club_repo: IMotoClubRepository,
+            membership_repo: IClubMembershipRepository,
+            invitation_repo: IClubInvitationRepository
+    ) -> InviteUserToClubUseCase:
+        return InviteUserToClubUseCase(club_repo, membership_repo, invitation_repo)

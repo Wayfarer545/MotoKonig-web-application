@@ -3,7 +3,7 @@
 from datetime import date
 from uuid import UUID
 
-from app.domain.entities.profile import Profile, PrivacyLevel
+from app.domain.entities.profile import PrivacyLevel, Profile
 from app.domain.ports.profile_repository import IProfileRepository
 from app.infrastructure.specs.profile.profile_by_id import ProfileById
 

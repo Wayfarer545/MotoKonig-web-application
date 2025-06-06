@@ -1,11 +1,8 @@
-+26
--20
-
 import logging
 from logging import Logger
 
-from loguru import logger
 import structlog
+from loguru import logger
 
 
 class InterceptHandler(logging.Handler):

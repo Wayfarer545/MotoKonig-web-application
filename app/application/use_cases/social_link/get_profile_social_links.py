@@ -5,7 +5,7 @@ from uuid import UUID
 from app.domain.entities.social_link import SocialLink
 from app.domain.ports.social_link_repository import ISocialLinkRepository
 from app.infrastructure.specs.social_link.social_links_by_profile import (
-    SocialLinksByProfile
+    SocialLinksByProfile,
 )
 
 

@@ -1,7 +1,7 @@
 # app/infrastructure/storage/minio_client.py
 
 import hashlib
-from datetime import datetime, timedelta
+from datetime import datetime
 from uuid import UUID, uuid4
 
 import aioboto3
@@ -111,7 +111,7 @@ class MinIOFileStorage(FileStoragePort):
                 return media_file
 
             except ClientError as e:
-                raise RuntimeError(f"Failed to upload file: {e}")
+                raise RuntimeError(f"Failed to upload file: {e}") from e
 
     async def delete_file(self, file_key: str, bucket: str) -> bool:
         """Удалить файл из MinIO"""
@@ -138,7 +138,7 @@ class MinIOFileStorage(FileStoragePort):
                 )
                 return url
             except ClientError as e:
-                raise RuntimeError(f"Failed to generate presigned URL: {e}")
+                raise RuntimeError(f"Failed to generate presigned URL: {e}") from e
 
     async def get_upload_presigned_url(
             self,
@@ -164,7 +164,7 @@ class MinIOFileStorage(FileStoragePort):
                 )
                 return url
             except ClientError as e:
-                raise RuntimeError(f"Failed to generate upload presigned URL: {e}")
+                raise RuntimeError(f"Failed to generate upload presigned URL: {e}") from e
 
     async def file_exists(self, file_key: str, bucket: str) -> bool:
         """Проверить существование файла"""
@@ -187,4 +187,4 @@ class MinIOFileStorage(FileStoragePort):
                     'metadata': response.get('Metadata', {})
                 }
             except ClientError as e:
-                raise RuntimeError(f"Failed to get file info: {e}")
+                raise RuntimeError(f"Failed to get file info: {e}") from e

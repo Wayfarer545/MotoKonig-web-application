@@ -18,7 +18,7 @@ class BaseModel(_BaseModel):
 class CreateUserSchema(_BaseModel):
     username: str = Field(..., min_length=3, description="Уникальное имя пользователя")
     password: str = Field(..., min_length=6, description="Пароль пользователя")
-    role: UserRole = Field(UserRole, description="Роль пользователя")
+    role: UserRole = Field(default=UserRole.USER, description="Роль пользователя")
 
 
 class UpdateUserSchema(_BaseModel):

@@ -18,7 +18,6 @@
 * 💃 **Alembic** — database migrations
 * 🎸 **UV** — dependency management
 * 🐋 **Docker Compose v2** — development and production environments
-* 🚢 **CI/CD** GitLab → **Amazon EC2**
 * 🔒 Secure password hashing (**bcrypt**)
 * ✅ Tests with **Pytest**
 * 📞 **Caddy** — reverse proxy / load balancer
@@ -48,14 +47,63 @@ All endpoints are versioned via the `X-Api-Version` header (`v1` by default).
 - User deactivation
 - Password management
 
+### Extended User Profiles
+- Detailed profiles: bio, location, phone, date of birth
+- Riding experience tracking
+- 4-level privacy system (public, friends, clubs, private)
+- Separate privacy settings for phone and location
+- Social links: VK, Telegram, WhatsApp, Instagram, Facebook, YouTube
+- URL validation for each social platform
+- Social link visibility management
+
+### Garage System
+- Full motorcycle CRUD operations
+- Detailed specifications: brand, model, year, engine volume
+- Engine types: Inline 2/3/4, V-Twin, V4, Single, Boxer, Electric
+- Motorcycle types: Sport, Naked, Touring, Cruiser, Adventure, etc.
+- Power, mileage, color, description tracking
+- Advanced search and filtering system
+- Multiple motorcycles per user
+- Data validation (year, volume, power)
+
+### MotoClubs System 🆕
+- **Club Management**
+  - Public and private clubs
+  - Role hierarchy: President, Vice-President, Secretary, Treasurer, Event Organizer, Moderator, Senior Member, Member
+  - Member limits and location tracking
+  - Club avatars, descriptions, websites
+- **Membership System**
+  - Automatic president assignment on creation
+  - Status management: active, suspended, banned
+  - Role-based permissions
+  - Promotion/demotion system
+- **Invitation System**
+  - Personal invitations with messages
+  - Auto-expiry after 7 days
+  - Duplicate and limit checking
+  - Accept/decline workflow
+- **Full API with Filtering**
+  - Complete CRUD operations
+  - Search by name, location, visibility
+  - Permission checks for edit/delete
+  - Pydantic validation
+
+### File Storage (MinIO)
+- MinIO integration via aioboto3
+- File type system: avatars, motorcycle photos, documents, temp files
+- Size and MIME type validation per file type
+- Presigned URLs for secure upload/download
+- Automatic file organization by date and owner
+- Direct upload and presigned URL upload methods
+- Full database integration for file tracking
+- Owner access verification
+
 ---
 
 ## Core Features (Roadmap) 🚀
 
 * 🗺️ **Map** of shops, service centers, events, and POIs
-* 🏍️ **Garage**: multiple motorcycles per user
-* 🤝 **Friends & Moto Clubs** with custom roles
-* 📅 **Events** (public/private)
+* 🤝 **Friends & Events** - public/private motorcycle events
 * 🔗 Social links integration
 * 🛣️ **Route planning & sharing**
 * ⭐ **Ratings** for services/shops/places
@@ -96,7 +144,7 @@ Edit .env with your settings
 
 4. Start services:
 ```bash
-  docker-compose up -d postgres redis
+  docker-compose up -d postgres redis minio
 ```
 5. Run migrations:
 ```bash
@@ -104,38 +152,80 @@ Edit .env with your settings
 ```
 6. Start the server:
 ```bash
-  uv run app.main:app
+  uv run uvicorn app.presentation.api:app --reload
 ```
 
 The API will be available at http://localhost:8000
-___
+
+### MinIO Setup
+MinIO will be available at:
+- **Console**: http://localhost:9001 (admin/admin123)
+- **API**: http://localhost:9000
+
+The application will automatically create required buckets on startup.
+
+---
 
 ### API Documentation
 Once the server is running, you can access:
-___
-Swagger UI: http://localhost:8000/openapi
-OpenAPI JSON: http://localhost:8000/openapi.json
-___
+
+**Swagger UI**: http://localhost:8000/openapi  
+**OpenAPI JSON**: http://localhost:8000/openapi.json
+
+### Available Endpoints
+
+#### Authentication
+- `POST /auth/register` - User registration
+- `POST /auth/login` - Login with Basic Auth
+- `POST /auth/logout` - Logout
+- `POST /auth/refresh` - Refresh tokens
+- `GET /auth/me` - Current user info
+- `POST /auth/setup-pin` - Setup PIN for mobile
+- `POST /auth/pin-login` - Login with PIN
+
+#### Users
+- `GET /users/` - List users (Admin/Operator)
+- `POST /users/` - Create user (Admin)
+- `GET /users/{id}` - Get user
+- `PUT /users/{id}` - Update user
+- `DELETE /users/{id}` - Delete user (Admin)
+
+#### Profiles
+- `POST /profile/` - Create profile
+- `GET /profile/my` - Get own profile
+- `PUT /profile/my` - Update own profile
+- `GET /profile/{id}` - Get profile by ID
+- Social links management endpoints
+
+#### Motorcycles
+- `GET /motorcycle/` - Search motorcycles
+- `POST /motorcycle/` - Create motorcycle
+- `GET /motorcycle/my` - Get own motorcycles
+- `GET /motorcycle/{id}` - Get motorcycle
+- `PUT /motorcycle/{id}` - Update motorcycle
+- `DELETE /motorcycle/{id}` - Delete motorcycle
+
+#### MotoClubs 🆕
+- `GET /moto-clubs/` - List clubs (with filtering)
+- `POST /moto-clubs/` - Create club
+- `GET /moto-clubs/{id}` - Get club details
+- `PUT /moto-clubs/{id}` - Update club
+- `DELETE /moto-clubs/{id}` - Delete club
+- `POST /moto-clubs/{id}/join` - Join club
+- `POST /moto-clubs/{id}/invite` - Invite user
+
+#### Media
+- `POST /media/upload` - Direct file upload
+- `POST /media/upload-url` - Get presigned upload URL
+- `POST /media/download-url` - Get presigned download URL
+- `DELETE /media/` - Delete file
+
+---
 
 ### Testing  
 Run tests with coverage:
 ```bash
   pytest tests/ -v --cov=app --cov-report=html
-```
-
-### Logging
-The project uses **structlog** with Loguru to produce JSON logs. Contextual
-information like request ID and authenticated user ID is automatically bound via
-middleware and helper functions.
-
-Example usage:
-
-```python
-import structlog
-
-log = structlog.get_logger()
-
-log.info("user_login", user_id=user.id)
 ```
 
 ### Deployment
@@ -150,12 +240,11 @@ app/
 ├── domain/          # Business logic and entities  
 ├── application/     # Use cases and controllers  
 ├── infrastructure/  # External services implementation  
-├── adapters/        # Interface adapters  
-├── presentation/    # API layer  
+├── presentation/    # API layer (routers, schemas)
 └── config/          # Configuration
 </pre>
 
-See structure.md for detailed structure.
+See structure.md for detailed structure and development roadmap.
 
 ### License  
 This project is licensed under the MIT License - see the LICENSE file for details.

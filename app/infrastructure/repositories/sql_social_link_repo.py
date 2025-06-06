@@ -5,7 +5,7 @@ from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.domain.entities.social_link import SocialLink, SocialPlatform, PrivacyLevel
+from app.domain.entities.social_link import PrivacyLevel, SocialLink, SocialPlatform
 from app.domain.ports.social_link_repository import ISocialLinkRepository
 from app.domain.ports.social_link_specification import SocialLinkSpecificationPort
 from app.infrastructure.models.social_link_model import SocialLink as SocialLinkModel

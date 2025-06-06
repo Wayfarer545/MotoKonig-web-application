@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.domain.entities.profile import Profile, PrivacyLevel
+from app.domain.entities.profile import PrivacyLevel, Profile
 from app.domain.ports.profile_repository import IProfileRepository
 from app.domain.ports.profile_specification import ProfileSpecificationPort
 from app.infrastructure.models.profile_model import Profile as ProfileModel
