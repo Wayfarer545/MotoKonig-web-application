@@ -18,10 +18,12 @@ from app.infrastructure.repositories.sql_user_repo import SqlUserRepository
 from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService
-from domain.ports.profile_repository import IProfileRepository
-from domain.ports.social_link_repository import ISocialLinkRepository
-from infrastructure.repositories.sql_profile_repo import SqlProfileRepository
-from infrastructure.repositories.sql_social_link_repo import SqlSocialLinkRepository
+from app.domain.ports.profile_repository import IProfileRepository
+from app.domain.ports.social_link_repository import ISocialLinkRepository
+from app.infrastructure.repositories.sql_profile_repo import SqlProfileRepository
+from app.infrastructure.repositories.sql_social_link_repo import (
+    SqlSocialLinkRepository,
+)
 
 
 class InfrastructureProvider(Provider):

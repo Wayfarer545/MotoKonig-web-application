@@ -3,11 +3,12 @@
 from typing import TYPE_CHECKING
 
 from advanced_alchemy.base import UUIDAuditBase
-from sqlalchemy import Enum as SQLEnum, ForeignKey, String, UniqueConstraint
+from sqlalchemy import Enum as SQLEnum
+from sqlalchemy import ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from domain.value_objects.privacy_level import PrivacyLevel
-from domain.value_objects.social_link import SocialPlatform
+from app.domain.value_objects.privacy_level import PrivacyLevel
+from app.domain.value_objects.social_link import SocialPlatform
 
 __all__ = ["SocialLink"]
 

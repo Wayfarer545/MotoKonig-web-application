@@ -4,16 +4,18 @@ from datetime import date
 from typing import TYPE_CHECKING
 
 from advanced_alchemy.base import UUIDAuditBase
-from sqlalchemy import Date, Enum as SQLEnum, ForeignKey, Integer, String, Text
+from sqlalchemy import Date, ForeignKey, Integer, String, Text
+from sqlalchemy import Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 __all__ = ["Profile"]
 
-from domain.value_objects.privacy_level import PrivacyLevel
+from app.domain.value_objects.privacy_level import PrivacyLevel
 
 if TYPE_CHECKING:
-    from .user_model import User
+
     from .social_link_model import SocialLink
+    from .user_model import User
 
 
 class Profile(UUIDAuditBase):

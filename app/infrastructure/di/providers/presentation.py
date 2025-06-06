@@ -4,6 +4,7 @@ from dishka import Provider, Scope, provide
 
 from app.application.controllers.auth_controller import AuthController
 from app.application.controllers.motorcycle_controller import MotorcycleController
+from app.application.controllers.profile_controller import ProfileController
 from app.application.controllers.user_controller import UserController
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
@@ -26,14 +27,13 @@ from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
-from application.controllers.profile_controller import ProfileController
-from application.use_cases.profile.create_profile import CreateProfileUseCase
-from application.use_cases.profile.delete_profile import DeleteProfileUseCase
-from application.use_cases.profile.get_profile import GetProfileUseCase
-from application.use_cases.profile.update_profile import UpdateProfileUseCase
-from application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
-from application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
-from application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
+from app.application.use_cases.profile.create_profile import CreateProfileUseCase
+from app.application.use_cases.profile.delete_profile import DeleteProfileUseCase
+from app.application.use_cases.profile.get_profile import GetProfileUseCase
+from app.application.use_cases.profile.update_profile import UpdateProfileUseCase
+from app.application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
+from app.application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
+from app.application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
 
 
 class PresentationProvider(Provider):

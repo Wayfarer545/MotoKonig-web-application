@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import re
-from datetime import datetime, date
+from datetime import date, datetime
 from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
-from domain.value_objects.privacy_level import PrivacyLevel
+from app.domain.value_objects.privacy_level import PrivacyLevel
 
 if TYPE_CHECKING:
     pass

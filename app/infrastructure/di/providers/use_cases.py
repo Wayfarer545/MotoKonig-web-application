@@ -28,15 +28,15 @@ from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
-from application.use_cases.profile.create_profile import CreateProfileUseCase
-from application.use_cases.profile.delete_profile import DeleteProfileUseCase
-from application.use_cases.profile.get_profile import GetProfileUseCase
-from application.use_cases.profile.update_profile import UpdateProfileUseCase
-from application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
-from application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
-from application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
-from domain.ports.profile_repository import IProfileRepository
-from domain.ports.social_link_repository import ISocialLinkRepository
+from app.application.use_cases.profile.create_profile import CreateProfileUseCase
+from app.application.use_cases.profile.delete_profile import DeleteProfileUseCase
+from app.application.use_cases.profile.get_profile import GetProfileUseCase
+from app.application.use_cases.profile.update_profile import UpdateProfileUseCase
+from app.application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
+from app.application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
+from app.application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
+from app.domain.ports.profile_repository import IProfileRepository
+from app.domain.ports.social_link_repository import ISocialLinkRepository
 
 
 class UseCaseProvider(Provider):

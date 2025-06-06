@@ -2,9 +2,8 @@
 
 from typing import Any
 
-from domain.value_objects.motorcycle_type import MotorcycleType
-
 from app.domain.ports.motorcycle_specification import MotorcycleSpecificationPort
+from app.domain.value_objects.motorcycle_type import MotorcycleType
 from app.infrastructure.models.motorcycle_model import Motorcycle as MotorcycleModel
 
 

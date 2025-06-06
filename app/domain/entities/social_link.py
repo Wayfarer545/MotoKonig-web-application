@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 from app.domain.entities.profile import PrivacyLevel
-from domain.value_objects.social_link import SocialPlatform
+from app.domain.value_objects.social_link import SocialPlatform
 
 if TYPE_CHECKING:
     pass

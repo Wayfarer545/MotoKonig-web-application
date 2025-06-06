@@ -6,8 +6,8 @@ from uuid import UUID
 from pydantic import BaseModel as _BaseModel
 from pydantic import ConfigDict, Field, field_validator
 
-from domain.value_objects.privacy_level import PrivacyLevel
-from domain.value_objects.social_link import SocialPlatform
+from app.domain.value_objects.privacy_level import PrivacyLevel
+from app.domain.value_objects.social_link import SocialPlatform
 
 
 class BaseModel(_BaseModel):
