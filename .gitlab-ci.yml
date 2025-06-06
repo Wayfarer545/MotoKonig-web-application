@@ -51,9 +51,7 @@ test:
     paths:
       - coverage.xml
     reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
+      cobertura: coverage.xml
 
 # Сборка образа
 build:
