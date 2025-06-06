@@ -9,8 +9,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 __all__ = ["MotoClub"]
 
 if TYPE_CHECKING:
-    from .club_membership_model import ClubMembership
     from .club_invitation_model import ClubInvitation
+    from .club_membership_model import ClubMembership
     from .user_model import User
 
 

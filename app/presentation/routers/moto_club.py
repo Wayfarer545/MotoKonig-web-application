@@ -9,15 +9,15 @@ from app.application.exceptions import BadRequestError, NotFoundError
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.value_objects.club_role import ClubRole
 from app.domain.value_objects.user_role import UserRole
-from app.presentation.middleware.auth import check_role, get_current_user_dishka
+from app.presentation.middleware.auth import get_current_user_dishka
 from app.presentation.schemas.moto_club import (
+    ClubInvitationResponseSchema,
+    ClubMembershipResponseSchema,
     CreateMotoClubSchema,
     InviteUserSchema,
     JoinClubSchema,
     MotoClubResponseSchema,
     UpdateMotoClubSchema,
-    ClubMembershipResponseSchema,
-    ClubInvitationResponseSchema,
 )
 
 router = APIRouter(route_class=DishkaRoute)

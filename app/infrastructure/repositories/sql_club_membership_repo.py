@@ -7,9 +7,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.club_membership import ClubMembership
 from app.domain.ports.club_membership_repository import IClubMembershipRepository
-from app.domain.ports.club_membership_specification import ClubMembershipSpecificationPort
+from app.domain.ports.club_membership_specification import (
+    ClubMembershipSpecificationPort,
+)
 from app.domain.value_objects.club_role import ClubRole
-from app.infrastructure.models.club_membership_model import ClubMembership as ClubMembershipModel
+from app.infrastructure.models.club_membership_model import (
+    ClubMembership as ClubMembershipModel,
+)
 
 
 class SqlClubMembershipRepository(IClubMembershipRepository):

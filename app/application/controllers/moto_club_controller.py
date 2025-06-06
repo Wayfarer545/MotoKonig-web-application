@@ -3,7 +3,9 @@
 from uuid import UUID
 
 from app.application.exceptions import BadRequestError, NotFoundError
-from app.application.use_cases.club_invitation.invite_user import InviteUserToClubUseCase
+from app.application.use_cases.club_invitation.invite_user import (
+    InviteUserToClubUseCase,
+)
 from app.application.use_cases.club_membership.join_club import JoinClubUseCase
 from app.application.use_cases.moto_club.create_club import CreateMotoClubUseCase
 from app.application.use_cases.moto_club.delete_club import DeleteMotoClubUseCase

@@ -4,7 +4,9 @@ from typing import Protocol
 from uuid import UUID
 
 from app.domain.entities.club_membership import ClubMembership
-from app.domain.ports.club_membership_specification import ClubMembershipSpecificationPort
+from app.domain.ports.club_membership_specification import (
+    ClubMembershipSpecificationPort,
+)
 
 
 class IClubMembershipRepository(Protocol):

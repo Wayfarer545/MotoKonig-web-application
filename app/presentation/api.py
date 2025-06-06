@@ -24,10 +24,11 @@ from app.presentation.middleware.cors import add_cors_middleware
 from app.presentation.middleware.logging import LoggingContextMiddleware
 from app.presentation.routers.auth import router as auth_router
 from app.presentation.routers.media import router as media_router
+from app.presentation.routers.moto_club import router as moto_club_router
 from app.presentation.routers.motorcycle import router as motorcycle_router
 from app.presentation.routers.profile import router as profile_router
 from app.presentation.routers.user import router as user_router
-from app.presentation.routers.moto_club import router as moto_club_router
+
 
 # Lifecycle manager для очистки ресурсов
 @asynccontextmanager
