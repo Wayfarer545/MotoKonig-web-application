@@ -26,6 +26,14 @@ from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
+from application.controllers.profile_controller import ProfileController
+from application.use_cases.profile.create_profile import CreateProfileUseCase
+from application.use_cases.profile.delete_profile import DeleteProfileUseCase
+from application.use_cases.profile.get_profile import GetProfileUseCase
+from application.use_cases.profile.update_profile import UpdateProfileUseCase
+from application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
+from application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
+from application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
 
 
 class PresentationProvider(Provider):
@@ -61,3 +69,25 @@ class PresentationProvider(Provider):
         pin_auth_uc: PinAuthUseCase,
     ) -> AuthController:
         return AuthController(login_uc, logout_uc, refresh_uc, register_uc, pin_auth_uc)
+
+    # Profile Controller
+    @provide(scope=Scope.REQUEST)
+    def provide_profile_controller(
+            self,
+            create_profile_uc: CreateProfileUseCase,
+            get_profile_uc: GetProfileUseCase,
+            update_profile_uc: UpdateProfileUseCase,
+            delete_profile_uc: DeleteProfileUseCase,
+            add_social_link_uc: AddSocialLinkUseCase,
+            remove_social_link_uc: RemoveSocialLinkUseCase,
+            get_social_links_uc: GetProfileSocialLinksUseCase,
+    ) -> ProfileController:
+        return ProfileController(
+            create_profile_uc,
+            get_profile_uc,
+            update_profile_uc,
+            delete_profile_uc,
+            add_social_link_uc,
+            remove_social_link_uc,
+            get_social_links_uc,
+        )

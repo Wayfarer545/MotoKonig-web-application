@@ -28,6 +28,15 @@ from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.ports.user_repository import IUserRepository
+from application.use_cases.profile.create_profile import CreateProfileUseCase
+from application.use_cases.profile.delete_profile import DeleteProfileUseCase
+from application.use_cases.profile.get_profile import GetProfileUseCase
+from application.use_cases.profile.update_profile import UpdateProfileUseCase
+from application.use_cases.social_link.add_social_link import AddSocialLinkUseCase
+from application.use_cases.social_link.get_profile_social_links import GetProfileSocialLinksUseCase
+from application.use_cases.social_link.remove_social_link import RemoveSocialLinkUseCase
+from domain.ports.profile_repository import IProfileRepository
+from domain.ports.social_link_repository import ISocialLinkRepository
 
 
 class UseCaseProvider(Provider):
@@ -92,3 +101,34 @@ class UseCaseProvider(Provider):
     @provide(scope=Scope.REQUEST)
     def provide_pin_auth_uc(self, user_repo: IUserRepository, token_service: TokenServicePort, pin_storage: PinStoragePort) -> PinAuthUseCase:
         return PinAuthUseCase(user_repo, token_service, pin_storage)
+
+        # Profile Use Cases
+
+    @provide(scope=Scope.REQUEST)
+    def provide_create_profile_uc(self, repo: IProfileRepository) -> CreateProfileUseCase:
+        return CreateProfileUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_get_profile_uc(self, repo: IProfileRepository) -> GetProfileUseCase:
+        return GetProfileUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_update_profile_uc(self, repo: IProfileRepository) -> UpdateProfileUseCase:
+        return UpdateProfileUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_delete_profile_uc(self, repo: IProfileRepository) -> DeleteProfileUseCase:
+        return DeleteProfileUseCase(repo)
+
+    # Social Link Use Cases
+    @provide(scope=Scope.REQUEST)
+    def provide_add_social_link_uc(self, repo: ISocialLinkRepository) -> AddSocialLinkUseCase:
+        return AddSocialLinkUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_remove_social_link_uc(self, repo: ISocialLinkRepository) -> RemoveSocialLinkUseCase:
+        return RemoveSocialLinkUseCase(repo)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_get_social_links_uc(self, repo: ISocialLinkRepository) -> GetProfileSocialLinksUseCase:
+        return GetProfileSocialLinksUseCase(repo)

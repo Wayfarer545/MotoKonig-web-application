@@ -24,6 +24,7 @@ from app.presentation.middleware.cors import add_cors_middleware
 from app.presentation.routers.auth import router as auth_router
 from app.presentation.routers.motorcycle import router as motorcycle_router
 from app.presentation.routers.user import router as user_router
+from app.presentation.routers.profile import router as profile_router
 
 
 # Lifecycle manager для очистки ресурсов
@@ -80,6 +81,7 @@ setup_dishka(container, app)
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(motorcycle_router, prefix="/motorcycle", tags=["Motorcycle"])
+app.include_router(profile_router, prefix="/profile", tags=["Profile"])
 
 # 6. Health check endpoint
 @app.get("/health", tags=["System"])
