@@ -92,9 +92,9 @@ deploy:
       ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
       "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
     # Загружаем compose-файл на сервер
-    - rsync -avz docker/compose.yml ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~./motokonig/compose.yml
-    - rsync -avz Caddyfile ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~./motokonig/Dockerfile
+    - rsync -avz docker/compose.yml ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/motokonig/compose.yml
+    - rsync -avz Caddyfile ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/motokonig/Dockerfile
     # Обновляем контейнер при помощи docker compose
     - >
       ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "docker-compose -f ~./motokonig/compose.yml up -d --no-deps backend --force-recreate"
+      "docker-compose -f ~/motokonig/compose.yml up -d --no-deps backend --force-recreate"
