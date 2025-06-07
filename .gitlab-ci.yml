@@ -96,6 +96,5 @@ deploy:
     # Обновляем контейнер при помощи docker compose
     - >
       ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "
-      export CI_COMMIT_TAG=${CI_COMMIT_TAG} && \
-      docker-compose -f ~/compose.yml up -d --no-deps backend --force-recreate"
+      "export CI_COMMIT_TAG=${CI_COMMIT_TAG} && \
+       docker-compose -f ~/compose.yml up -d --no-deps backend --force-recreate"
