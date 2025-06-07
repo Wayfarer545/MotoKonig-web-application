@@ -1,8 +1,8 @@
 # app/infrastructure/di/providers/provider.py
 
 from dishka import Provider, Scope, provide
-from domain.ports.repositories.file_storage import FileStoragePort
-from domain.ports.repositories.pin_storage import PinStoragePort
+from app.domain.ports.repositories.file_storage import FileStoragePort
+from app.domain.ports.repositories.pin_storage import PinStoragePort
 
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
