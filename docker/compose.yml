@@ -4,7 +4,7 @@ services:
   backend:
     container_name: mk-api
     hostname: mk-api
-    image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
+    image: ${CI_REGISTRY_IMAGE}:latest
     ports:
       - "80:8000"
     environment:
