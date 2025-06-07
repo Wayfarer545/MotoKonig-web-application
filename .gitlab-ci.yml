@@ -27,7 +27,6 @@ lint:
         - "tests/**/*"
         - "pyproject.toml"
         - "docker/**/*"
-    - when: never
   script:
     - pip install --no-cache-dir uv ruff
     - ruff check app/
@@ -43,12 +42,13 @@ test:
         - "migrations/**/*"
         - "pyproject.toml"
         - "docker/**/*"
-    - when: never
   script:
     - pip install --no-cache-dir uv
     - uv pip install -e ".[dev]"
     - pytest tests/ -v --cov=app --cov-report=xml
   artifacts:
+    paths:
+      - coverage.xml
     reports:
       coverage_report:
         coverage_format: cobertura
@@ -73,8 +73,9 @@ build:
 deploy:
   stage: deploy
   image: alpine:latest
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)-release$/
   before_script:
     # Установим ssh-agent, rsync, docker-cli если надо
     - apk add --no-cache openssh-client rsync

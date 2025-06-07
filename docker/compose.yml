@@ -9,9 +9,6 @@ services:
       DATABASE_URL: postgresql+asyncpg://postgres:${DB_PASSWORD:-strongpassword}@postgres:5432/motokonig
       REDIS_HOST: redis
       SECRET_KEY: ${SECRET_KEY:-your-super-secret-key}
-    depends_on:
-      - postgres
-      - redis
     restart: unless-stopped
     networks:
       - backend
