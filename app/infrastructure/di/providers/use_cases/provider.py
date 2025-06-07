@@ -1,8 +1,6 @@
 # app/infrastructure/di/providers/provider.py
 
 from dishka import Provider, Scope, provide
-from domain.ports.repositories.file_storage import FileStoragePort
-from domain.ports.repositories.pin_storage import PinStoragePort
 
 from app.application.use_cases.auth.login import LoginUseCase
 from app.application.use_cases.auth.logout import LogoutUseCase
@@ -54,9 +52,11 @@ from app.domain.ports.repositories.club_invitation import (
 from app.domain.ports.repositories.club_membership import (
     IClubMembershipRepository,
 )
+from app.domain.ports.repositories.file_storage import FileStoragePort
 from app.domain.ports.repositories.media_file import IMediaFileRepository
 from app.domain.ports.repositories.moto_club import IMotoClubRepository
 from app.domain.ports.repositories.motorcycle import IMotorcycleRepository
+from app.domain.ports.repositories.pin_storage import PinStoragePort
 from app.domain.ports.repositories.profile import IProfileRepository
 from app.domain.ports.repositories.social_link import ISocialLinkRepository
 from app.domain.ports.repositories.user import IUserRepository

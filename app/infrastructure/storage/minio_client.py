@@ -6,10 +6,10 @@ from uuid import UUID, uuid4
 
 import aioboto3
 from botocore.exceptions import ClientError
-from domain.ports.repositories.file_storage import FileStoragePort
 
 from app.config.settings import MinIOConfig
 from app.domain.entities.media_file import MediaFile
+from app.domain.ports.repositories.file_storage import FileStoragePort
 from app.domain.value_objects.file_type import FileType
 
 

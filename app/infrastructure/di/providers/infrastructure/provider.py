@@ -2,8 +2,8 @@
 
 from advanced_alchemy.extensions.fastapi import AdvancedAlchemy
 from dishka import Provider, Scope, provide
-from app.domain.ports.repositories.file_storage import FileStoragePort
-from app.domain.ports.repositories.pin_storage import PinStoragePort
+from domain.ports.repositories.file_storage import FileStoragePort
+from domain.ports.repositories.pin_storage import PinStoragePort
 from fastapi import Request
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,9 +15,11 @@ from app.domain.ports.repositories.club_invitation import (
 from app.domain.ports.repositories.club_membership import (
     IClubMembershipRepository,
 )
+from app.domain.ports.repositories.file_storage import FileStoragePort
 from app.domain.ports.repositories.media_file import IMediaFileRepository
 from app.domain.ports.repositories.moto_club import IMotoClubRepository
 from app.domain.ports.repositories.motorcycle import IMotorcycleRepository
+from app.domain.ports.repositories.pin_storage import PinStoragePort
 from app.domain.ports.repositories.profile import IProfileRepository
 from app.domain.ports.repositories.social_link import ISocialLinkRepository
 from app.domain.ports.repositories.user import IUserRepository
