@@ -22,29 +22,15 @@ from app.infrastructure.di.container import (
 from app.infrastructure.messaging.redis_client import RedisClient
 from app.presentation.middleware.cors import add_cors_middleware
 from app.presentation.middleware.logging import LoggingContextMiddleware
-from app.presentation.routers.auth import router as auth_router
-from app.presentation.routers.media import router as media_router
-from app.presentation.routers.moto_club import router as moto_club_router
-from app.presentation.routers.motorcycle import router as motorcycle_router
-from app.presentation.routers.profile import router as profile_router
-from app.presentation.routers.user import router as user_router
+from app.presentation.routers.main import router as main_router
 
+# 1. Инициализируем логирование
+setup_logging()
 
-# Lifecycle manager для очистки ресурсов
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
-    config = app.state.config
-    setup_logging()
-    await RedisClient.create_pool(config.redis)
-    yield
-    # Shutdown
-    await RedisClient.close_pool()
-
-# 1. Загружаем конфиг
+# 2. Загружаем конфиг
 config = Config()
 
-# 2. Настраиваем Advanced-Alchemy вместе с FastAPI
+# 3. Настраиваем Advanced-Alchemy вместе с FastAPI
 sqlalchemy_config = SQLAlchemyAsyncConfig(
     connection_string=config.sqlite.sqlite_dsn,
     session_config=AsyncSessionConfig(expire_on_commit=False),
@@ -52,7 +38,17 @@ sqlalchemy_config = SQLAlchemyAsyncConfig(
     commit_mode="autocommit",
 )
 
-# Создаём приложение с lifecycle manager
+# Lifecycle manager для очистки ресурсов
+@asynccontextmanager
+async def lifespan(app_instance: FastAPI):
+    # Startup
+    app_config = app_instance.state.config
+    await RedisClient.create_pool(app_config.redis)
+    yield
+    # Shutdown
+    await RedisClient.close_pool()
+
+# 4. Создаём приложение с lifecycle manager
 app = FastAPI(
     title=config.project.project_name,
     version=config.project.version,
@@ -61,40 +57,33 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Сохраняем конфиг в state
+# 5. Сохраняем конфиг в state
 app.state.config = config  # noqa
 
-# Инициализируем Advanced-Alchemy
+# 6. Инициализируем Advanced-Alchemy
 alchemy = AdvancedAlchemy(config=sqlalchemy_config, app=app)
 
-# 3. Конфигурируем DI-контейнер
+# 7. Конфигурируем DI-контейнер
 container = make_async_container(
     InfrastructureProvider(alchemy, config),
     UseCaseProvider(),
     PresentationProvider(),
-    FastapiProvider(),
+    FastapiProvider()
 )
 
-# 4. Подключаем middleware
+# 8. Подключаем middleware
 app.add_middleware(LoggingContextMiddleware)
 add_cors_middleware(app)
 
-# 5. Подключаем Dishka и роуты
+# 9. Подключаем Dishka и роуты
 setup_dishka(container, app)
-app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
-app.include_router(user_router, prefix="/users", tags=["Users"])
-app.include_router(motorcycle_router, prefix="/motorcycle", tags=["Motorcycle"])
-app.include_router(profile_router, prefix="/profile", tags=["Profile"])
-app.include_router(media_router, prefix="/media", tags=["Media"])
-app.include_router(moto_club_router, prefix="/moto-club", tags=["Moto Club"])
+app.include_router(main_router)
 
-
-# 6. Health check endpoint
 @app.get("/health", tags=["System"])
-async def health_check():
+async def health_check() -> dict:
     return {"status": "ok", "version": config.project.version}
 
 
-# 7. Точка входа
+# 10. Точка входа
 if __name__ == "__main__":
     uvicorn.run("app.presentation.api:app", host="0.0.0.0", port=8000, reload=True)

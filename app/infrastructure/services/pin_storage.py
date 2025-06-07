@@ -4,9 +4,8 @@ from datetime import UTC, datetime, timedelta
 from typing import Any
 from uuid import UUID
 
-from redis.asyncio import Redis
-
 from domain.ports.repositories.pin_storage import PinStoragePort
+from redis.asyncio import Redis
 
 
 class RedisPinStorage(PinStoragePort):

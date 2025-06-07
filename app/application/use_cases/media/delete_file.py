@@ -2,8 +2,9 @@
 
 from uuid import UUID
 
-from app.domain.ports.repositories.media_file import IMediaFileRepository
 from domain.ports.repositories.file_storage import FileStoragePort
+
+from app.domain.ports.repositories.media_file import IMediaFileRepository
 
 
 class DeleteFileUseCase:

@@ -2,8 +2,8 @@
 
 from app.infrastructure.di.providers import (
     InfrastructureProvider,
+    PresentationProvider,
     UseCaseProvider,
-    PresentationProvider
 )
 
 __all__ = [
