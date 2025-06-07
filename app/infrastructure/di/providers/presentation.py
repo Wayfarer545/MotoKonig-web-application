@@ -52,6 +52,16 @@ from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
+from application.controllers.marketplace_controller import MarketplaceController
+from application.use_cases.listing.create_listing import CreateListingUseCase
+from application.use_cases.listing.delete_listing import DeleteListingUseCase
+from application.use_cases.listing.get_listing import GetListingUseCase
+from application.use_cases.listing.list_listings import ListListingsUseCase
+from application.use_cases.listing.publish_listing import PublishListingUseCase
+from application.use_cases.listing.search_listings import SearchListingsUseCase
+from application.use_cases.listing.update_listing import UpdateListingUseCase
+from application.use_cases.listing.view_listing import ViewListingUseCase
+from application.use_cases.listing_category.create_category import CreateListingCategoryUseCase
 
 
 class PresentationProvider(Provider):
@@ -131,4 +141,29 @@ class PresentationProvider(Provider):
     ) -> MotoClubController:
         return MotoClubController(
             create_uc, get_uc, list_uc, update_uc, delete_uc, join_uc, invite_uc
+        )
+
+    @provide(scope=Scope.REQUEST)
+    def provide_marketplace_controller(
+            self,
+            create_listing_uc: CreateListingUseCase,
+            get_listing_uc: GetListingUseCase,
+            list_listings_uc: ListListingsUseCase,
+            update_listing_uc: UpdateListingUseCase,
+            delete_listing_uc: DeleteListingUseCase,
+            publish_listing_uc: PublishListingUseCase,
+            view_listing_uc: ViewListingUseCase,
+            search_listings_uc: SearchListingsUseCase,
+            create_category_uc: CreateListingCategoryUseCase,
+    ) -> MarketplaceController:
+        return MarketplaceController(
+            create_listing_uc,
+            get_listing_uc,
+            list_listings_uc,
+            update_listing_uc,
+            delete_listing_uc,
+            publish_listing_uc,
+            view_listing_uc,
+            search_listings_uc,
+            create_category_uc,
         )

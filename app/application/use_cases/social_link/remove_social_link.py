@@ -3,7 +3,7 @@
 from uuid import UUID
 
 from app.domain.entities.social_link import SocialPlatform
-from app.domain.ports.social_link_repository import ISocialLinkRepository
+from domain.ports.repositories.social_link_repository import ISocialLinkRepository
 
 
 class RemoveSocialLinkUseCase:

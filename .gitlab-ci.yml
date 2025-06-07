@@ -85,11 +85,10 @@ deploy:
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   script:
-    # Залогинимся в docker (на сервере!)
     - >
       ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com
       "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
-    # Скачиваем последний образ с gitlab registry, перезапускаем контейнер (имя подбери сам)
+    # Скачиваем последний образ с gitlab registry, перезапускаем контейнер
     - >
       ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com
       "docker pull $CI_REGISTRY_IMAGE:latest &&

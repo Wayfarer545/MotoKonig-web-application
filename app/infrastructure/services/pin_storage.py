@@ -6,7 +6,7 @@ from uuid import UUID
 
 from redis.asyncio import Redis
 
-from app.domain.ports.pin_storage import PinStoragePort
+from domain.ports.repositories.pin_storage import PinStoragePort
 
 
 class RedisPinStorage(PinStoragePort):

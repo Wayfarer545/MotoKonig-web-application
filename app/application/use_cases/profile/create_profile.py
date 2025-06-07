@@ -4,7 +4,7 @@ from datetime import date
 from uuid import UUID
 
 from app.domain.entities.profile import PrivacyLevel, Profile
-from app.domain.ports.profile_repository import IProfileRepository
+from domain.ports.repositories.profile_repository import IProfileRepository
 
 
 class CreateProfileUseCase:

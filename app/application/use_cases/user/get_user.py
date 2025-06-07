@@ -1,8 +1,8 @@
 # app/application/use_cases/user/get_user.py
 
 from app.domain.entities.user import User
-from app.domain.ports.user_repository import IUserRepository
-from app.domain.ports.user_specification import UserSpecificationPort
+from domain.ports.repositories.user_repository import IUserRepository
+from domain.ports.specs.user import UserSpecificationPort
 
 
 class GetUserUseCase:

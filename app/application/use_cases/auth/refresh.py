@@ -2,8 +2,8 @@
 
 from uuid import UUID, uuid4
 
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
+from domain.ports.services.token_service import TokenServicePort
+from domain.ports.repositories.user_repository import IUserRepository
 from app.infrastructure.specs.user.user_by_id import UserById
 
 

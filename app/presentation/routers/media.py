@@ -5,7 +5,7 @@ from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile, s
 
 from app.application.controllers.media_controller import MediaController
 from app.application.exceptions import BadRequestError, NotFoundError
-from app.domain.ports.token_service import TokenServicePort
+from domain.ports.services.token_service import TokenServicePort
 from app.domain.value_objects.file_type import FileType
 from app.presentation.middleware.auth import get_current_user_dishka
 from app.presentation.schemas.media import (

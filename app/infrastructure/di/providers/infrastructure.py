@@ -7,18 +7,21 @@ from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config.settings import Config
-from app.domain.ports.club_invitation_repository import IClubInvitationRepository
-from app.domain.ports.club_membership_repository import IClubMembershipRepository
-from app.domain.ports.file_storage import FileStoragePort
-from app.domain.ports.media_file_repository import IMediaFileRepository
-from app.domain.ports.moto_club_repository import IMotoClubRepository
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
-from app.domain.ports.password_service import PasswordService
-from app.domain.ports.pin_storage import PinStoragePort
-from app.domain.ports.profile_repository import IProfileRepository
-from app.domain.ports.social_link_repository import ISocialLinkRepository
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
+from domain.ports.repositories.club_invitation_repository import IClubInvitationRepository
+from domain.ports.repositories.club_membership_repository import IClubMembershipRepository
+from domain.ports.repositories.file_storage import FileStoragePort
+from domain.ports.repositories.listing_category_repository import IListingCategoryRepository
+from domain.ports.repositories.listing_image_repository import IListingImageRepository
+from domain.ports.repositories.listing_repository import IListingRepository
+from domain.ports.repositories.media_file_repository import IMediaFileRepository
+from domain.ports.repositories.moto_club_repository import IMotoClubRepository
+from domain.ports.repositories.motorcycle_repository import IMotorcycleRepository
+from domain.ports.services.password_service import PasswordService
+from domain.ports.repositories.pin_storage import PinStoragePort
+from domain.ports.repositories.profile_repository import IProfileRepository
+from domain.ports.repositories.social_link_repository import ISocialLinkRepository
+from domain.ports.services.token_service import TokenServicePort
+from domain.ports.repositories.user_repository import IUserRepository
 from app.infrastructure.messaging.redis_client import RedisClient
 from app.infrastructure.repositories.sql_club_invitation_repo import (
     SqlClubInvitationRepository,
@@ -36,6 +39,8 @@ from app.infrastructure.services.password_service import PasswordServiceImpl
 from app.infrastructure.services.pin_storage import RedisPinStorage
 from app.infrastructure.services.token_service import JWTTokenService
 from app.infrastructure.storage.minio_client import MinIOFileStorage
+from infrastructure.repositories.sql_listing_category_repo import SqlListingCategoryRepository
+from infrastructure.repositories.sql_listing_repo import SqlListingRepository
 
 
 class InfrastructureProvider(Provider):
@@ -104,3 +109,15 @@ class InfrastructureProvider(Provider):
     @provide(scope=Scope.REQUEST)
     def provide_club_invitation_repo(self, session: AsyncSession) -> IClubInvitationRepository:
         return SqlClubInvitationRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_listing_repo(self, session: AsyncSession) -> IListingRepository:
+        return SqlListingRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_listing_category_repo(self, session: AsyncSession) -> IListingCategoryRepository:
+        return SqlListingCategoryRepository(session)
+
+    @provide(scope=Scope.REQUEST)
+    def provide_listing_image_repo(self, session: AsyncSession) -> IListingImageRepository:
+        return SqlListingImageRepository(session)

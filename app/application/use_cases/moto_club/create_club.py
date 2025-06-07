@@ -4,8 +4,8 @@ from uuid import UUID
 
 from app.domain.entities.club_membership import ClubMembership
 from app.domain.entities.moto_club import MotoClub
-from app.domain.ports.club_membership_repository import IClubMembershipRepository
-from app.domain.ports.moto_club_repository import IMotoClubRepository
+from domain.ports.repositories.club_membership_repository import IClubMembershipRepository
+from domain.ports.repositories.moto_club_repository import IMotoClubRepository
 from app.domain.value_objects.club_role import ClubRole
 
 

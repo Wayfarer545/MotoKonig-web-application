@@ -3,7 +3,7 @@
 from uuid import UUID
 
 from app.domain.entities.motorcycle import EngineType, Motorcycle, MotorcycleType
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
+from domain.ports.repositories.motorcycle_repository import IMotorcycleRepository
 
 
 class CreateMotorcycleUseCase:

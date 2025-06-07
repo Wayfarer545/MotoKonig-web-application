@@ -2,7 +2,7 @@
 
 from uuid import UUID
 
-from app.domain.ports.user_repository import IUserRepository
+from domain.ports.repositories.user_repository import IUserRepository
 
 
 class DeleteUserUseCase:

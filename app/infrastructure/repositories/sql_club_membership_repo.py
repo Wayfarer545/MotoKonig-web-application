@@ -6,8 +6,8 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.club_membership import ClubMembership
-from app.domain.ports.club_membership_repository import IClubMembershipRepository
-from app.domain.ports.club_membership_specification import (
+from domain.ports.repositories.club_membership_repository import IClubMembershipRepository
+from domain.ports.specs.club_membership import (
     ClubMembershipSpecificationPort,
 )
 from app.domain.value_objects.club_role import ClubRole

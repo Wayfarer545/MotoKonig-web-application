@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from app.domain.ports.user_repository import UserSpecificationPort
+from domain.ports.repositories.user_repository import UserSpecificationPort
 from app.infrastructure.models.user_model import User as UserModel
 
 

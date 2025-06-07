@@ -2,7 +2,7 @@
 
 from uuid import UUID
 
-from app.domain.ports.moto_club_repository import IMotoClubRepository
+from domain.ports.repositories.moto_club_repository import IMotoClubRepository
 
 
 class DeleteMotoClubUseCase:
