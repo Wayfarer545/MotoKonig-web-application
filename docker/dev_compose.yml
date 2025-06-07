@@ -30,7 +30,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - backend
+      - mk_network
 
   # MinIO — S3‑compatible object storage
   minio:
@@ -59,7 +59,7 @@ services:
       retries: 3
 
     networks:
-      - backend
+      - mk_network
 
   # Redis 7 — in‑memory cache & message broker
   redis:
@@ -79,4 +79,4 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - backend
+      - mk_network

@@ -16,6 +16,13 @@ class SecuritySettings(BaseModel):
     algorithm: str = Field(alias='ALGORITHM', default="HS256")
 
 
+class PostgresConfig(BaseModel):
+    postgres_user: str = Field(alias='POSTGRES_USER', default="postgres")
+    postgres_password: str = Field(alias='POSTGRES_PASSWORD', default="postgres")
+    postgres_host: str = Field(alias='POSTGRES_HOST', default="localhost")
+    postgres_port: int = Field(alias='POSTGRES_PORT', default=5432)
+
+
 class RedisConfig(BaseModel):
     redis_host: str = Field(alias='REDIS_HOST', default='localhost')
     redis_port: int = Field(alias='REDIS_PORT', default=6379)

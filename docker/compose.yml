@@ -1,22 +1,115 @@
 version: "3.9"
 
 services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    hostname: caddy
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - ./motokonig/Dockerfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+    networks:
+      - mk_network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    hostname: postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-motokonig}
+      POSTGRES_USER: ${POSTGRES_USER:-motokonig}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-motokonig}
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data:rw
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-motokonig}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - mk_network
+
+  # MinIO — S3‑compatible object storage
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: mk-api
+    hostname: mk-api
+    restart: unless-stopped
+
+    environment:
+      MINIO_ADDRESS: ":9000"
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+
+    command: server --console-address ":9001" /data
+
+    volumes:
+      - minio-data:/data:rw
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+    networks:
+      - mk_network
+
+  # Redis 7 — in‑memory cache & message broker
+  redis:
+    image: redis:alpine
+    container_name: mk-api
+    hostname: mk-api
+    restart: unless-stopped
+
+    command: ["redis-server", "--appendonly", "yes"]
+
+    volumes:
+      - redis-data:/data:rw
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mk_network
+
   backend:
     container_name: mk-api
     hostname: mk-api
     image: registry.gitlab.com/motokonig/mk-backend/api-service:latest
-    ports:
-      - "80:8000"
     environment:
-      SECRET_KEY: ${SECRET_KEY:-your-super-secret-key}
+      SECRET_KEY: ${SECRET_KEY:-123jkhg126gb123k46ghb1kvblj}
+      REDIS_HOST: redis
+      MINIO_ENDPOINT: minio:9000
+      POSTGRES_HOST: postgres
     restart: unless-stopped
     networks:
       - mk_network
 
-volumes:
-  postgres_data:
 
 networks:
   mk_network:
     driver: bridge
     name: mk_network
+
+volumes:
+  caddy-data:
+  caddy-config:
+  postgres-data:
+  minio-data:
+  redis-data:
