@@ -96,9 +96,9 @@ deploy:
           git clone https://gitlab.com/motokonig/mk-backend/api-service.git motokonig
           cd motokonig
         fi
-        docker compose pull
-        docker compose down
-        docker compose up -d --remove-orphans
+        docker-compose pull
+        docker-compose down
+        docker-compose up -d --remove-orphans
         sleep 5
-        docker compose exec -T backend alembic upgrade head
+        docker-compose exec -T backend alembic upgrade head
       EOF
