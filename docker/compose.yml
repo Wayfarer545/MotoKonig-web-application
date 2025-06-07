@@ -27,6 +27,12 @@ services:
       - postgres
       - redis
     restart: unless-stopped
+    networks:
+      - backend
 
 volumes:
   postgres_data:
+
+networks:
+  backend:
+    external: true
