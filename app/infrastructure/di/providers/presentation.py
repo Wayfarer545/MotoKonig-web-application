@@ -4,7 +4,7 @@ from dishka import Provider, Scope, provide
 
 from app.application.controllers.auth_controller import AuthController
 from app.application.controllers.media_controller import MediaController
-from app.application.controllers.moto_club_controller import MotoClubController
+from app.application.controllers.motoclub_controller import MotoClubController
 from app.application.controllers.motorcycle_controller import MotorcycleController
 from app.application.controllers.profile_controller import ProfileController
 from app.application.controllers.user_controller import UserController

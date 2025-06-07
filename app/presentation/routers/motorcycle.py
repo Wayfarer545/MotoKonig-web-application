@@ -13,7 +13,7 @@ from app.domain.value_objects.engine_type import EngineType as DomainEngineType
 from app.domain.value_objects.motorcycle_type import (
     MotorcycleType as DomainMotorcycleType,
 )
-from app.presentation.middleware.auth import get_current_user_dishka
+from presentation.dependencies.auth import get_current_user_dishka
 from app.presentation.schemas.motorcycle import (
     CreateMotorcycleSchema,
     MotorcycleResponseSchema,

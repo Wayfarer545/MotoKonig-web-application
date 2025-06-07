@@ -4,12 +4,12 @@ from uuid import UUID
 from dishka.integrations.fastapi import DishkaRoute, FromDishka
 from fastapi import APIRouter, HTTPException, Request, status
 
-from app.application.controllers.moto_club_controller import MotoClubController
+from app.application.controllers.motoclub_controller import MotoClubController
 from app.application.exceptions import BadRequestError, NotFoundError
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.value_objects.club_role import ClubRole
 from app.domain.value_objects.user_role import UserRole
-from app.presentation.middleware.auth import get_current_user_dishka
+from presentation.dependencies.auth import get_current_user_dishka
 from app.presentation.schemas.moto_club import (
     ClubInvitationResponseSchema,
     ClubMembershipResponseSchema,

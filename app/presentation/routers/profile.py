@@ -10,7 +10,7 @@ from app.application.exceptions import NotFoundError
 from app.domain.ports.token_service import TokenServicePort
 from app.domain.value_objects.privacy_level import PrivacyLevel as DomainPrivacyLevel
 from app.domain.value_objects.social_link import SocialPlatform as DomainSocialPlatform
-from app.presentation.middleware.auth import get_current_user_dishka
+from presentation.dependencies.auth import get_current_user_dishka
 from app.presentation.schemas.profile import (
     AddSocialLinkSchema,
     CreateProfileSchema,

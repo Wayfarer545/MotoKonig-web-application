@@ -1,4 +1,4 @@
-# app/application/controllers/moto_club_controller.py
+# app/application/controllers/motoclub_controller.py
 
 from uuid import UUID
 

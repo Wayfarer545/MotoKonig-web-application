@@ -14,7 +14,7 @@ from app.application.exceptions import (
     UnauthorizedError,
 )
 from app.domain.ports.token_service import TokenServicePort
-from app.presentation.middleware.auth import (
+from presentation.dependencies.auth import (
     get_current_user_dishka,
     get_token_from_header,
 )
