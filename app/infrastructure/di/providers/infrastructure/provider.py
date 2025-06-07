@@ -2,8 +2,8 @@
 
 from advanced_alchemy.extensions.fastapi import AdvancedAlchemy
 from dishka import Provider, Scope, provide
-from domain.ports.repositories.file_storage import FileStoragePort
-from domain.ports.repositories.pin_storage import PinStoragePort
+from app.domain.ports.repositories.file_storage import FileStoragePort
+from app.domain.ports.repositories.pin_storage import PinStoragePort
 from fastapi import Request
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
