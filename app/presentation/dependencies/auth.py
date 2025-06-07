@@ -10,7 +10,7 @@ from fastapi.security.utils import get_authorization_scheme_param
 from starlette.status import HTTP_401_UNAUTHORIZED, HTTP_403_FORBIDDEN
 
 from app.domain.entities.user import UserRole
-from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.services.token_service import TokenServicePort
 
 
 async def get_token_from_header(request: Request) -> str | None:

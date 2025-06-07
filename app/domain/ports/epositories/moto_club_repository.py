@@ -4,7 +4,7 @@ from typing import Protocol
 from uuid import UUID
 
 from app.domain.entities.moto_club import MotoClub
-from app.domain.ports.moto_club_specification import MotoClubSpecificationPort
+from app.domain.ports.specs.moto_club import MotoClubSpecificationPort
 
 
 class IMotoClubRepository(Protocol):

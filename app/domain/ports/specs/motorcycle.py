@@ -1,4 +1,4 @@
-# app/domain/ports/motorcycle_specification.py
+# app/domain/ports/motorcycle.py
 
 from typing import Any, Protocol
 

@@ -5,8 +5,8 @@ from __future__ import annotations
 from uuid import UUID
 
 from app.domain.entities.motorcycle import Motorcycle
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
-from app.domain.ports.motorcycle_specification import MotorcycleSpecificationPort
+from app.domain.ports.epositories.motorcycle_repository import IMotorcycleRepository
+from app.domain.ports.specs.motorcycle import MotorcycleSpecificationPort
 from app.infrastructure.specs.moto.moto_by_id import (
     MotorcycleById,
 )

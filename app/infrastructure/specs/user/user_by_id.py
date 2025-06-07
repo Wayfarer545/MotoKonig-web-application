@@ -3,7 +3,7 @@
 from typing import Any
 from uuid import UUID
 
-from app.domain.ports.user_repository import UserSpecificationPort
+from app.domain.ports.epositories.user_repository import UserSpecificationPort
 from app.infrastructure.models.user_model import User as UserModel
 
 

@@ -3,9 +3,13 @@
 from uuid import UUID
 
 from app.domain.entities.club_invitation import ClubInvitation
-from app.domain.ports.club_invitation_repository import IClubInvitationRepository
-from app.domain.ports.club_membership_repository import IClubMembershipRepository
-from app.domain.ports.moto_club_repository import IMotoClubRepository
+from app.domain.ports.epositories.club_invitation_repository import (
+    IClubInvitationRepository,
+)
+from app.domain.ports.epositories.club_membership_repository import (
+    IClubMembershipRepository,
+)
+from app.domain.ports.epositories.moto_club_repository import IMotoClubRepository
 from app.domain.value_objects.club_role import ClubRole
 from app.infrastructure.specs.moto_club.club_by_id import MotoClubById
 

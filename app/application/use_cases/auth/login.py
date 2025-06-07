@@ -2,9 +2,9 @@
 
 from uuid import uuid4
 
-from app.domain.ports.password_service import PasswordService
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
+from app.domain.ports.epositories.user_repository import IUserRepository
+from app.domain.ports.services.password_service import PasswordService
+from app.domain.ports.services.token_service import TokenServicePort
 from app.infrastructure.specs.user.user_by_name import UserByName
 
 

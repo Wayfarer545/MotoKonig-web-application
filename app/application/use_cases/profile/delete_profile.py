@@ -2,7 +2,7 @@
 
 from uuid import UUID
 
-from app.domain.ports.profile_repository import IProfileRepository
+from app.domain.ports.epositories.profile_repository import IProfileRepository
 
 
 class DeleteProfileUseCase:

@@ -3,7 +3,7 @@
 from typing import Any
 from uuid import UUID
 
-from app.domain.ports.moto_club_specification import MotoClubSpecificationPort
+from app.domain.ports.specs.moto_club import MotoClubSpecificationPort
 from app.infrastructure.models.moto_club_model import MotoClub as MotoClubModel
 
 

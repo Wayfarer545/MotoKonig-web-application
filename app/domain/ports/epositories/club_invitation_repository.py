@@ -4,7 +4,7 @@ from typing import Protocol
 from uuid import UUID
 
 from app.domain.entities.club_invitation import ClubInvitation
-from app.domain.ports.club_invitation_specification import (
+from app.domain.ports.specs.club_invitation import (
     ClubInvitationSpecificationPort,
 )
 

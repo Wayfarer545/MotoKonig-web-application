@@ -3,8 +3,8 @@
 from uuid import UUID
 
 from app.domain.entities.user import User, UserRole
-from app.domain.ports.password_service import PasswordService
-from app.domain.ports.user_repository import IUserRepository
+from app.domain.ports.epositories.user_repository import IUserRepository
+from app.domain.ports.services.password_service import PasswordService
 from app.infrastructure.specs.user.user_by_id import UserById
 
 

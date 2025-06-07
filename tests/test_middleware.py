@@ -2,7 +2,7 @@ import pytest
 from fastapi import HTTPException, Request
 
 from app.domain.entities.user import UserRole
-from presentation.dependencies.auth import (
+from app.presentation.dependencies.auth import (
     check_role,
     get_current_user_dishka,
     get_token_from_header,

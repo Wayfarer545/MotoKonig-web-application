@@ -7,7 +7,7 @@ import jwt
 from redis.asyncio import Redis
 
 from app.config.settings import SecuritySettings
-from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.services.token_service import TokenServicePort
 
 
 class JWTTokenService(TokenServicePort):

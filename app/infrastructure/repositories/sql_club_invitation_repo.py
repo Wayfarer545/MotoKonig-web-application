@@ -7,8 +7,10 @@ from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.club_invitation import ClubInvitation
-from app.domain.ports.club_invitation_repository import IClubInvitationRepository
-from app.domain.ports.club_invitation_specification import (
+from app.domain.ports.epositories.club_invitation_repository import (
+    IClubInvitationRepository,
+)
+from app.domain.ports.specs.club_invitation import (
     ClubInvitationSpecificationPort,
 )
 from app.domain.value_objects.club_role import ClubRole

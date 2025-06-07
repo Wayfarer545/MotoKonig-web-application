@@ -4,7 +4,7 @@ from typing import Protocol
 from uuid import UUID
 
 from app.domain.entities.social_link import SocialLink, SocialPlatform
-from app.domain.ports.social_link_specification import SocialLinkSpecificationPort
+from app.domain.ports.specs.social_link import SocialLinkSpecificationPort
 
 
 class ISocialLinkRepository(Protocol):

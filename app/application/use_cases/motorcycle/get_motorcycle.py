@@ -1,8 +1,8 @@
 # app/application/use_cases/motorcycle/get_motorcycle.py
 
 from app.domain.entities.motorcycle import Motorcycle
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
-from app.domain.ports.motorcycle_specification import MotorcycleSpecificationPort
+from app.domain.ports.epositories.motorcycle_repository import IMotorcycleRepository
+from app.domain.ports.specs.motorcycle import MotorcycleSpecificationPort
 
 
 class GetMotorcycleUseCase:

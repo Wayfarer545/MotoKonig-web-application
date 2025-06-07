@@ -1,4 +1,4 @@
-# app/domain/ports/user_specification.py
+# app/domain/ports/user.py
 
 from typing import Any, Protocol
 

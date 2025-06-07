@@ -1,4 +1,4 @@
-# app/domain/ports/club_membership_specification.py
+# app/domain/ports/club_membership.py
 
 from typing import Any, Protocol
 

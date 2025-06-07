@@ -1,6 +1,6 @@
 import bcrypt
 
-from app.domain.ports.password_service import PasswordService
+from app.domain.ports.services.password_service import PasswordService
 
 
 class PasswordServiceImpl(PasswordService):

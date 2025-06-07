@@ -8,12 +8,12 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from app.application.controllers.motorcycle_controller import MotorcycleController
 from app.application.exceptions import NotFoundError
 from app.domain.entities.user import UserRole
-from app.domain.ports.token_service import TokenServicePort
+from app.domain.ports.services.token_service import TokenServicePort
 from app.domain.value_objects.engine_type import EngineType as DomainEngineType
 from app.domain.value_objects.motorcycle_type import (
     MotorcycleType as DomainMotorcycleType,
 )
-from presentation.dependencies.auth import get_current_user_dishka
+from app.presentation.dependencies.auth import get_current_user_dishka
 from app.presentation.schemas.motorcycle import (
     CreateMotorcycleSchema,
     MotorcycleResponseSchema,

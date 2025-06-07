@@ -4,7 +4,7 @@ from typing import Protocol
 from uuid import UUID
 
 from app.domain.entities.user import User
-from app.domain.ports.user_specification import UserSpecificationPort
+from app.domain.ports.specs.user import UserSpecificationPort
 
 
 class IUserRepository(Protocol):

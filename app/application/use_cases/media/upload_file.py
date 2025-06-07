@@ -3,8 +3,8 @@
 from uuid import UUID
 
 from app.domain.entities.media_file import MediaFile
+from app.domain.ports.epositories.media_file_repository import IMediaFileRepository
 from app.domain.ports.file_storage import FileStoragePort
-from app.domain.ports.media_file_repository import IMediaFileRepository
 from app.domain.value_objects.file_type import FileType
 
 

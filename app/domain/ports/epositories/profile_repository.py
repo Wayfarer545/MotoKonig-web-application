@@ -4,7 +4,7 @@ from typing import Protocol
 from uuid import UUID
 
 from app.domain.entities.profile import Profile
-from app.domain.ports.profile_specification import ProfileSpecificationPort
+from app.domain.ports.specs.profile import ProfileSpecificationPort
 
 
 class IProfileRepository(Protocol):

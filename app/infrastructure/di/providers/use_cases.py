@@ -46,18 +46,22 @@ from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
-from app.domain.ports.club_invitation_repository import IClubInvitationRepository
-from app.domain.ports.club_membership_repository import IClubMembershipRepository
+from app.domain.ports.epositories.club_invitation_repository import (
+    IClubInvitationRepository,
+)
+from app.domain.ports.epositories.club_membership_repository import (
+    IClubMembershipRepository,
+)
+from app.domain.ports.epositories.media_file_repository import IMediaFileRepository
+from app.domain.ports.epositories.moto_club_repository import IMotoClubRepository
+from app.domain.ports.epositories.motorcycle_repository import IMotorcycleRepository
+from app.domain.ports.epositories.profile_repository import IProfileRepository
+from app.domain.ports.epositories.social_link_repository import ISocialLinkRepository
+from app.domain.ports.epositories.user_repository import IUserRepository
 from app.domain.ports.file_storage import FileStoragePort
-from app.domain.ports.media_file_repository import IMediaFileRepository
-from app.domain.ports.moto_club_repository import IMotoClubRepository
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
-from app.domain.ports.password_service import PasswordService
 from app.domain.ports.pin_storage import PinStoragePort
-from app.domain.ports.profile_repository import IProfileRepository
-from app.domain.ports.social_link_repository import ISocialLinkRepository
-from app.domain.ports.token_service import TokenServicePort
-from app.domain.ports.user_repository import IUserRepository
+from app.domain.ports.services.password_service import PasswordService
+from app.domain.ports.services.token_service import TokenServicePort
 
 
 class UseCaseProvider(Provider):

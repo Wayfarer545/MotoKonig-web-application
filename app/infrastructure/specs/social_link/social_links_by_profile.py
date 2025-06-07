@@ -3,7 +3,7 @@
 from typing import Any
 from uuid import UUID
 
-from app.domain.ports.social_link_specification import SocialLinkSpecificationPort
+from app.domain.ports.specs.social_link import SocialLinkSpecificationPort
 from app.infrastructure.models.social_link_model import SocialLink as SocialLinkModel
 
 

@@ -1,4 +1,4 @@
-# app/domain/ports/social_link_specification.py
+# app/domain/ports/social_link.py
 
 from typing import Any, Protocol
 

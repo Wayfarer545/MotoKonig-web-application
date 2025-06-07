@@ -3,7 +3,7 @@
 from uuid import UUID
 
 from app.domain.entities.motorcycle import EngineType, Motorcycle, MotorcycleType
-from app.domain.ports.motorcycle_repository import IMotorcycleRepository
+from app.domain.ports.epositories.motorcycle_repository import IMotorcycleRepository
 from app.infrastructure.specs.moto.moto_by_id import (
     MotorcycleById,
 )

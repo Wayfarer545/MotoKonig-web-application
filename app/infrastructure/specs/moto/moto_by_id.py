@@ -3,7 +3,7 @@
 from typing import Any
 from uuid import UUID
 
-from app.domain.ports.motorcycle_specification import MotorcycleSpecificationPort
+from app.domain.ports.specs.motorcycle import MotorcycleSpecificationPort
 from app.infrastructure.models.motorcycle_model import Motorcycle as MotorcycleModel
 
 
