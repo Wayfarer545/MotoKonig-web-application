@@ -1,4 +1,4 @@
-# app/infrastructure/models/motorcycle_model.py
+# app/infrastructure/models/motorcycle.py
 
 from typing import TYPE_CHECKING
 

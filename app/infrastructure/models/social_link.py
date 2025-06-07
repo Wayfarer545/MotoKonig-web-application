@@ -1,4 +1,4 @@
-# app/infrastructure/models/social_link_model.py
+# app/infrastructure/models/social_link.py
 
 from typing import TYPE_CHECKING
 
@@ -13,7 +13,7 @@ from app.domain.value_objects.social_link import SocialPlatform
 __all__ = ["SocialLink"]
 
 if TYPE_CHECKING:
-    from .profile_model import Profile
+    from .profile import Profile
 
 
 class SocialLink(UUIDAuditBase):

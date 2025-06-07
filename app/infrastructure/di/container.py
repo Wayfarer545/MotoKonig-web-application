@@ -1,8 +1,10 @@
 """Dependency injection providers grouped by application layers."""
 
-from .providers.infrastructure import InfrastructureProvider
-from .providers.presentation import PresentationProvider
-from .providers.use_cases import UseCaseProvider
+from app.infrastructure.di.providers import (
+    InfrastructureProvider,
+    UseCaseProvider,
+    PresentationProvider
+)
 
 __all__ = [
     "InfrastructureProvider",

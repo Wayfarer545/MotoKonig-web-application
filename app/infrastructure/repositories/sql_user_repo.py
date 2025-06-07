@@ -6,9 +6,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.user import User
-from app.domain.ports.epositories.user_repository import IUserRepository
+from app.domain.ports.repositories.user import IUserRepository
 from app.domain.ports.specs.user import UserSpecificationPort
-from app.infrastructure.models.user_model import User as UserModel
+from app.infrastructure.models.user import User as UserModel
 
 
 class SqlUserRepository(IUserRepository):

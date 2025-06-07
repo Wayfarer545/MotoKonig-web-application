@@ -1,7 +1,7 @@
 # app/application/use_cases/moto_club/list_clubs.py
 
 from app.domain.entities.moto_club import MotoClub
-from app.domain.ports.epositories.moto_club_repository import IMotoClubRepository
+from app.domain.ports.repositories.moto_club import IMotoClubRepository
 from app.domain.ports.specs.moto_club import MotoClubSpecificationPort
 
 

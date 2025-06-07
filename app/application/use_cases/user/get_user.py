@@ -1,7 +1,7 @@
 # app/application/use_cases/user/get_user.py
 
 from app.domain.entities.user import User
-from app.domain.ports.epositories.user_repository import IUserRepository
+from app.domain.ports.repositories.user import IUserRepository
 from app.domain.ports.specs.user import UserSpecificationPort
 
 

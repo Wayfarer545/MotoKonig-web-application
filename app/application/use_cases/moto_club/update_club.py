@@ -3,7 +3,7 @@
 from uuid import UUID
 
 from app.domain.entities.moto_club import MotoClub
-from app.domain.ports.epositories.moto_club_repository import IMotoClubRepository
+from app.domain.ports.repositories.moto_club import IMotoClubRepository
 from app.infrastructure.specs.moto_club.club_by_id import MotoClubById
 
 

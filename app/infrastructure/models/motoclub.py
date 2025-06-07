@@ -1,4 +1,4 @@
-# app/infrastructure/models/moto_club_model.py
+# app/infrastructure/models/motoclub.py
 
 from typing import TYPE_CHECKING
 
@@ -9,9 +9,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 __all__ = ["MotoClub"]
 
 if TYPE_CHECKING:
-    from .club_invitation_model import ClubInvitation
-    from .club_membership_model import ClubMembership
-    from .user_model import User
+    from .club_invitation import ClubInvitation
+    from .club_membership import ClubMembership
+    from .user import User
 
 
 class MotoClub(UUIDAuditBase):

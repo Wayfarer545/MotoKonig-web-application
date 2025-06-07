@@ -3,7 +3,7 @@ from __future__ import annotations
 from uuid import UUID
 
 from app.domain.entities.user import User
-from app.domain.ports.epositories.user_repository import IUserRepository
+from app.domain.ports.repositories.user import IUserRepository
 from app.domain.ports.specs.user import UserSpecificationPort
 from app.infrastructure.specs.user.user_by_id import UserById
 from app.infrastructure.specs.user.user_by_name import UserByName

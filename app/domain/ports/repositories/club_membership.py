@@ -1,4 +1,4 @@
-# app/domain/ports/club_membership_repository.py
+# app/domain/ports/club_membership.py
 
 from typing import Protocol
 from uuid import UUID

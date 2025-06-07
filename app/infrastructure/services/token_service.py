@@ -1,4 +1,4 @@
-# app/infrastructure/services/token_service.py
+# app/infrastructure/services/token.py
 
 from datetime import UTC, datetime, timedelta
 from typing import Any
@@ -7,7 +7,7 @@ import jwt
 from redis.asyncio import Redis
 
 from app.config.settings import SecuritySettings
-from app.domain.ports.services.token_service import TokenServicePort
+from app.domain.ports.services.token import TokenServicePort
 
 
 class JWTTokenService(TokenServicePort):

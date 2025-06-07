@@ -1,4 +1,4 @@
-# app/domain/ports/social_link_repository.py
+# app/domain/ports/social_link.py
 
 from typing import Protocol
 from uuid import UUID

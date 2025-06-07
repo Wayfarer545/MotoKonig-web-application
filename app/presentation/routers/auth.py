@@ -13,7 +13,7 @@ from app.application.exceptions import (
     TooManyRequestsError,
     UnauthorizedError,
 )
-from app.domain.ports.services.token_service import TokenServicePort
+from app.domain.ports.services.token import TokenServicePort
 from app.presentation.dependencies.auth import (
     get_current_user_dishka,
     get_token_from_header,

@@ -1,4 +1,4 @@
-# app/domain/ports/media_file_repository.py
+# app/domain/ports/media_file.py
 
 from typing import Protocol
 from uuid import UUID

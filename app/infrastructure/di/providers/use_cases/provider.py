@@ -1,4 +1,4 @@
-# app/infrastructure/di/providers/use_cases.py
+# app/infrastructure/di/providers/provider.py
 
 from dishka import Provider, Scope, provide
 
@@ -46,22 +46,22 @@ from app.application.use_cases.user.delete_user import DeleteUserUseCase
 from app.application.use_cases.user.get_user import GetUserUseCase
 from app.application.use_cases.user.list_users import ListUsersUseCase
 from app.application.use_cases.user.update_user import UpdateUserUseCase
-from app.domain.ports.epositories.club_invitation_repository import (
+from app.domain.ports.repositories.club_invitation import (
     IClubInvitationRepository,
 )
-from app.domain.ports.epositories.club_membership_repository import (
+from app.domain.ports.repositories.club_membership import (
     IClubMembershipRepository,
 )
-from app.domain.ports.epositories.media_file_repository import IMediaFileRepository
-from app.domain.ports.epositories.moto_club_repository import IMotoClubRepository
-from app.domain.ports.epositories.motorcycle_repository import IMotorcycleRepository
-from app.domain.ports.epositories.profile_repository import IProfileRepository
-from app.domain.ports.epositories.social_link_repository import ISocialLinkRepository
-from app.domain.ports.epositories.user_repository import IUserRepository
-from app.domain.ports.file_storage import FileStoragePort
-from app.domain.ports.pin_storage import PinStoragePort
-from app.domain.ports.services.password_service import PasswordService
-from app.domain.ports.services.token_service import TokenServicePort
+from app.domain.ports.repositories.media_file import IMediaFileRepository
+from app.domain.ports.repositories.moto_club import IMotoClubRepository
+from app.domain.ports.repositories.motorcycle import IMotorcycleRepository
+from app.domain.ports.repositories.profile import IProfileRepository
+from app.domain.ports.repositories.social_link import ISocialLinkRepository
+from app.domain.ports.repositories.user import IUserRepository
+from domain.ports.repositories.file_storage import FileStoragePort
+from domain.ports.repositories.pin_storage import PinStoragePort
+from app.domain.ports.services.password import PasswordService
+from app.domain.ports.services.token import TokenServicePort
 
 
 class UseCaseProvider(Provider):

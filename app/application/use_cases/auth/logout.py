@@ -1,5 +1,5 @@
 # app/application/use_cases/auth/logout.py
-from app.domain.ports.services.token_service import TokenServicePort
+from app.domain.ports.services.token import TokenServicePort
 
 
 class LogoutUseCase:

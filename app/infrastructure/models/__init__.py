@@ -2,14 +2,14 @@
 
 from advanced_alchemy.base import AdvancedDeclarativeBase
 
-from .club_invitation_model import ClubInvitation
-from .club_membership_model import ClubMembership
-from .media_file_model import MediaFile
-from .moto_club_model import MotoClub
-from .motorcycle_model import Motorcycle
-from .profile_model import Profile
-from .social_link_model import SocialLink
-from .user_model import User
+from .club_invitation import ClubInvitation
+from .club_membership import ClubMembership
+from .media_file import MediaFile
+from .motoclub import MotoClub
+from .motorcycle import Motorcycle
+from .profile import Profile
+from .social_link import SocialLink
+from .user import User
 
 # Для target_metadata в Alembic и единообразных импортов
 Base = AdvancedDeclarativeBase()

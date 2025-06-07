@@ -4,7 +4,7 @@ from typing import Any
 from uuid import UUID
 
 from app.domain.ports.specs.social_link import SocialLinkSpecificationPort
-from app.infrastructure.models.social_link_model import SocialLink as SocialLinkModel
+from app.infrastructure.models.social_link import SocialLink as SocialLinkModel
 
 
 class SocialLinksByProfile(SocialLinkSpecificationPort):

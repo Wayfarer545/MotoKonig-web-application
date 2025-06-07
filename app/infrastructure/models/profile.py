@@ -1,4 +1,4 @@
-# app/infrastructure/models/profile_model.py
+# app/infrastructure/models/profile.py
 
 from datetime import date
 from typing import TYPE_CHECKING
@@ -14,8 +14,8 @@ from app.domain.value_objects.privacy_level import PrivacyLevel
 
 if TYPE_CHECKING:
 
-    from .social_link_model import SocialLink
-    from .user_model import User
+    from .social_link import SocialLink
+    from .user import User
 
 
 class Profile(UUIDAuditBase):

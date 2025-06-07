@@ -6,9 +6,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.social_link import PrivacyLevel, SocialLink, SocialPlatform
-from app.domain.ports.epositories.social_link_repository import ISocialLinkRepository
+from app.domain.ports.repositories.social_link import ISocialLinkRepository
 from app.domain.ports.specs.social_link import SocialLinkSpecificationPort
-from app.infrastructure.models.social_link_model import SocialLink as SocialLinkModel
+from app.infrastructure.models.social_link import SocialLink as SocialLinkModel
 
 
 class SqlSocialLinkRepository(ISocialLinkRepository):

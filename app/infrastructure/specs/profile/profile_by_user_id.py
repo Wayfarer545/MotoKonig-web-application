@@ -4,7 +4,7 @@ from typing import Any
 from uuid import UUID
 
 from app.domain.ports.specs.profile import ProfileSpecificationPort
-from app.infrastructure.models.profile_model import Profile as ProfileModel
+from app.infrastructure.models.profile import Profile as ProfileModel
 
 
 class ProfileByUserId(ProfileSpecificationPort):

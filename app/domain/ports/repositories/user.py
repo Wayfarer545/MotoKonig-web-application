@@ -1,4 +1,4 @@
-# app/domain/ports/user_repository.py
+# app/domain/ports/user.py
 
 from typing import Protocol
 from uuid import UUID

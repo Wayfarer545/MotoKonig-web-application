@@ -4,7 +4,7 @@ from typing import Any
 
 from domain.ports.specs.motorcycle import MotorcycleSpecificationPort
 
-from app.infrastructure.models.motorcycle_model import Motorcycle as MotorcycleModel
+from app.infrastructure.models.motorcycle import Motorcycle as MotorcycleModel
 
 
 class MotorcyclesByBrand(MotorcycleSpecificationPort):

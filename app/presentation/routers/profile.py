@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Request, status
 
 from app.application.controllers.profile_controller import ProfileController
 from app.application.exceptions import NotFoundError
-from app.domain.ports.services.token_service import TokenServicePort
+from app.domain.ports.services.token import TokenServicePort
 from app.domain.value_objects.privacy_level import PrivacyLevel as DomainPrivacyLevel
 from app.domain.value_objects.social_link import SocialPlatform as DomainSocialPlatform
 from app.presentation.dependencies.auth import get_current_user_dishka

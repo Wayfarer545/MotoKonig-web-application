@@ -1,4 +1,4 @@
-# app/infrastructure/models/club_invitation_model.py
+# app/infrastructure/models/club_invitation.py
 
 from typing import TYPE_CHECKING
 
@@ -12,8 +12,8 @@ from app.domain.value_objects.club_role import ClubRole
 __all__ = ["ClubInvitation"]
 
 if TYPE_CHECKING:
-    from .moto_club_model import MotoClub
-    from .user_model import User
+    from .motoclub import MotoClub
+    from .user import User
 
 
 class ClubInvitation(UUIDAuditBase):

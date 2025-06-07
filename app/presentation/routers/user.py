@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Request, status
 
 from app.application.controllers.user_controller import UserController
 from app.application.exceptions import NotFoundError
-from app.domain.ports.services.token_service import TokenServicePort
+from app.domain.ports.services.token import TokenServicePort
 from app.domain.value_objects.user_role import UserRole
 from app.presentation.dependencies.auth import check_role, get_current_user_dishka
 from app.presentation.schemas.user import (

@@ -1,4 +1,4 @@
-# app/infrastructure/models/media_file_model.py
+# app/infrastructure/models/media_file.py
 
 from typing import TYPE_CHECKING
 
@@ -12,7 +12,7 @@ from app.domain.value_objects.file_type import FileType
 __all__ = ["MediaFile"]
 
 if TYPE_CHECKING:
-    from .user_model import User
+    from .user import User
 
 
 class MediaFile(UUIDAuditBase):

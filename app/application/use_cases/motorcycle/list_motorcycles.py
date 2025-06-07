@@ -1,7 +1,7 @@
 # app/application/use_cases/motorcycle/list_motorcycles.py
 
 from app.domain.entities.motorcycle import Motorcycle
-from app.domain.ports.epositories.motorcycle_repository import IMotorcycleRepository
+from app.domain.ports.repositories.motorcycle import IMotorcycleRepository
 from app.domain.ports.specs.motorcycle import MotorcycleSpecificationPort
 
 

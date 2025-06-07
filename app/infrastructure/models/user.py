@@ -1,4 +1,4 @@
-# app/infrastructure/models/user_model.py
+# app/infrastructure/models/user.py
 
 from typing import TYPE_CHECKING
 
@@ -9,8 +9,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.domain.value_objects.user_role import UserRole
 
 if TYPE_CHECKING:
-    from .motorcycle_model import Motorcycle
-    from .profile_model import Profile
+    from .motorcycle import Motorcycle
+    from .profile import Profile
 
 
 class User(UUIDAuditBase):

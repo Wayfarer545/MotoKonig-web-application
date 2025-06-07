@@ -7,9 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.domain.entities.moto_club import MotoClub
-from app.domain.ports.epositories.moto_club_repository import IMotoClubRepository
+from app.domain.ports.repositories.moto_club import IMotoClubRepository
 from app.domain.ports.specs.moto_club import MotoClubSpecificationPort
-from app.infrastructure.models.moto_club_model import MotoClub as MotoClubModel
+from app.infrastructure.models.motoclub import MotoClub as MotoClubModel
 
 
 class SqlMotoClubRepository(IMotoClubRepository):

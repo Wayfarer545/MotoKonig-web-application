@@ -1,4 +1,4 @@
-# app/infrastructure/di/providers/presentation.py
+# app/infrastructure/di/providers/provider.py
 
 from dishka import Provider, Scope, provide
 

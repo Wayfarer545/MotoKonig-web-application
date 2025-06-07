@@ -2,8 +2,8 @@
 
 from typing import Any
 
-from app.domain.ports.epositories.user_repository import UserSpecificationPort
-from app.infrastructure.models.user_model import User as UserModel
+from app.domain.ports.repositories.user import UserSpecificationPort
+from app.infrastructure.models.user import User as UserModel
 
 
 class UserByName(UserSpecificationPort):

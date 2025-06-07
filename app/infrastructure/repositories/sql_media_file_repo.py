@@ -6,9 +6,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.media_file import MediaFile
-from app.domain.ports.epositories.media_file_repository import IMediaFileRepository
+from app.domain.ports.repositories.media_file import IMediaFileRepository
 from app.domain.value_objects.file_type import FileType
-from app.infrastructure.models.media_file_model import MediaFile as MediaFileModel
+from app.infrastructure.models.media_file import MediaFile as MediaFileModel
 
 
 class SqlMediaFileRepository(IMediaFileRepository):

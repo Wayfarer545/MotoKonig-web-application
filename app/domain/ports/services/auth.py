@@ -1,4 +1,4 @@
-# app/domain/ports/auth_service.py
+# app/domain/ports/auth.py
 from typing import Protocol
 
 from app.domain.entities.user import User

@@ -6,9 +6,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.motorcycle import EngineType, Motorcycle, MotorcycleType
-from app.domain.ports.epositories.motorcycle_repository import IMotorcycleRepository
+from app.domain.ports.repositories.motorcycle import IMotorcycleRepository
 from app.domain.ports.specs.motorcycle import MotorcycleSpecificationPort
-from app.infrastructure.models.motorcycle_model import Motorcycle as MotorcycleModel
+from app.infrastructure.models.motorcycle import Motorcycle as MotorcycleModel
 
 
 class SqlMotorcycleRepository(IMotorcycleRepository):
