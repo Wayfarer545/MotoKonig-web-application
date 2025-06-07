@@ -1,5 +1,6 @@
 networks:
   backend:
+    name: ec2-user_backend
     driver: bridge
 
 volumes:

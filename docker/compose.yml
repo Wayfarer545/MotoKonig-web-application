@@ -12,12 +12,12 @@ services:
       SECRET_KEY: ${SECRET_KEY:-your-super-secret-key}
     restart: unless-stopped
     networks:
-      - backend
+      - mk_network
 
 volumes:
   postgres_data:
 
 networks:
-  ec2-user_backend:
+  mk_network:
     driver: bridge
-    name: ec2-user_backend
+    name: mk_network
