@@ -4,7 +4,7 @@ services:
   backend:
     container_name: mk-api
     hostname: mk-api
-    image: ${CI_REGISTRY_IMAGE}:latest
+    image: registry.gitlab.com/motokonig/mk-backend/api-service:latest
     ports:
       - "80:8000"
     environment:
