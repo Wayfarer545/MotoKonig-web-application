@@ -2,9 +2,8 @@
 
 from uuid import UUID
 
-from app.domain.ports.repositories.file_storage import FileStoragePort
-
 from app.domain.entities.media_file import MediaFile
+from app.domain.ports.repositories.file_storage import FileStoragePort
 from app.domain.ports.repositories.media_file import IMediaFileRepository
 from app.domain.value_objects.file_type import FileType
 

@@ -7,7 +7,6 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from app.domain.ports.repositories.pin_storage import PinStoragePort
-
 from app.domain.ports.repositories.user import IUserRepository
 from app.domain.ports.services.token import TokenServicePort
 from app.infrastructure.specs.user.user_by_id import UserById
