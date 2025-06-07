@@ -12,7 +12,7 @@ from dishka import make_async_container
 from dishka.integrations.fastapi import FastapiProvider, setup_dishka
 from fastapi import FastAPI
 
-from app.config.logging_config import setup_logging
+from app.config.logging import setup_logging
 from app.config.settings import Config
 from app.infrastructure.di.container import (
     InfrastructureProvider,

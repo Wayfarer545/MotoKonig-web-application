@@ -169,7 +169,7 @@ async def update_my_profile(
         )
 
         profile_dto = await controller.update_profile(
-            profile_id=UUID(existing_profile["id"]),
+            profile_id=existing_profile["id"],
             bio=dto.bio,
             location=dto.location,
             phone=dto.phone,
