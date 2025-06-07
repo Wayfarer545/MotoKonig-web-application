@@ -65,9 +65,11 @@ build:
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)-release$/
   script:
+    - echo "Building API image.."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
     - docker build -t "$CI_REGISTRY_IMAGE:latest" -f docker/Dockerfile .
     - docker push "$CI_REGISTRY_IMAGE:latest"
+    - echo "Building complete."
 
 # Деплой
 deploy:
@@ -94,5 +96,4 @@ deploy:
     # Обновляем контейнер при помощи docker compose
     - >
       ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "docker-compose -f ~/compose.yml pull backend && \
-       docker-compose -f ~/compose.yml up -d --no-deps backend"
+      "docker-compose -f ~./docker/compose.yml up -d --no-deps backend"

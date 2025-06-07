@@ -2,12 +2,13 @@ version: "3.9"
 
 services:
   backend:
-    image: ${CI_REGISTRY_IMAGE}:latest
+    container_name: mk-api
+    hostname: mk-api
+    image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
     ports:
       - "80:8000"
     environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:${DB_PASSWORD:-strongpassword}@postgres:5432/motokonig
-      REDIS_HOST: redis
+      VERSION: ${VERSION}
       SECRET_KEY: ${SECRET_KEY:-your-super-secret-key}
     restart: unless-stopped
     networks:
