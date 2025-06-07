@@ -8,7 +8,6 @@ services:
     ports:
       - "80:8000"
     environment:
-      VERSION: ${VERSION}
       SECRET_KEY: ${SECRET_KEY:-your-super-secret-key}
     restart: unless-stopped
     networks:
