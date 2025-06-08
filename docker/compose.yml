@@ -12,7 +12,7 @@ services:
       - "443:443"
 
     volumes:
-      - ./motokonig/Dockerfile:/etc/caddy/Caddyfile:ro
+      - ./motokonig/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
       - caddy-config:/config
 
