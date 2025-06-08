@@ -21,13 +21,14 @@ lint:
   stage: lint
   image: python:3.12-slim
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
       changes:
         - "app/**/*"
-        - "tests/**/*"
         - "migrations/**/*"
+        - "tests/**/*"
         - "pyproject.toml"
         - "docker/**/*"
+        - ".gitlab-ci.yml"
   script:
     - pip install --no-cache-dir uv ruff
     - ruff check app/
@@ -38,13 +39,14 @@ test:
   stage: test
   image: python:3.12-slim
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
+    - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
       changes:
         - "app/**/*"
         - "tests/**/*"
         - "migrations/**/*"
         - "pyproject.toml"
         - "docker/**/*"
+        - ".gitlab-ci.yml"
   before_script:
     # Устанавливаем системные зависимости
     - apt-get update && apt-get install -y gcc g++ build-essential
