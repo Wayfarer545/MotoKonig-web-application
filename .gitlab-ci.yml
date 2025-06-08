@@ -43,10 +43,11 @@ test:
     - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
       changes:
         - "app/**/*"
-        - "tests/**/*"
         - "migrations/**/*"
+        - "tests/**/*"
         - "pyproject.toml"
         - "docker/**/*"
+        - ".gitlab-ci.yml"
   before_script:
     # Устанавливаем системные зависимости
     - apt-get update && apt-get install -y gcc g++ build-essential
