@@ -1,6 +1,7 @@
 stages:
   - lint
   - test
+  - pages
   - build
   - deploy
 
@@ -21,12 +22,14 @@ lint:
   stage: lint
   image: python:3.12-slim
   rules:
-    - changes:
+    - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
+      changes:
         - "app/**/*"
         - "migrations/**/*"
         - "tests/**/*"
         - "pyproject.toml"
         - "docker/**/*"
+        - ".gitlab-ci.yml"
   script:
     - pip install --no-cache-dir uv ruff
     - ruff check app/
@@ -37,28 +40,57 @@ test:
   stage: test
   image: python:3.12-slim
   rules:
-    - changes:
+    - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
+      changes:
         - "app/**/*"
-        - "tests/**/*"
         - "migrations/**/*"
+        - "tests/**/*"
         - "pyproject.toml"
         - "docker/**/*"
+        - ".gitlab-ci.yml"
   before_script:
     # Устанавливаем системные зависимости
     - apt-get update && apt-get install -y gcc g++ build-essential
     - pip install --no-cache-dir uv
   script:
     - uv sync --dev
-    - uv run pytest tests/ -v --cov=app --cov-report=xml --cov-report=term
+    - >-
+      uv run pytest tests/ -v --cov=app --cov-report=xml --cov-report=term
+      --cov-report=html --junitxml=report.xml
   artifacts:
     reports:
-      coverage: coverage.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+      junit: report.xml
     paths:
       - coverage.xml
       - htmlcov/
+      - report.xml
     expire_in: 1 week
   coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   allow_failure: true
+
+# Publish coverage as GitLab Pages
+pages:
+  stage: pages
+  dependencies:
+    - test
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
+      changes:
+        - "app/**/*"
+        - "migrations/**/*"
+        - "tests/**/*"
+        - "pyproject.toml"
+        - "docker/**/*"
+        - ".gitlab-ci.yml"
+  script:
+    - mkdir -p public
+    - mv htmlcov/* public/
+  artifacts:
+    paths:
+      - public
 
 # Сборка образа
 build:
@@ -67,8 +99,7 @@ build:
   services:
     - docker:24-dind
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)-release$/
+    - if: '$CI_COMMIT_TAG =~ /^v(?:\d+\.){2}\d+-release$/'
   script:
     - echo "Building API image.."
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
@@ -81,8 +112,7 @@ deploy:
   stage: deploy
   image: alpine:latest
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"
-    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)-release$/
+    - if: '$CI_COMMIT_TAG =~ /^v(?:\d+\.){2}\d+-release$/'
   before_script:
     # Установим ssh-agent, rsync, docker-cli если надо
     - apk add --no-cache openssh-client rsync
