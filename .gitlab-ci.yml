@@ -78,6 +78,13 @@ pages:
     - test
   rules:
     - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
+      changes:
+        - "app/**/*"
+        - "migrations/**/*"
+        - "tests/**/*"
+        - "pyproject.toml"
+        - "docker/**/*"
+        - ".gitlab-ci.yml"
   script:
     - mkdir -p public
     - mv htmlcov/* public/

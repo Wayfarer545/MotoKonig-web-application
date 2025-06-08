@@ -1,4 +1,4 @@
-# app/infrastructure/di/providers/provider.py
+# app/infrastructure/di/providers/infrastructure/provider.py
 
 from advanced_alchemy.extensions.fastapi import AdvancedAlchemy
 from dishka import Provider, Scope, provide
