@@ -8,7 +8,7 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375/
-  AUTO_DEVOPS_PLATFORM_TARGET: EC2
+  AUTO_DEVOPS_PLATFORM_TARGET: "EC2"
   UV_CACHE_DIR: "$CI_PROJECT_DIR/.uv-cache"
 
 cache:
@@ -32,6 +32,7 @@ lint:
     - ruff check app/
   allow_failure: true
 
+# Тестирование
 test:
   stage: test
   image: python:3.12-slim
@@ -42,17 +43,21 @@ test:
         - "migrations/**/*"
         - "pyproject.toml"
         - "docker/**/*"
-  script:
+  before_script:
+    # Устанавливаем системные зависимости
+    - apt-get update && apt-get install -y gcc g++ build-essential
     - pip install --no-cache-dir uv
-    - uv pip install -e ".[dev]"
-    - pytest tests/ -v --cov=app --cov-report=xml
+  script:
+    - uv sync --dev
+    - uv run pytest tests/ -v --cov=app --cov-report=xml --cov-report=term
   artifacts:
+    reports:
+      coverage: coverage.xml
     paths:
       - coverage.xml
-    reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
+      - htmlcov/
+    expire_in: 1 week
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
   allow_failure: true
 
 # Сборка образа
