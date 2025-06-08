@@ -118,7 +118,7 @@ deploy:
     - apk add --no-cache openssh-client rsync
     # Добавим ключ для ssh
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -  #LF
     # Отключим host checking (можно убрать для продакшена)
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
