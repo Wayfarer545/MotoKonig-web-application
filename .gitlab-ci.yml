@@ -74,25 +74,24 @@ build:
 deploy:
   stage: deploy
   image: alpine:latest
-  only:
-    - main
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_TAG =~ /^v(?:\d+.){2}(?:\d+)-release$/
   before_script:
-    # Установим ssh-agent, rsync, docker-cli если надо
-    - apk add --no-cache openssh-client rsync
-    # Добавим ключ для ssh
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    # Отключим host checking (можно убрать для продакшена)
+    - apk add --no-cache openssh rsync
+    # Разворачиваем приватный ключ в файл
     - mkdir -p ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan ec2-3-71-173-220.eu-central-1.compute.amazonaws.com >> ~/.ssh/known_hosts
   script:
-    - >
-      ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
-    # Загружаем compose-файл на сервер
-    - rsync -avz docker/compose.yml ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/compose.yml
-    # Обновляем контейнер при помощи docker compose
-    - >
-      ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "docker compose -f ~/compose.yml pull backend && \
-       docker compose -f ~/compose.yml up -d --no-deps backend"
+    - |
+      ssh -tt ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com <<'EOF'
+        cd /home/ec2-user/motokonig
+        git pull origin main
+        docker-compose pull
+        docker-compose down
+        docker-compose up -d
+        sleep 5
+        docker-compose exec -T backend alembic upgrade head
+      EOF
