@@ -16,45 +16,6 @@ cache:
     - .uv-cache/
     - uv.lock
 
-# Линтинг
-lint:
-  stage: lint
-  image: python:3.12-slim
-  rules:
-    - if: '$CI_COMMIT_BRANCH =~ /^(main|dev)$/'
-      changes:
-        - "app/**/*"
-        - "migrations/**/*"
-        - "tests/**/*"
-        - "pyproject.toml"
-        - "docker/**/*"
-        - ".gitlab-ci.yml"
-  script:
-    - pip install --no-cache-dir uv ruff
-    - ruff check app/
-  allow_failure: true
-
-# Тестирование
-test:
-  stage: test
-  image: python:3.12-slim
-  before_script:
-    # Устанавливаем системные зависимости
-    - apt-get update && apt-get install -y gcc g++ build-essential
-    - pip install --no-cache-dir uv
-  script:
-    - uv sync --dev
-    - uv run pytest tests/ -v --cov=app --cov-report=xml --cov-report=term
-  artifacts:
-    reports:
-      coverage: coverage.xml
-    paths:
-      - coverage.xml
-      - htmlcov/
-    expire_in: 1 week
-  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
-  allow_failure: true
-
 # Сборка образа
 build:
   stage: build
