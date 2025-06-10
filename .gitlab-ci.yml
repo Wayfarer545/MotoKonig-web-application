@@ -9,7 +9,6 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_HOST: tcp://docker:2375/
-  AUTO_DEVOPS_PLATFORM_TARGET: "EC2"
   UV_CACHE_DIR: "$CI_PROJECT_DIR/.uv-cache"
 
 cache:
@@ -36,44 +35,26 @@ build:
 deploy:
   stage: deploy
   image: alpine:latest
-
-  # Запуск только на тегах vX.Y.Z-release
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v(?:\d+\.){2}\d+-release$/'
-
+  only:
+    - main
   before_script:
+    # Установим ssh-agent, rsync, docker-cli если надо
     - apk add --no-cache openssh-client rsync
-    - eval "$(ssh-agent -s)"
-
-    # --- SSH-ключ приходит как File-variable ---
-    - |
-      if [ ! -f "$SSH_PRIVATE_KEY" ]; then
-        echo "❌ SSH_PRIVATE_KEY: path not found (проверь, что переменная Type=File)" >&2
-        exit 1
-      fi
-      chmod 600 "$SSH_PRIVATE_KEY"
-      ssh-add  "$SSH_PRIVATE_KEY"
-
-    # --- ~/.ssh/config для беспромптового коннекта ---
+    # Добавим ключ для ssh
+    - eval $(ssh-agent -s)
+    - chmod 400 "$SSH_PRIVATE_KEY"
+    - ssh-add "$SSH_PRIVATE_KEY"
+    # Отключим host checking (можно убрать для продакшена)
     - mkdir -p ~/.ssh
-    - printf 'Host *\n\tStrictHostKeyChecking no\n' > ~/.ssh/config
-
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   script:
-    # 1) логин в приватный registry на сервере
     - >
-      ssh -o PubkeyAcceptedAlgorithms=+ssh-rsa \
-          -o StrictHostKeyChecking=no \
-          ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
+      ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
       "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
-
-    # 2) выгрузка файлов
-    - rsync -avz docker/compose.yml \
-        ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/motokonig/compose.yml
-    - rsync -avz Caddyfile \
-        ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/motokonig/Caddyfile
-
-    # 3) перезапуск backend-сервиса
+    # Загружаем compose-файл на сервер
+    - rsync -avz docker/compose.yml ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/compose.yml
+    # Обновляем контейнер при помощи docker compose
     - >
-      ssh -o PubkeyAcceptedAlgorithms=+ssh-rsa \
-          ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "docker-compose -f ~/motokonig/compose.yml up -d --no-deps backend --force-recreate"
+      ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
+      "docker compose -f ~/compose.yml pull backend && \
+       docker compose -f ~/compose.yml up -d --no-deps backend"
