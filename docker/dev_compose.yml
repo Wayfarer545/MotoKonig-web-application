@@ -1,16 +1,9 @@
-networks:
-  backend:
-    name: ec2-user_backend
-    driver: bridge
-
-volumes:
-  postgres-data:
-  minio-data:
-  redis-data:
-
 services:
+  # Postgres 16 — relational database
   postgres:
     image: postgres:16-alpine
+    container_name: postgres
+    hostname: postgres
     restart: unless-stopped
 
     environment:
@@ -27,20 +20,18 @@ services:
       timeout: 5s
       retries: 5
 
-    ports:
-      - "5432:5432"
     networks:
       - mk_network
+    ports:
+      - "5432:5432"
+
 
   # MinIO — S3‑compatible object storage
   minio:
     image: quay.io/minio/minio:latest
+    container_name: minio
+    hostname: minio
     restart: unless-stopped
-
-    # Expose web console (9001) and S3 API (9000)
-    ports:
-      - "9000:9000"
-      - "9001:9001"
 
     environment:
       MINIO_ADDRESS: ":9000"
@@ -61,9 +52,15 @@ services:
     networks:
       - mk_network
 
+    ports:
+      - "9000:9000"  # MinIO API
+      - "9001:9001"  # MinIO Console
+
   # Redis 7 — in‑memory cache & message broker
   redis:
     image: redis:alpine
+    container_name: redis
+    hostname: redis
     restart: unless-stopped
 
     command: ["redis-server", "--appendonly", "yes"]
@@ -76,7 +73,39 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    ports:
-      - "6379:6379"
     networks:
       - mk_network
+    ports:
+        - "6379:6379"  # Redis API
+
+  # API service
+  backend:
+    container_name: mk-api
+    hostname: mk-api
+    build:
+      dockerfile: docker/Dockerfile
+      context: ..
+    image: api-service:latest
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-my-very-awesome-secret-key}
+      REDIS_HOST: redis
+      MINIO_ENDPOINT: minio:9000
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: motokonig
+    restart: unless-stopped
+    networks:
+      - mk_network
+    ports:
+      - "8000:8000"
+
+networks:
+  mk_network:
+    driver: bridge
+    name: mk_network
+
+volumes:
+  caddy-data:
+  caddy-config:
+  postgres-data:
+  minio-data:
+  redis-data:

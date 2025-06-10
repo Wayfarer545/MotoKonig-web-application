@@ -1,4 +1,5 @@
 services:
+  # Caddy — web server & reverse proxy
   caddy:
     image: caddy:latest
     container_name: caddy
@@ -17,6 +18,10 @@ services:
     networks:
       - mk_network
 
+    depends_on:
+      - backend
+
+  # Postgres 16 — relational database
   postgres:
     image: postgres:16-alpine
     container_name: postgres
@@ -86,6 +91,7 @@ services:
     networks:
       - mk_network
 
+  # Backend API service
   backend:
     container_name: mk-api
     hostname: mk-api
@@ -95,6 +101,7 @@ services:
       REDIS_HOST: redis
       MINIO_ENDPOINT: minio:9000
       POSTGRES_HOST: postgres
+      POSTGRES_DB: motokonig
     restart: unless-stopped
     networks:
       - mk_network

@@ -17,10 +17,18 @@ class SecuritySettings(BaseModel):
 
 
 class PostgresConfig(BaseModel):
-    postgres_user: str = Field(alias='POSTGRES_USER', default="postgres")
-    postgres_password: str = Field(alias='POSTGRES_PASSWORD', default="postgres")
+    postgres_db: str = Field(alias='POSTGRES_DB', default="motokonig")
+    postgres_user: str = Field(alias='POSTGRES_USER', default="motokonig")
+    postgres_password: str = Field(alias='POSTGRES_PASSWORD', default="motokonig")
     postgres_host: str = Field(alias='POSTGRES_HOST', default="localhost")
     postgres_port: int = Field(alias='POSTGRES_PORT', default=5432)
+    
+    def get_dsn(self) -> str:
+        """Return the PostgreSQL DSN."""
+        return (
+            f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@"
+            f"{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+        )
 
 
 class RedisConfig(BaseModel):
@@ -72,6 +80,7 @@ class Config(BaseModel):
     security: SecuritySettings = Field(default_factory=lambda: SecuritySettings(**env))
     redis: RedisConfig = Field(default_factory=lambda: RedisConfig(**env))
     sqlite: SQLiteConfig = Field(default_factory=lambda: SQLiteConfig(**env))
+    postgres: PostgresConfig = Field(default_factory=lambda: PostgresConfig(**env))
     storage: StorageConfig = Field(default_factory=lambda: StorageConfig(**env))
     logging: LoggingConfig = Field(default_factory=lambda: LoggingConfig(**env))
     rabbitmq: RabbitMQConfig = Field(default_factory=lambda: RabbitMQConfig(**env))
