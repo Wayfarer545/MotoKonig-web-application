@@ -22,7 +22,7 @@ class PostgresConfig(BaseModel):
     postgres_password: str = Field(alias='POSTGRES_PASSWORD', default="motokonig")
     postgres_host: str = Field(alias='POSTGRES_HOST', default="localhost")
     postgres_port: int = Field(alias='POSTGRES_PORT', default=5432)
-    
+
     def get_dsn(self) -> str:
         """Return the PostgreSQL DSN."""
         return (

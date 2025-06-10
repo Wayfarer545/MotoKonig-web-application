@@ -170,15 +170,15 @@ def test_motorcycle_to_dto():
 
 
 def base_args():
-    return dict(
-        owner_id=uuid4(),
-        brand="Honda",
-        model="CBR",
-        year=2024,
-        engine_volume=1000,
-        engine_type=EngineType.INLINE_4,
-        motorcycle_type=MotorcycleType.SPORT,
-    )
+    return {
+        'owner_id': uuid4(),
+        'brand': "Honda",
+        'model': "CBR",
+        'year': 2024,
+        'engine_volume': 1000,
+        'engine_type': EngineType.INLINE_4,
+        'motorcycle_type': MotorcycleType.SPORT
+    }
 
 
 def test_motorcycle_extra_validation():
@@ -188,13 +188,16 @@ def test_motorcycle_extra_validation():
         Motorcycle(**base_args(), power=600)
     with pytest.raises(ValueError):
         Motorcycle(**base_args(), mileage=-5)
-    args = base_args(); args["engine_volume"] = 4000
+    args = base_args()
+    args["engine_volume"] = 4000
     with pytest.raises(ValueError):
         Motorcycle(**args)
-    args = base_args(); args["brand"] = "A"
+    args = base_args()
+    args["brand"] = "A"
     with pytest.raises(ValueError):
         Motorcycle(**args)
-    args = base_args(); args["model"] = ""
+    args = base_args()
+    args["model"] = ""
     with pytest.raises(ValueError):
         Motorcycle(**args)
 
