@@ -83,7 +83,7 @@ build:
     - export API_VERSION=$(echo "$CI_COMMIT_TAG" | sed -E 's/^v([0-9]+\.[0-9]+\.[0-9]+)-release$/\1/')
     - echo "📦  API_VERSION=$API_VERSION"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build --build-arg API_VERSION="$API_VERSION" \
+    - docker buildx build --build-arg API_VERSION="$API_VERSION" \
       -t "$CI_REGISTRY_IMAGE:$API_VERSION" \
       -t "$CI_REGISTRY_IMAGE:latest" \
       -f docker/Dockerfile .
