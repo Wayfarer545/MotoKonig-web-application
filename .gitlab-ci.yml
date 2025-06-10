@@ -37,37 +37,49 @@ deploy:
   stage: deploy
   image: alpine:latest
 
-  # Запускаем только на тегах вида v1.2.3-release
+  # Запуск только на тегах вида v1.2.3-release
   rules:
     - if: '$CI_COMMIT_TAG =~ /^v(?:\d+\.){2}\d+-release$/'
 
+  variables:
+    # Фолбэк-файл, если ключ пришёл строкой
+    SSH_KEY_TMP: "$CI_PROJECT_DIR/.ssh_id_rsa"
+
   before_script:
-    # --- базовые утилиты ---
     - apk add --no-cache openssh-client rsync
+    - eval "$(ssh-agent -s)"
 
-    # --- готовим SSH ---
-    - eval "$(ssh-agent -s)"           # старт агента
-    - chmod 600 "$SSH_PRIVATE_KEY"     # права 600 на файл-ключ
-    - ssh-add  "$SSH_PRIVATE_KEY"      # добавляем в агент
+    # --- готовим ключ ---
+    - |
+      if [ -z "$SSH_PRIVATE_KEY" ]; then
+        echo "❌  SSH_PRIVATE_KEY is empty"; exit 1
+      fi
 
-    # отключаем проверку known_hosts, чтобы не ловить prompt
+      if [ -f "$SSH_PRIVATE_KEY" ]; then          # File-variable → путь
+        KEY_PATH="$SSH_PRIVATE_KEY"
+      else                                        # Строка → пишем файл сами
+        printf '%b\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > "$SSH_KEY_TMP"
+        KEY_PATH="$SSH_KEY_TMP"
+      fi
+
+      chmod 600 "$KEY_PATH"
+      ssh-add  "$KEY_PATH"
+
+    # --- SSH config ---
     - mkdir -p ~/.ssh
     - printf 'Host *\n\tStrictHostKeyChecking no\n' > ~/.ssh/config
 
   script:
-    # 1) логинимся в приватный реестр на сервере
-    - >
+    - |
       ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
+        "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
 
-    # 2) заливаем файлы
     - rsync -avz docker/compose.yml \
         ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/motokonig/compose.yml
 
     - rsync -avz Caddyfile \
         ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/motokonig/Caddyfile
 
-    # 3) перезапускаем сервисы
-    - >
+    - |
       ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
-      "docker-compose -f ~/motokonig/compose.yml up -d --no-deps backend --force-recreate"
+        "docker-compose -f ~/motokonig/compose.yml up -d --no-deps backend --force-recreate"
