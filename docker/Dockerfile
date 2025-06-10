@@ -1,6 +1,9 @@
 # Dockerfile
 FROM python:3.12-slim
 
+ARG API_VERSION
+ENV API_VERSION="${API_VERSION}"
+
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \

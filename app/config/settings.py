@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 
 class ProjectConfig(BaseModel):
     project_name: str = "MotoKonig API Gateway"
-    version: str = Field(alias='VERSION', default='dev')
+    version: str = Field(alias='API_VERSION', default='dev')
 
 
 class SecuritySettings(BaseModel):
