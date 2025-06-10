@@ -10,6 +10,8 @@ from .motorcycle import Motorcycle
 from .profile import Profile
 from .social_link import SocialLink
 from .user import User
+from .listing import Listing
+from .listing_favorite import ListingFavorite
 
 # Для target_metadata в Alembic и единообразных импортов
 Base = AdvancedDeclarativeBase()
@@ -25,4 +27,6 @@ __all__ = [
     "MotoClub",
     "ClubMembership",
     "ClubInvitation",
+    "Listing",
+    "ListingFavorite",
 ]

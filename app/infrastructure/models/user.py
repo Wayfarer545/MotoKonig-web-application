@@ -9,6 +9,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.domain.value_objects.user_role import UserRole
 
 if TYPE_CHECKING:
+    from .listing import Listing
+    from .listing_favorite import ListingFavorite
     from .motorcycle import Motorcycle
     from .profile import Profile
 
@@ -35,5 +37,20 @@ class User(UUIDAuditBase):
         back_populates="user",
         cascade="all, delete-orphan",
         uselist=False,  # One-to-One отношение
+        lazy="selectin"
+    )
+    
+    listings: Mapped[list["Listing"]] = relationship(
+        "Listing",
+        back_populates="seller",
+        cascade="all, delete-orphan",
+        lazy="selectin"
+    )
+
+    # Связь с избранными объявлениями
+    favorite_listings: Mapped[list["ListingFavorite"]] = relationship(
+        "ListingFavorite",
+        back_populates="user",
+        cascade="all, delete-orphan",
         lazy="selectin"
     )

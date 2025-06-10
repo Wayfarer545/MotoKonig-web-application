@@ -9,6 +9,7 @@ from .moto_club import router as moto_club_router
 from .motorcycle import router as motorcycle_router
 from .profile import router as profile_router
 from .user import router as user_router
+from .listing import router as listing_router
 
 __all__ = ["router"]
 
@@ -20,4 +21,4 @@ router.include_router(motorcycle_router, prefix="/motorcycle", tags=["Motorcycle
 router.include_router(profile_router, prefix="/profile", tags=["Profile"])
 router.include_router(media_router, prefix="/media", tags=["Media"])
 router.include_router(moto_club_router, prefix="/moto-club", tags=["Moto Club"])
-
+router.include_router(listing_router, prefix="/listings", tags=["Marketplace"])

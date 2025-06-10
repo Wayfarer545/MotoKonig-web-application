@@ -11,6 +11,7 @@ from .motorcycle import MotorcycleUseCaseProvider
 from .profile import ProfileUseCaseProvider
 from .social_link import SocialLinkUseCaseProvider
 from .user import UserUseCaseProvider
+from .listing import ListingUseCaseProvider
 
 
 class UseCaseProvider(
@@ -22,6 +23,7 @@ class UseCaseProvider(
     MediaUseCaseProvider,
     MotoClubUseCaseProvider,
     ClubUseCaseProvider,
+    ListingUseCaseProvider,
     Provider,
 ):
     """Main provider that combines domain-specific providers."""

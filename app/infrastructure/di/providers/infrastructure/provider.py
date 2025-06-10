@@ -15,6 +15,7 @@ from .profile import ProfileRepoProvider
 from .services import ServicesProvider
 from .social_link import SocialLinkRepoProvider
 from .user import UserRepoProvider
+from .listing import ListingRepoProvider
 
 
 class InfrastructureProvider(
@@ -27,6 +28,7 @@ class InfrastructureProvider(
     MotoClubRepoProvider,
     ClubRepoProvider,
     ServicesProvider,
+    ListingRepoProvider,
     Provider,
 ):
     def __init__(self, alchemy: AdvancedAlchemy, config: Config) -> None:
