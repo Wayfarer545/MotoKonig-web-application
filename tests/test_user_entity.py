@@ -25,3 +25,13 @@ def test_invalid_username(name):
     with pytest.raises(ValueError):
         User(username=name, password_hash="h")
 
+
+def test_password_required():
+    with pytest.raises(ValueError):
+        User(username="valid", password_hash="")
+
+
+def test_change_username_invalid():
+    user = User(username="valid", password_hash="hash")
+    with pytest.raises(ValueError):
+        user.change_username("ab")

@@ -32,7 +32,8 @@ async def test_get_token_from_header():
     assert await get_token_from_header(req) == 't'
     req = Request({'type': 'http', 'headers': [], 'method': 'GET', 'path': '/'})
     assert await get_token_from_header(req) is None
-
+    req = Request({'type': 'http', 'headers': [(b'authorization', b'Basic t')], 'method': 'GET', 'path': '/'})
+    assert await get_token_from_header(req) is None
 
 @pytest.mark.asyncio
 async def test_get_current_user():
@@ -43,6 +44,29 @@ async def test_get_current_user():
 
     service.blacklisted.add('bad')
     req = Request({'type': 'http', 'headers': [(b'authorization', b'Bearer bad')], 'method': 'GET', 'path': '/'})
+    with pytest.raises(HTTPException):
+        await get_current_user_dishka(req, service)
+
+@pytest.mark.asyncio
+async def test_get_current_user_missing_token():
+    service = DummyService({'sub': '1'*36, 'username': 'u', 'role': 'ADMIN', 'type': 'access'})
+    req = Request({'type': 'http', 'headers': [], 'method': 'GET', 'path': '/'})
+    with pytest.raises(HTTPException):
+        await get_current_user_dishka(req, service)
+
+
+@pytest.mark.asyncio
+async def test_get_current_user_decode_error():
+    service = DummyService({'sub': '1'*36, 'username': 'u', 'role': 'ADMIN', 'type': 'access'})
+    req = Request({'type': 'http', 'headers': [(b'authorization', b'Bearer bad')], 'method': 'GET', 'path': '/'})
+    with pytest.raises(HTTPException):
+        await get_current_user_dishka(req, service)
+
+
+@pytest.mark.asyncio
+async def test_get_current_user_invalid_type():
+    service = DummyService({'sub': '1'*36, 'username': 'u', 'role': 'ADMIN', 'type': 'refresh'})
+    req = Request({'type': 'http', 'headers': [(b'authorization', b'Bearer ok')], 'method': 'GET', 'path': '/'})
     with pytest.raises(HTTPException):
         await get_current_user_dishka(req, service)
 
