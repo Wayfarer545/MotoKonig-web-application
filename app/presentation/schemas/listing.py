@@ -7,7 +7,6 @@ from pydantic import BaseModel as _BaseModel
 from pydantic import ConfigDict, Field, field_validator
 
 from app.domain.value_objects.listing_category import ListingCategory
-from app.domain.value_objects.listing_status import ListingStatus
 
 
 class BaseModel(_BaseModel):

@@ -7,7 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.entities.listing_favorite import ListingFavorite
 from app.domain.ports.repositories.listing_favorite import IListingFavoriteRepository
-from app.infrastructure.models.listing_favorite import ListingFavorite as ListingFavoriteModel
+from app.infrastructure.models.listing_favorite import (
+    ListingFavorite as ListingFavoriteModel,
+)
 
 
 class SqlListingFavoriteRepository(IListingFavoriteRepository):

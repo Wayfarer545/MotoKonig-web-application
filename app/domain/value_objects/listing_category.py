@@ -10,7 +10,7 @@ class ListingCategory(Enum):
     EQUIPMENT = "equipment"  # Экипировка
     SERVICES = "services"  # Услуги
     ACCESSORIES = "accessories"  # Аксессуары
-    
+
     def get_display_name(self) -> str:
         """Получить отображаемое название категории"""
         display_names = {
@@ -21,7 +21,7 @@ class ListingCategory(Enum):
             ListingCategory.ACCESSORIES: "Аксессуары",
         }
         return display_names[self]
-    
+
     def get_description(self) -> str:
         """Получить описание категории"""
         descriptions = {

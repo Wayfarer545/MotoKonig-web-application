@@ -39,7 +39,7 @@ class User(UUIDAuditBase):
         uselist=False,  # One-to-One отношение
         lazy="selectin"
     )
-    
+
     listings: Mapped[list["Listing"]] = relationship(
         "Listing",
         back_populates="seller",

@@ -5,13 +5,13 @@ from dishka import Provider
 
 from .auth import AuthUseCaseProvider
 from .club import ClubUseCaseProvider
+from .listing import ListingUseCaseProvider
 from .media import MediaUseCaseProvider
 from .moto_club import MotoClubUseCaseProvider
 from .motorcycle import MotorcycleUseCaseProvider
 from .profile import ProfileUseCaseProvider
 from .social_link import SocialLinkUseCaseProvider
 from .user import UserUseCaseProvider
-from .listing import ListingUseCaseProvider
 
 
 class UseCaseProvider(

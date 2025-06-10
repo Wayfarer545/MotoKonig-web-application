@@ -9,7 +9,9 @@ from app.application.controllers.listing_controller import ListingController
 from app.application.exceptions import BadRequestError, NotFoundError
 from app.domain.entities.user import UserRole
 from app.domain.ports.services.token import TokenServicePort
-from app.domain.value_objects.listing_category import ListingCategory as DomainListingCategory
+from app.domain.value_objects.listing_category import (
+    ListingCategory as DomainListingCategory,
+)
 from app.presentation.dependencies.auth import get_current_user_dishka
 from app.presentation.schemas.listing import (
     CreateListingSchema,

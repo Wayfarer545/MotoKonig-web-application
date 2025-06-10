@@ -5,8 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain.ports.repositories.listing import IListingRepository
 from app.domain.ports.repositories.listing_favorite import IListingFavoriteRepository
+from app.infrastructure.repositories.sql_listing_favorite_repo import (
+    SqlListingFavoriteRepository,
+)
 from app.infrastructure.repositories.sql_listing_repo import SqlListingRepository
-from app.infrastructure.repositories.sql_listing_favorite_repo import SqlListingFavoriteRepository
 
 
 class ListingRepoProvider(Provider):

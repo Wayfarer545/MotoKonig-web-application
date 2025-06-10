@@ -8,6 +8,7 @@ from app.config.settings import Config
 
 from .base import InfrastructureBaseProvider
 from .club import ClubRepoProvider
+from .listing import ListingRepoProvider
 from .media import MediaRepoProvider
 from .moto_club import MotoClubRepoProvider
 from .motorcycle import MotorcycleRepoProvider
@@ -15,7 +16,6 @@ from .profile import ProfileRepoProvider
 from .services import ServicesProvider
 from .social_link import SocialLinkRepoProvider
 from .user import UserRepoProvider
-from .listing import ListingRepoProvider
 
 
 class InfrastructureProvider(

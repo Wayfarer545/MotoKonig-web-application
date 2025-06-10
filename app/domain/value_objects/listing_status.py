@@ -12,7 +12,7 @@ class ListingStatus(Enum):
     EXPIRED = "expired"  # Истек срок
     REJECTED = "rejected"  # Отклонено модерацией
     SUSPENDED = "suspended"  # Приостановлено
-    
+
     def get_display_name(self) -> str:
         """Получить отображаемое название статуса"""
         display_names = {
@@ -25,15 +25,15 @@ class ListingStatus(Enum):
             ListingStatus.SUSPENDED: "Приостановлено",
         }
         return display_names[self]
-    
+
     def is_visible_to_public(self) -> bool:
         """Видно ли объявление публично"""
         return self in [ListingStatus.ACTIVE]
-    
+
     def is_editable(self) -> bool:
         """Можно ли редактировать объявление"""
         return self in [ListingStatus.DRAFT, ListingStatus.REJECTED]
-    
+
     def can_be_activated(self) -> bool:
         """Может ли быть активировано"""
         return self in [ListingStatus.DRAFT, ListingStatus.REJECTED, ListingStatus.SUSPENDED]

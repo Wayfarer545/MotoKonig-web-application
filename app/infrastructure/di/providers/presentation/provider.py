@@ -4,12 +4,12 @@
 from dishka import Provider
 
 from .auth import AuthControllerProvider
+from .listing import ListingControllerProvider
 from .media import MediaControllerProvider
 from .moto_club import MotoClubControllerProvider
 from .motorcycle import MotorcycleControllerProvider
 from .profile import ProfileControllerProvider
 from .user import UserControllerProvider
-from .listing import ListingControllerProvider
 
 
 class PresentationProvider(
@@ -20,7 +20,7 @@ class PresentationProvider(
     MediaControllerProvider,
     ListingControllerProvider,
     MotoClubControllerProvider,
-    
+
     Provider,
 ):
     """Main provider that combines domain-specific controller providers."""

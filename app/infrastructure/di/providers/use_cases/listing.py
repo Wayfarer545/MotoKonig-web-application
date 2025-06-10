@@ -7,7 +7,9 @@ from app.application.use_cases.listing.create_listing import CreateListingUseCas
 from app.application.use_cases.listing.delete_listing import DeleteListingUseCase
 from app.application.use_cases.listing.get_listing import GetListingUseCase
 from app.application.use_cases.listing.list_listings import ListListingsUseCase
-from app.application.use_cases.listing.remove_from_favorites import RemoveFromFavoritesUseCase
+from app.application.use_cases.listing.remove_from_favorites import (
+    RemoveFromFavoritesUseCase,
+)
 from app.application.use_cases.listing.update_listing import UpdateListingUseCase
 from app.domain.ports.repositories.listing import IListingRepository
 from app.domain.ports.repositories.listing_favorite import IListingFavoriteRepository
