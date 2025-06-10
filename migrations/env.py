@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.config.settings import Config
 
-db_url = Config().sqlite.sqlite_dsn
+db_url = Config().postgres.get_dsn()
 
 # Создаём асинхронный движок
 engine = create_async_engine(db_url, echo=False)
