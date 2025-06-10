@@ -53,8 +53,10 @@ deploy:
       "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
     # Загружаем compose-файл на сервер
     - rsync -avz docker/compose.yml ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/compose.yml
+    - rsync -avz Caddyfile ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com:~/Caddyfile
     # Обновляем контейнер при помощи docker compose
     - >
       ssh ec2-user@ec2-3-71-173-220.eu-central-1.compute.amazonaws.com \
       "docker-compose -f ~/compose.yml pull backend && \
-       docker-compose -f ~/compose.yml up -d --no-deps backend"
+       docker-compose -f ~/compose.yml up -d --no-deps --force-recreate backend && \
+       docker restart caddy"
