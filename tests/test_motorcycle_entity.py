@@ -166,3 +166,45 @@ def test_motorcycle_to_dto():
     assert dto["is_active"] is True
     assert "display_name" in dto
     assert "engine_info" in dto
+
+
+
+def base_args():
+    return dict(
+        owner_id=uuid4(),
+        brand="Honda",
+        model="CBR",
+        year=2024,
+        engine_volume=1000,
+        engine_type=EngineType.INLINE_4,
+        motorcycle_type=MotorcycleType.SPORT,
+    )
+
+
+def test_motorcycle_extra_validation():
+    with pytest.raises(ValueError):
+        Motorcycle(**base_args(), power=-1)
+    with pytest.raises(ValueError):
+        Motorcycle(**base_args(), power=600)
+    with pytest.raises(ValueError):
+        Motorcycle(**base_args(), mileage=-5)
+    args = base_args(); args["engine_volume"] = 4000
+    with pytest.raises(ValueError):
+        Motorcycle(**args)
+    args = base_args(); args["brand"] = "A"
+    with pytest.raises(ValueError):
+        Motorcycle(**args)
+    args = base_args(); args["model"] = ""
+    with pytest.raises(ValueError):
+        Motorcycle(**args)
+
+
+def test_update_description_and_mileage_validation():
+    m = Motorcycle(**base_args(), mileage=100, description="  text  ")
+    assert m.description == "text"
+    m.update_description(" new ")
+    assert m.description == "new"
+    m.update_description(None)
+    assert m.description is None
+    with pytest.raises(ValueError):
+        m.update_mileage(-1)
