@@ -54,6 +54,7 @@ test:
     - pip install --no-cache-dir uv
   script:
     - uv sync --dev
+    - grep -RIL $'\r' . && echo 'CRLF found' && exit 1
     - >-
       uv run pytest tests/ -v --cov=app --cov-report=xml --cov-report=term
       --cov-report=html --junitxml=report.xml
@@ -116,7 +117,7 @@ deploy:
   before_script:
     - apk add --no-cache openssh-client rsync
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   script:
