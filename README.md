@@ -66,7 +66,7 @@ All endpoints are versioned via the `X-Api-Version` header (`v1` by default).
 - Multiple motorcycles per user
 - Data validation (year, volume, power)
 
-### MotoClubs System 🆕
+### MotoClubs System
 - **Club Management**
   - Public and private clubs
   - Role hierarchy: President, Vice-President, Secretary, Treasurer, Event Organizer, Moderator, Senior Member, Member
@@ -88,6 +88,24 @@ All endpoints are versioned via the `X-Api-Version` header (`v1` by default).
   - Permission checks for edit/delete
   - Pydantic validation
 
+### Routes System 🆕
+- **Route Management**
+  - GPS-based route creation with waypoints
+  - Route types: scenic, sport, touring, offroad, mixed
+  - Difficulty levels: easy, medium, hard, extreme
+  - Status workflow: draft → published → archived
+  - Distance, duration, and elevation tracking
+- **Social Features**
+  - Route rating system (1-5 stars)
+  - Comments and reviews
+  - View and save counters
+  - Average rating calculation
+- **Advanced Search**
+  - Filter by type, difficulty, distance, rating
+  - Text search in names and descriptions
+  - Sorting by multiple criteria
+  - Pagination support
+
 ### File Storage (MinIO)
 - MinIO integration via aioboto3
 - File type system: avatars, motorcycle photos, documents, temp files
@@ -103,12 +121,12 @@ All endpoints are versioned via the `X-Api-Version` header (`v1` by default).
 ## Core Features (Roadmap) 🚀
 
 * 🗺️ **Map** of shops, service centers, events, and POIs
-* 🤝 **Friends & Events** - public/private motorcycle events
-* 🔗 Social links integration
-* 🛣️ **Route planning & sharing**
-* ⭐ **Ratings** for services/shops/places
-* 📰 **News feed**
-* 🛒 **Marketplace**
+* 🤝 **Events System** - public/private motorcycle meetups
+* 📍 **Points of Interest** - ratings and reviews for locations
+* 🛣️ **Route Import/Export** - GPX file support
+* 📰 **Social Feed** - posts, comments, reactions
+* 💬 **Real-time Notifications** - WebSocket + Push
+* 🛒 **Marketplace** - buy/sell bikes, parts, gear
 
 ---
 
@@ -124,35 +142,36 @@ All endpoints are versioned via the `X-Api-Version` header (`v1` by default).
 
 1. Clone the repository:
 ```bash
-  git clone https://github.com/your-username/motokonig.git && cd motokonig
+git clone https://github.com/your-username/motokonig.git && cd motokonig
 ```
 
 2. Install dependencies:
-
 ```bash
-    pip install uv
-    uv venv
-    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-    uv pip install -e ".[dev]"
+pip install uv
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv pip install -e ".[dev]"
 ```
 
 3. Configure environment variables:
 ```bash
-  cp .env.example .env
+cp .env.example .env
 ```
 Edit .env with your settings
 
 4. Start services:
 ```bash
-  docker-compose up -d postgres redis minio
+docker-compose up -d postgres redis minio
 ```
+
 5. Run migrations:
 ```bash
-  alembic upgrade head
+alembic upgrade head
 ```
+
 6. Start the server:
 ```bash
-  uv run uvicorn app.presentation.api:app --reload
+uv run uvicorn app.presentation.api:app --reload
 ```
 
 The API will be available at http://localhost:8000
@@ -205,7 +224,7 @@ Once the server is running, you can access:
 - `PUT /motorcycle/{id}` - Update motorcycle
 - `DELETE /motorcycle/{id}` - Delete motorcycle
 
-#### MotoClubs 🆕
+#### MotoClubs
 - `GET /moto-clubs/` - List clubs (with filtering)
 - `POST /moto-clubs/` - Create club
 - `GET /moto-clubs/{id}` - Get club details
@@ -213,6 +232,14 @@ Once the server is running, you can access:
 - `DELETE /moto-clubs/{id}` - Delete club
 - `POST /moto-clubs/{id}/join` - Join club
 - `POST /moto-clubs/{id}/invite` - Invite user
+
+#### Routes 🆕
+- `GET /routes/` - List routes (with filtering)
+- `POST /routes/` - Create route
+- `GET /routes/{id}` - Get route details
+- `PUT /routes/{id}` - Update route
+- `POST /routes/{id}/publish` - Publish route
+- `POST /routes/{id}/rate` - Rate route
 
 #### Media
 - `POST /media/upload` - Direct file upload
@@ -225,7 +252,7 @@ Once the server is running, you can access:
 ### Testing  
 Run tests with coverage:
 ```bash
-  pytest tests/ -v --cov=app --cov-report=html
+pytest tests/ -v --cov=app --cov-report=html
 ```
 
 ### Deployment
@@ -235,14 +262,27 @@ See .gitlab-ci.yml for pipeline details.
 ### Project Structure  
 The project follows Domain-Driven Design and Clean Architecture:
 
-<pre>
+```
 app/  
 ├── domain/          # Business logic and entities  
-├── application/     # Use cases and controllers  
+│   ├── entities/    # Domain entities
+│   └── value_objects/ # Value objects
+├── application/     # Use cases and interfaces
+│   ├── dto/         # Data Transfer Objects
+│   ├── interfaces/  # Repository interfaces
+│   ├── use_cases/   # Business use cases
+│   └── di/          # Use case providers
 ├── infrastructure/  # External services implementation  
+│   ├── repositories/ # Repository implementations
+│   ├── services/    # External services (MinIO, Redis)
+│   ├── persistence/ # Database models (SQLAlchemy)
+│   └── di/         # Infrastructure providers
 ├── presentation/    # API layer (routers, schemas)
-└── config/          # Configuration
-</pre>
+│   ├── api/        # FastAPI controllers
+│   ├── schemas/    # Pydantic schemas
+│   └── middlewares/ # Middleware components
+└── config/         # Configuration
+```
 
 See structure.md for detailed structure and development roadmap.
 
