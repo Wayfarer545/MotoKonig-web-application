@@ -5,6 +5,7 @@ from dishka import Provider
 
 from .auth import AuthUseCaseProvider
 from .club import ClubUseCaseProvider
+from .event import EventUseCaseProvider
 from .listing import ListingUseCaseProvider
 from .media import MediaUseCaseProvider
 from .moto_club import MotoClubUseCaseProvider
@@ -21,6 +22,7 @@ class UseCaseProvider(
     ProfileUseCaseProvider,
     SocialLinkUseCaseProvider,
     MediaUseCaseProvider,
+    EventUseCaseProvider,
     MotoClubUseCaseProvider,
     ClubUseCaseProvider,
     ListingUseCaseProvider,

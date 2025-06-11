@@ -16,6 +16,7 @@ from .profile import ProfileRepoProvider
 from .services import ServicesProvider
 from .social_link import SocialLinkRepoProvider
 from .user import UserRepoProvider
+from .event import EventRepoProvider
 
 
 class InfrastructureProvider(
@@ -25,6 +26,7 @@ class InfrastructureProvider(
     ProfileRepoProvider,
     SocialLinkRepoProvider,
     MediaRepoProvider,
+    EventRepoProvider,
     MotoClubRepoProvider,
     ClubRepoProvider,
     ServicesProvider,

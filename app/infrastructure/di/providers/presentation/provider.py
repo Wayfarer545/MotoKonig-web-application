@@ -10,7 +10,7 @@ from .moto_club import MotoClubControllerProvider
 from .motorcycle import MotorcycleControllerProvider
 from .profile import ProfileControllerProvider
 from .user import UserControllerProvider
-
+from .event import EventControllerProvider
 
 class PresentationProvider(
     UserControllerProvider,
@@ -19,6 +19,7 @@ class PresentationProvider(
     ProfileControllerProvider,
     MediaControllerProvider,
     ListingControllerProvider,
+    EventControllerProvider,
     MotoClubControllerProvider,
 
     Provider,
