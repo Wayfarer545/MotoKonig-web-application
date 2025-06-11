@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 from uuid import UUID, uuid4
 
 from app.domain.entities.achievement import Achievement
-from app.domain.value_objects.motokonig_status import MotoKonigStatus
 from app.domain.value_objects.achievement_type import AchievementType
+from app.domain.value_objects.motokonig_status import MotoKonigStatus
 
 __all__ = ["MotoKonig"]
 
@@ -29,7 +29,7 @@ if TYPE_CHECKING:
         self.achievement_type = achievement_type
         self.earned_at = earned_at or datetime.utcnow()
         self.description = description
-        self.metadata = metadata or {}
+        self.achievement_metadata = metadata or {}
 
 
 

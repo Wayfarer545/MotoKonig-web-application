@@ -2,9 +2,9 @@
 
 from uuid import UUID
 
+from app.application.use_cases.motokonig.update_ride_stats import UpdateRideStatsUseCase
 from app.domain.entities.ride import Ride
 from app.domain.ports.repositories.ride import IRideRepository
-from app.application.use_cases.motokonig.update_ride_stats import UpdateRideStatsUseCase
 
 __all__ = ["CompleteRideUseCase"]
 

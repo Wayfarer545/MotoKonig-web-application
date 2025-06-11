@@ -9,8 +9,10 @@ from .event import EventUseCaseProvider
 from .listing import ListingUseCaseProvider
 from .media import MediaUseCaseProvider
 from .moto_club import MotoClubUseCaseProvider
+from .motokonig import MotoKonigUseCaseProvider
 from .motorcycle import MotorcycleUseCaseProvider
 from .profile import ProfileUseCaseProvider
+from .ride import RideUseCaseProvider
 from .social_link import SocialLinkUseCaseProvider
 from .user import UserUseCaseProvider
 
@@ -26,6 +28,8 @@ class UseCaseProvider(
     MotoClubUseCaseProvider,
     ClubUseCaseProvider,
     ListingUseCaseProvider,
+    MotoKonigUseCaseProvider,
+    RideUseCaseProvider,
     Provider,
 ):
     """Main provider that combines domain-specific providers."""

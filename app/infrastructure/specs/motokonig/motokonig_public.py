@@ -10,4 +10,4 @@ class MotoKonigPublic(MotoKonigSpecificationPort):
     """Спецификация для публичных профилей"""
 
     def to_query(self, base_query: Any) -> Any:
-        return base_query.where(MotoKonigModel.is_public == True)
+        return base_query.where(MotoKonigModel.is_public == True)  # noqa: E712

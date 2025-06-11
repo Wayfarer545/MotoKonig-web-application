@@ -8,6 +8,7 @@ from .event import EventControllerProvider
 from .listing import ListingControllerProvider
 from .media import MediaControllerProvider
 from .moto_club import MotoClubControllerProvider
+from .motokonig import MotoKonigControllerProvider
 from .motorcycle import MotorcycleControllerProvider
 from .profile import ProfileControllerProvider
 from .user import UserControllerProvider
@@ -22,7 +23,7 @@ class PresentationProvider(
     ListingControllerProvider,
     EventControllerProvider,
     MotoClubControllerProvider,
-
+    MotoKonigControllerProvider,
     Provider,
 ):
     """Main provider that combines domain-specific controller providers."""

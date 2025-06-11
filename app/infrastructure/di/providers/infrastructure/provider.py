@@ -12,6 +12,7 @@ from .event import EventRepoProvider
 from .listing import ListingRepoProvider
 from .media import MediaRepoProvider
 from .moto_club import MotoClubRepoProvider
+from .motokonig import MotoKonigRepoProvider
 from .motorcycle import MotorcycleRepoProvider
 from .profile import ProfileRepoProvider
 from .services import ServicesProvider
@@ -31,6 +32,8 @@ class InfrastructureProvider(
     ClubRepoProvider,
     ServicesProvider,
     ListingRepoProvider,
+    MotoKonigRepoProvider,
+
     Provider,
 ):
     def __init__(self, alchemy: AdvancedAlchemy, config: Config) -> None:

@@ -11,6 +11,7 @@ from app.domain.value_objects.user_role import UserRole
 if TYPE_CHECKING:
     from .listing import Listing
     from .listing_favorite import ListingFavorite
+    from .motokonig import MotoKonig
     from .motorcycle import Motorcycle
     from .profile import Profile
 
@@ -34,6 +35,15 @@ class User(UUIDAuditBase):
     # Связь с профилем (One-to-One)
     profile: Mapped["Profile"] = relationship(
         "Profile",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        uselist=False,  # One-to-One отношение
+        lazy="selectin"
+    )
+
+    # Связь с MotoKonig профилем (One-to-One)
+    motokonig_profile: Mapped["MotoKonig"] = relationship(
+        "MotoKonig",
         back_populates="user",
         cascade="all, delete-orphan",
         uselist=False,  # One-to-One отношение
