@@ -4,13 +4,13 @@ from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter
 
 from .auth import router as auth_router
+from .event import router as event_router
 from .listing import router as listing_router
 from .media import router as media_router
 from .moto_club import router as moto_club_router
 from .motorcycle import router as motorcycle_router
 from .profile import router as profile_router
 from .user import router as user_router
-from .event import router as event_router
 
 __all__ = ["router"]
 
