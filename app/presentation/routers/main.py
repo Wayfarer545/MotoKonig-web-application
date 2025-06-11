@@ -4,6 +4,7 @@ from dishka.integrations.fastapi import DishkaRoute
 from fastapi import APIRouter
 
 from .auth import router as auth_router
+from .event import router as event_router
 from .listing import router as listing_router
 from .media import router as media_router
 from .moto_club import router as moto_club_router
@@ -22,3 +23,4 @@ router.include_router(profile_router, prefix="/profile", tags=["Profile"])
 router.include_router(media_router, prefix="/media", tags=["Media"])
 router.include_router(moto_club_router, prefix="/moto-club", tags=["Moto Club"])
 router.include_router(listing_router, prefix="/listings", tags=["Marketplace"])
+router.include_router(event_router, prefix="/events", tags=["Events"])

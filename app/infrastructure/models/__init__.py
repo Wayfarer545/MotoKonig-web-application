@@ -4,6 +4,8 @@ from advanced_alchemy.base import AdvancedDeclarativeBase
 
 from .club_invitation import ClubInvitation
 from .club_membership import ClubMembership
+from .event import Event
+from .event_participation import EventParticipation
 from .listing import Listing
 from .listing_favorite import ListingFavorite
 from .media_file import MediaFile
@@ -29,4 +31,6 @@ __all__ = [
     "ClubInvitation",
     "Listing",
     "ListingFavorite",
+    "Event",
+    "EventParticipation",
 ]
