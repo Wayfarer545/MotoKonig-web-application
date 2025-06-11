@@ -1,6 +1,7 @@
-import pytest
-from uuid import uuid4
 from datetime import datetime, timedelta
+from uuid import uuid4
+
+import pytest
 
 from app.domain.entities.listing import Listing
 from app.domain.value_objects.listing_category import ListingCategory
