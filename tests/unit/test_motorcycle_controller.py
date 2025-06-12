@@ -18,7 +18,7 @@ from app.application.use_cases.motorcycle.update_motorcycle import (
 )
 from app.domain.value_objects.engine_type import EngineType
 from app.domain.value_objects.motorcycle_type import MotorcycleType
-from tests.fake_motorcycle_repo import FakeMotorcycleRepository
+from tests.fixtures.fake_motorcycle_repo import FakeMotorcycleRepository
 
 
 @pytest.mark.asyncio

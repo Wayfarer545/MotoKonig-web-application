@@ -13,7 +13,7 @@ from app.infrastructure.specs.moto.moto_by_id import (
 from app.infrastructure.specs.moto.moto_by_owner import (
     MotorcyclesByOwner,
 )
-from tests.fake_motorcycle_repo import FakeMotorcycleRepository
+from tests.fixtures.fake_motorcycle_repo import FakeMotorcycleRepository
 
 
 @pytest.mark.asyncio
