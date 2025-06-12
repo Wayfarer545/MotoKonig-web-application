@@ -2,15 +2,14 @@
 
 from dishka import Provider, Scope, provide
 
-__all__ = ["RideUseCaseProvider"]
-
 from app.application.use_cases.motokonig.update_ride_stats import UpdateRideStatsUseCase
-
 from app.application.use_cases.ride.complete_ride import CompleteRideUseCase
 from app.application.use_cases.ride.create_ride import CreateRideUseCase
 from app.application.use_cases.ride.join_ride import JoinRideUseCase
 from app.domain.ports.repositories.motokonig import IMotoKonigRepository
 from app.domain.ports.repositories.ride import IRideRepository
+
+__all__ = ["RideUseCaseProvider"]
 
 
 class RideUseCaseProvider(Provider):
