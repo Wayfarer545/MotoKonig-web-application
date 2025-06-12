@@ -17,7 +17,7 @@ class MotoKonigUseCaseProvider(Provider):
     """DI провайдер для MotoKonig use cases"""
 
     @provide(scope=Scope.REQUEST)
-    def provide_create_profile_uc(
+    def provide_create_motokonig_profile_uc(
             self,
             motokonig_repo: IMotoKonigRepository,
             user_repo: IUserRepository,
