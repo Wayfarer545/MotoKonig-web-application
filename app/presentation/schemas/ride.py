@@ -1,6 +1,6 @@
 # app/presentation/schemas/ride.py
 
-from datetime import datetime
+import datetime as dt
 from uuid import UUID
 
 from pydantic import BaseModel as _BaseModel
@@ -23,15 +23,15 @@ class CreateRideSchema(_BaseModel):
     max_participants: int = Field(10, ge=2, le=50, description="Максимум участников")
     start_location: str = Field(..., min_length=3, max_length=200, description="Место старта")
     end_location: str | None = Field(None, max_length=200, description="Место финиша")
-    planned_start: datetime = Field(..., description="Планируемое время старта")
+    planned_start: dt.datetime = Field(..., description="Планируемое время старта")
     planned_duration: int = Field(..., gt=0, le=1440, description="Планируемая продолжительность в минутах")
     route_gpx: str | None = Field(None, description="GPX маршрут")
     is_public: bool = Field(True, description="Публичная поездка")
 
     @field_validator('planned_start')
     @classmethod
-    def validate_start_time(cls, v: datetime) -> datetime:
-        if v <= datetime.utcnow():
+    def validate_start_time(cls, v: dt.datetime) -> dt.datetime:
+        if v <= dt.datetime.now(dt.UTC):
             raise ValueError("Start time must be in the future")
         return v
 
@@ -58,7 +58,7 @@ class RideParticipantSchema(BaseModel):
     motokonig_id: UUID
     nickname: str
     avatar_url: str | None
-    joined_at: datetime
+    joined_at: dt.datetime
     is_leader: bool
     distance_covered: int | None
     average_speed: float | None
@@ -78,18 +78,18 @@ class RideResponseSchema(BaseModel):
     current_participants: int
     start_location: str
     end_location: str
-    planned_start: datetime
+    planned_start: dt.datetime
     planned_duration: int
-    actual_start: datetime | None
-    actual_end: datetime | None
+    actual_start: dt.datetime | None
+    actual_end: dt.datetime | None
     actual_distance: int | None
     weather_conditions: str | None
     is_public: bool
     is_completed: bool
     rating: float | None
     participants: list[RideParticipantSchema] | None = None
-    created_at: datetime
-    updated_at: datetime
+    created_at: dt.datetime
+    updated_at: dt.datetime
 
 
 class RideListItemSchema(BaseModel):
@@ -99,7 +99,7 @@ class RideListItemSchema(BaseModel):
     difficulty: RideDifficulty
     planned_distance: int
     start_location: str
-    planned_start: datetime
+    planned_start: dt.datetime
     current_participants: int
     max_participants: int
     is_completed: bool

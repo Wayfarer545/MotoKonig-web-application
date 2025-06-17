@@ -117,6 +117,7 @@ deploy:
        docker-compose -f ~/compose.yml up -d --no-deps --force-recreate backend && \
        docker restart caddy"
       
+      
 
 # Publish coverage as GitLab Pages
 pages:

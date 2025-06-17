@@ -32,7 +32,7 @@ config = Config()
 
 # 3. Настраиваем Advanced-Alchemy вместе с FastAPI
 sqlalchemy_config = SQLAlchemyAsyncConfig(
-    connection_string=config.sqlite.sqlite_dsn,
+    connection_string=config.postgres.get_dsn(),
     session_config=AsyncSessionConfig(expire_on_commit=False),
     create_all=False,
     commit_mode="autocommit",

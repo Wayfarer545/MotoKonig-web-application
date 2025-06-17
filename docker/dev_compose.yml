@@ -88,6 +88,7 @@ services:
     image: api-service:latest
     environment:
       SECRET_KEY: ${SECRET_KEY:-my-very-awesome-secret-key}
+      API_VERSION: dev
       REDIS_HOST: redis
       MINIO_ENDPOINT: minio:9000
       POSTGRES_HOST: postgres

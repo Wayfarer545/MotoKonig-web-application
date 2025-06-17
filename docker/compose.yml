@@ -91,6 +91,30 @@ services:
     networks:
       - mk_network
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    hostname: pgadmin
+    restart: unless-stopped
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@motokonig.ru
+      - PGADMIN_DEFAULT_PASSWORD=motokonig
+      - PGADMIN_CONFIG_CONSOLE_LOG_LEVEL=10
+    networks:
+      - mk_network
+
+  portainer:
+    image: portainer/portainer-ce:alpine
+    container_name: portainer
+    hostname: portainer
+    command: -H unix:///var/run/docker.sock
+    networks:
+      - mk_network
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainer_data:/data"
+    restart: unless-stopped
+
   # Backend API service
   backend:
     container_name: mk-api
@@ -118,3 +142,4 @@ volumes:
   postgres-data:
   minio-data:
   redis-data:
+  portainer_data:

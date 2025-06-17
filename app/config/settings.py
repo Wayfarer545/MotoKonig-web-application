@@ -36,10 +36,6 @@ class RedisConfig(BaseModel):
     redis_port: int = Field(alias='REDIS_PORT', default=6379)
 
 
-class SQLiteConfig(BaseModel):
-    sqlite_dsn: str = "sqlite+aiosqlite:///app/infrastructure/database/app.db"
-
-
 class StorageConfig(BaseModel):
     base_dir: Path = Path(__file__).resolve().parent.parent.parent
     log_dir: Path = base_dir / "logs"
@@ -79,7 +75,6 @@ class Config(BaseModel):
     project: ProjectConfig = Field(default_factory=lambda: ProjectConfig(**env))
     security: SecuritySettings = Field(default_factory=lambda: SecuritySettings(**env))
     redis: RedisConfig = Field(default_factory=lambda: RedisConfig(**env))
-    sqlite: SQLiteConfig = Field(default_factory=lambda: SQLiteConfig(**env))
     postgres: PostgresConfig = Field(default_factory=lambda: PostgresConfig(**env))
     storage: StorageConfig = Field(default_factory=lambda: StorageConfig(**env))
     logging: LoggingConfig = Field(default_factory=lambda: LoggingConfig(**env))

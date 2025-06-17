@@ -5,6 +5,7 @@ from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
 
 from app.config.settings import Config
+from app.infrastructure.models import Base  # noqa: F401
 
 db_url = Config().postgres.get_dsn()
 

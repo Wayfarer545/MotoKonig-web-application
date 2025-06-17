@@ -68,7 +68,8 @@ class RideController:
 
     async def get_upcoming_rides(self, limit: int = 10) -> list[Ride]:
         """Получить предстоящие поездки"""
-        return await self._ride_repo.get_list(RideUpcomingSpec())[:limit]
+        upcoming_rides =  await self._ride_repo.get_list(RideUpcomingSpec())
+        return upcoming_rides[:limit]
 
     async def get_rides_by_organizer(self, organizer_id: UUID) -> list[Ride]:
         """Получить поездки организатора"""
